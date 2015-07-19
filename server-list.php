@@ -1,6 +1,4 @@
 <?php
-
-<?php
 /**
 *  This file is a class of ReporterGUI
 *

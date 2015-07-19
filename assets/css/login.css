@@ -1,0 +1,177 @@
+/*
+  ReporterGUI Login Style css
+  author: itpao25
+*/
+body, html {
+  margin: 0px;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+
+body {
+  background-image: url("../img/background_login.png");
+  background-repeat: repeat;
+  color: #333;
+  font-family: 'Open Sans',sans-serif!important;
+}
+div.container {
+  width: 395px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+div.login-contenitore > img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 130px;
+  width: 320px;
+}
+div.login-contenitore > div.box-login {
+  width: 395px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 170px;
+  margin-top: 25px;
+  border: 1px solid #C9C9CD;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.21);
+  background-color: #fff;
+  padding: 10px;
+
+}
+div.login-contenitore p.benvenuto-text {
+  text-align: center;
+  margin: 0px;
+  font-size: 22px;
+}
+/* Gestisco i form nel box login */
+div.login-contenitore input[type="text"],
+div.login-contenitore input[type="password"]
+{
+  width: 100%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08) inset;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 8px 8px;
+  margin-top: 10px;
+}
+div.login-contenitore input[type="submit"] {
+  padding: 5px 10px;
+  margin-top: 10px;
+  width: 100%;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
+  background-color: #FA4F4F;
+  color: #FFF;
+  border: 2px solid #F44A4A;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* Gestisco i messaggi di errori */
+div.messaggio-errore {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: rgb(244, 86, 86);
+  color: rgb(255, 255, 255);
+  border-radius: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.21);
+  border: 1px solid #E44E4E;
+}
+div.messaggio-success {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #18BF1B;
+  color: rgb(255, 255, 255);
+  border-radius: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.21);
+  border: 1px solid #0CA80F;
+}
+/* Animate.css (https://daneden.github.io/animate.css/) */
+/* Autore originale: - https://github.com/nickpettit/glide */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.pulse {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+}
+@-webkit-keyframes shake {
+  0%, 100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%, 40%, 60%, 80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%, 40%, 60%, 80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake {
+  -webkit-animation-name: shake;
+  animation-name: shake;
+}

@@ -1,0 +1,271 @@
+/*                  ReporterGUI Web Interface                    */
+/*                      2015 - itpao25                           */
+
+/*      La notte e' solo la fine del giorno, seriously?          */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+
+* {
+  outline: none !important;
+}
+*:focus {
+  outline: none !important;
+}
+body, html{
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  font-family: 'Open Sans',sans-serif!important;
+}
+div.header {
+  height: 165px;
+  position: relative;
+}
+div.header > div.navbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
+  background: #2E2E2E none repeat scroll 0% 0%;
+}
+div.header > div.navbar nav > a {
+  padding: 15px;
+  text-decoration: none !important;
+  outline: 0px !important;
+  color: #fff;
+  display: block;
+  float: left;
+}
+div.header > div.navbar nav > a.menu-right {
+  float: right;
+}
+div.header > div.navbar nav > a.active {
+  font-weight: bold;
+}
+.logo {
+	float: left;
+	max-width: 310px;
+}
+.logo > img{
+	width: 100%;
+	padding-top: 6px;
+}
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	word-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+div.left {
+	float: left;
+}
+div.right {
+	float: right;
+}
+div.clear {
+	clear:both;
+}
+
+footer {
+	width:100%;
+	color: #fff;
+	box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
+	background: #2E2E2E none repeat scroll 0% 0%;
+	height: 50px;
+  margin-top: 20px;
+}
+.container-footer {
+	padding: 15px;
+}
+.container-footer div.left {
+	font-weight: bold;
+}
+/* Gestione pagina dashboard */
+div.list-server-dash {
+	display: block;
+  overflow: hidden;
+}
+div.list-server-dash > div.container-list-server {
+	float: left;
+	width: 33%;
+	display: block;
+	min-height: 160px;
+	border-radius: 3px;
+}
+.list-server-dash .list-server-dash_name {
+	margin: 3px 0px 10px;
+	padding: 10px;
+	box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.1);
+	height: 350px;
+  border-left: 1px solid #E0E0E0;
+}
+.list-server-dash_name h3 {
+  border-bottom: 1px solid rgb(230, 230, 230);
+}
+.list-server-dash_name h3 a {
+  color: #333;
+}
+span.edit-serverlist-dash {
+	float: right;
+	cursor: pointer;
+}
+.list-server-dash .lastreport-serverlist-dash {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+.list-server-dash .lastreport-serverlist-dash > li {
+	width: 100%;
+	display: block;
+	float: left;
+	height: 45px;
+  cursor: pointer;
+}
+.list-server-dash .lastreport-serverlist-dash > li:hover .avatar-reported-dash > img {
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+}
+.list-server-dash .lastreport-serverlist-dash > li > .avatar-reported-dash {
+	float: left;
+	max-width: 40px;
+}
+.list-server-dash .lastreport-serverlist-dash > li > .avatar-reported-dash > img {
+	max-width: 40px;
+}
+.list-server-dash .lastreport-serverlist-dash > li > .nickname-reported-dash {
+	float: left;
+	padding-left: 10px;
+	line-height: 33px;
+	font-size: 21px;
+}
+button.button-primario {
+	padding: 8px 12px;
+	border: 2px solid #F44A4A;
+	border-radius: 2px;
+	cursor: pointer;
+	background-color: #FA4F4F;
+	color: #fff;
+	transition: all 0.15s ease-in-out 0s;
+	text-shadow: 0px 0px 3px rgba(150, 150, 150, 0.55);
+}
+button.button-primario:hover {
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
+}
+button.right {
+	float: right;
+}
+.row {
+	overflow: hidden;
+}
+.row .box_cont {
+	margin: 0px 10px 10px 10px;
+}
+.row > div.colonna_50 {
+	width: 50%;
+	float: left;
+}
+
+/* Box */
+.box-informazioni {
+	border-left: 2px solid #FA4F4F;
+	background-color: #EAE8E8;
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+	color: #878585;
+}
+.box-informazioni h2 {
+	margin: 0px;
+}
+/* Message box */
+div.messaggio-success {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #18BF1B;
+  color: rgb(255, 255, 255);
+  border-radius: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.21);
+  border: 1px solid #0CA80F;
+}
+div.messaggio-errore {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: rgb(244, 86, 86);
+  color: rgb(255, 255, 255);
+  border-radius: 2px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.21);
+  border: 1px solid #E44E4E;
+}
+/* Add server css */
+form.add-server input[type="text"] {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555;
+  vertical-align: middle;
+  background-color: #FFF;
+  background-image: none;
+  border: 1px solid #CCC;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+form.add-server input[type="text"]:focus {
+  box-shadow:0 0 5px #999999!important;
+  border-color:#999999!important;
+}
+form.add-server input[type="submit"] {
+  padding: 8px 12px;
+  width: 100%;
+  border: 1px solid #428bca;
+  margin-top: 10px;
+  border-radius: 2px;
+  background-color: #428bca;
+  cursor: pointer;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+  color: #fff;
+}
+#messaggio-add {
+  display: none;
+  margin-bottom: 10px;
+}
+table {
+  border-spacing: 0px;
+}
+thead {
+  background-color: #F9F9F9;
+}
+thead td {
+  padding: 10px 5px;
+  border-bottom: 2px solid #DDD;
+}
+tbody td {
+  padding: 10px 5px;
+}
+tbody tr:hover {
+  background-color: #F9F8F8;
+}
+tr.list-server-table {
+  cursor: pointer;
+}

@@ -34,5 +34,5 @@ $RGWeb->getHeader("Servers");
 </div>
 
 <?php
-$RGWeb->getFooter("Servers");
+$RGWeb->getFooter();
 ?>

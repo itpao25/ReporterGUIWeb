@@ -32,14 +32,14 @@ if(isset( $_GET['id'] ))
     $info = $RGWeb->getReportInfo($ID);
 
     $aId = strip_tags($info[0]);
-		$PlayerReport = strip_tags($info[1]);
-		$PlayerFrom = strip_tags($info[2]);
-		$reason = strip_tags($info[3]);
-		$WorldReport = strip_tags($info[4]);
-		$WorldFrom = strip_tags($info[5]);
-		$time = strip_tags($info[6]);
-		$server = strip_tags($info[7]);
-		$status = strip_tags($info[8]);
+    $PlayerReport = strip_tags($info[1]);
+    $PlayerFrom = strip_tags($info[2]);
+    $reason = strip_tags($info[3]);
+    $WorldReport = strip_tags($info[4]);
+    $WorldFrom = strip_tags($info[5]);
+    $time = strip_tags($info[6]);
+    $server = strip_tags($info[7]);
+    $status = strip_tags($info[8]);
 
     ?>
     <script type="text/javascript">cambiatitolo("Report #<?= $ID; ?> - ReporterGUI");</script>

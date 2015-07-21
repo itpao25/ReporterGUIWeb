@@ -5,7 +5,7 @@
 #  https://www.spigotmc.org/resources/reportergui.8596/
 if (!defined('RG_ROOT')) die("This file can not be opened in this way");
 
-$config['installed-sec'] = false;
+$config['installed-sec'] = true;
 
 /* Do not touch the version please */
 $config['versions'] = "1.0";
@@ -19,7 +19,7 @@ $config['pageName'] = "ReporterGUI Web Interface";
 
 # Service for avatar attach
 # Use variable {username} for get name of the player
-$config['urlServiceAvatar'] = "https://crafatar.com/avatars/{username}";
+$config['urlServiceAvatar'] = "https://crafatar.com/renders/head/{username}";
 
 # Mysql management
 $config['mysql-host'] = "localhost";

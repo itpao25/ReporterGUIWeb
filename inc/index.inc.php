@@ -38,7 +38,7 @@ if (!defined('RG_ROOT_INDEX')) die();
 			<b>Total server registered:</b> <?= $this->getIntTotalServer(); ?><br />
 		</div>
 		<div class="colonna_50">
-			dsaads
+		
 		</div>
 	</div>
 </div>

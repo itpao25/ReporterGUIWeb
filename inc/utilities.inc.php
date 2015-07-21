@@ -83,7 +83,7 @@ Class RGUtilities
 		print "<!DOCTYPE html><html><title>Install ReporterGUI</title>";
 		print "<link href=\"install/install.css\" rel=\"stylesheet\">";
 		print "<img width=\"320px\" src=\"assets/img/logo-rgui.png\" />";
-		print "<h4 style=\"margin: 0px\">You have completed the installation, now delete the folder <i>install</i></h4><br /></ul></html>";
+		print "<h4 style=\"margin: 0px\">You have completed the installation, now delete the folder <i>install</i></h4><br /></ul>Good fun!</html>";
 		die();
 	}
   /* Function private to get config data

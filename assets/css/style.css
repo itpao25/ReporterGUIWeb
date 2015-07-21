@@ -20,6 +20,8 @@ body, html{
 div.header {
   height: 165px;
   position: relative;
+  background-image: url("../img/background_login.png");
+  background-repeat: repeat;
 }
 div.header > div.navbar {
   position: absolute;
@@ -46,7 +48,7 @@ div.header > div.navbar nav > a.active {
 	float: left;
 	max-width: 310px;
 }
-.logo > img{
+.logo > a > img{
 	width: 100%;
 	padding-top: 6px;
 }
@@ -115,7 +117,7 @@ div.list-server-dash > div.container-list-server {
 	margin: 3px 0px 10px;
 	padding: 10px;
 	box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.1);
-	height: 350px;
+	height: 420px;
   border-left: 1px solid #E0E0E0;
 }
 .list-server-dash_name h3 {
@@ -139,18 +141,27 @@ span.edit-serverlist-dash {
 	float: left;
 	height: 45px;
   cursor: pointer;
+  position:relative;
 }
-.list-server-dash .lastreport-serverlist-dash > li:hover .avatar-reported-dash > img {
+.list-server-dash .lastreport-serverlist-dash > li a {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  color: #000 !important;
+}
+.list-server-dash .lastreport-serverlist-dash > li:hover .avatar-reported-dash img {
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
 }
-.list-server-dash .lastreport-serverlist-dash > li > .avatar-reported-dash {
+.list-server-dash .lastreport-serverlist-dash > li .avatar-reported-dash {
 	float: left;
 	max-width: 40px;
 }
-.list-server-dash .lastreport-serverlist-dash > li > .avatar-reported-dash > img {
+.list-server-dash .lastreport-serverlist-dash > li .avatar-reported-dash img {
 	max-width: 40px;
 }
-.list-server-dash .lastreport-serverlist-dash > li > .nickname-reported-dash {
+.list-server-dash .lastreport-serverlist-dash > li .nickname-reported-dash {
 	float: left;
 	padding-left: 10px;
 	line-height: 33px;
@@ -171,6 +182,10 @@ button.button-primario:hover {
 }
 button.right {
 	float: right;
+}
+.link_clear {
+  color: #000 !important;
+  text-decoration: none !important;
 }
 .row {
 	overflow: hidden;

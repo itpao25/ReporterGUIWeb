@@ -18,7 +18,6 @@
 *
 *  @package ReporterGUI
 */
-
 /*
 	Classe principale per la gestione delle pagine
 	Main class for the management of pages
@@ -38,7 +37,7 @@
 	- Creare il file view-report.php con i parametri get per visualizzare / eliminare una segnalazione
 	- Gestire i menu attraverso i permessi degli utenti
 
- */
+*/
 
 define("RG_ROOT", "true", true);
 define("RG_INSTALL", dirname(dirname(__FILE__)). "/install", true);
@@ -67,7 +66,8 @@ Class ReporterGUI
 
 	function __destruct() {
 		/* Chiudo la connessione al database */
-		//$this->mysqli->close();
+		if($this->mysqli != false)
+			$this->mysqli->close();
 	}
 
 	/**
@@ -138,8 +138,8 @@ Class ReporterGUI
 
 	/* Escape string utilty */
 	public function real_escape_string($str)
- 	{
-    return $this->mysqli->real_escape_string($str);
+	{
+		return $this->mysqli->real_escape_string($str);
 	}
 
 	/* Pulisco da tag html */
@@ -147,7 +147,7 @@ Class ReporterGUI
 		return strip_tags($str);
 	}
 
- 	/**
+	/**
 	* Get default header
 	*
 	* @param Pos Position on the page request
@@ -274,6 +274,10 @@ Class ReporterGUI
 
 		$totali = $list->num_rows;
 
+		if($totali == 0) {
+				print "<a class=\"link_clear\" href=\"add-server.php\">No server present, add one?</a>";
+		}
+
 		for($i = 1; $row = $list->fetch_array(); $i++) {
 
 			/* Controllo se il valore del ciclo for è 1 oppure multiplo di 4, perchè deve essere usato come head */
@@ -344,19 +348,24 @@ Class ReporterGUI
 
 		$sql_query = "SELECT * FROM `reporter` WHERE server='{$this->real_escape_string($name)}' AND status='1' ORDER BY `reporter`.`Time` DESC LIMIT 0,{$num}";
 		$sql = $this->runQueryMysql($sql_query);
+		$totalreport = $sql->num_rows;
 
-		print "
-				<h4>Last report waiting:</h4>
-				<ul class=\"lastreport-serverlist-dash\">";
+		print "<h4>Last report waiting:</h4><ul class=\"lastreport-serverlist-dash\">";
+
+		if($totalreport == 0) {
+			print "<i>No report for this server!</i>";
+		}
 
 		while($row = $sql->fetch_array())
 		{
 
 			$html = "<li>";
+			$html .= "<a href=\"view-report.php?id={$row['ID']}\">";
 			$html .= "<div class=\"avatar-reported-dash\">";
 			$html .= "<img src=\"{$this->getUtily->getAvatarUser($row['PlayerReport'])}\" />";
 			$html .= "</div>";
 			$html .= "<div class=\"nickname-reported-dash\">{$row['PlayerReport']}</div>";
+			$html .= "</a>";
 			$html .= "</li>";
 
 			print $html;
@@ -415,11 +424,11 @@ Class ReporterGUI
 		{
 
 			/*
-				Proteggo da sql injection e xss anche se non sarebbe possibile passare html
-				tramite controllo sessione
+			Proteggo da sql injection e xss anche se non sarebbe possibile passare html
+			tramite controllo sessione
 
-				Security sql injection check
-				*/
+			Security sql injection check
+			*/
 			$usernameSEC = trim(strip_tags($this->real_escape_string($username)));
 			$passwordSEC = trim(strip_tags($this->real_escape_string($password)));
 
@@ -432,9 +441,9 @@ Class ReporterGUI
 			/* Cerco il risultato del login */
 			if($risultatoLogin == 1)
 			{
+
 				# Login riuscito
 
-				#
 				/* Creo il saltid */
 				$salt_id = uniqid('session_', true);
 				/* Useraget */
@@ -696,6 +705,53 @@ Class ReporterGUI
 		return $list->num_rows;
 	}
 
+	/* Check report id is exist */
+	public function isReportExist($id) {
+
+		if(!is_numeric($id)) {
+			return false;
+		}
+
+		$sql_query = $this->runQueryMysql("SELECT * FROM `reporter` WHERE ID={$this->real_escape_string($id)}");
+
+		if($sql_query->num_rows == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* Get report info
+	* @param id
+	* @return
+	* 0 -> ID
+	* 1 -> namePlayerReported
+	* 2 -> motivazione (rason)
+	* 3 -> nomeplayerFrom
+	* 4 -> worldTarget
+	* 5 -> worldFrom
+	* 6 -> Time
+	* 7 -> server
+	* 8 -> status
+	*/
+	public function getReportInfo($id) {
+
+		$query = $this->runQueryMysql("SELECT * FROM `reporter` WHERE ID={$this->real_escape_string($id)}");
+		$queryArray = mysqli_fetch_assoc($query);
+
+		$id = $queryArray['ID'];
+		$PlayerReport = $queryArray['PlayerReport'];
+		$PlayerFrom = $queryArray['PlayerFrom'];
+		$reason = $queryArray['Reason'];
+		$WorldReport = $queryArray['WorldReport'];
+		$WorldFrom = $queryArray['WorldFrom'];
+		$time = $queryArray['Time'];
+		$server = $queryArray['server'];
+		$status = $queryArray['status'];
+
+		return array ($id, $PlayerReport, $PlayerFrom, $reason, $WorldReport, $WorldFrom, $time, $server, $status);
+
+	}
 }
 $RGWeb = new ReporterGUI();
 
@@ -704,7 +760,7 @@ Class loadClass
 {
 	/**
 	* Load the class Utilities
-    * @return variable in class Utilities
+	* @return variable in class Utilities
 	*/
 	function getUtily() {
 		include("utilities.inc.php");
@@ -712,4 +768,5 @@ Class loadClass
 	}
 }
 
+$ClassLoader = new loadClass();
 ?>

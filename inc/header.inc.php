@@ -1,9 +1,9 @@
 <?php
 
-	if (!defined('RG_ROOT')) die();
+		if (!defined('RG_ROOT')) die();
 
-	if($this->isLogged() == false)
-    die("Devi essere loggato per poter vedere questa pagina!");
+		if($this->isLogged() == false)
+			die("Devi essere loggato per poter vedere questa pagina!");
 
 ?>
 <!DOCTYPE html>
@@ -12,17 +12,17 @@
 
 		<!--
 
-			ReporterGUI Web Interface  Copyright (C) 2015  itpao25
+		ReporterGUI Web Interface  Copyright (C) 2015  itpao25
 
-			This program is free software; you can redistribute it and/or
-			modify it under the terms of the GNU General Public License as
-			published by the Free Software Foundation; either version 2 of
-			the License, or (at your option) any later version.
+		This program is free software; you can redistribute it and/or
+		modify it under the terms of the GNU General Public License as
+		published by the Free Software Foundation; either version 2 of
+		the License, or (at your option) any later version.
 
-			This program is distributed in the hope that it will be useful,
-			but WITHOUT ANY WARRANTY; without even the implied warranty of
-			MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-			GNU General Public License for more details.
+		This program is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
 
 		-->
 		<meta charset="utf-8">
@@ -37,7 +37,9 @@
 		<div class="header">
 			<div class="container">
 				<div class="logo">
-					<img src="assets/img/logo-rgui.png" />
+					<a href="index.php">
+						<img src="assets/img/logo-rgui.png" />
+					</a>
 				</div>
 			</div>
 			<div class="navbar">

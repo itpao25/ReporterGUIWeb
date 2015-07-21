@@ -132,7 +132,7 @@ Class ReporterGUIInstall {
   */
   private function createAdmin() {
 
-    $query = $this->runQueryMysql("SELECT ID, permission FROM webinterface_login WHERE ID=1 AND permission='administrator'");
+    $query = $this->runQueryMysql("SELECT ID, permission FROM webinterface_login WHERE ID=1 AND permission='admin'");
 
     if($query->num_rows !=1):
 
@@ -151,15 +151,20 @@ Class ReporterGUIInstall {
         $check = $this->runQueryMysql("SELECT ID, permission FROM webinterface_login WHERE username='".$username."'");
 
         if($check->num_rows == 0) {
-          $this->runQueryMysql("INSERT INTO webinterface_login(username, password) VALUES ('$username', '$password_crip')") or die(mysqli_error($this->mysqli));
+          $this->runQueryMysql("INSERT INTO webinterface_login(username, password, permission) VALUES ('$username', '$password_crip', 'admin')") or die(mysqli_error($this->mysqli));
           print "The administrator account $username has been successfully created, using the password you entered ($password)";
+          print "<br /><a href=\"../\">Next step</a>";
+          //print "<meta http-equiv=\"refresh\" content=\"3;URL=install/\">";
         } else {
           print "The user $username already exists!";
         }
       } else {
+        print "<h4>Create the administrator account to start: </h4>";
         print "<form method=\"post\" ><input placeholder=\"Name\" type=\"text\" name=\"add-useradmin\" /> <input placeholder=\"Password\" type=\"text\" name=\"add-useradmin2\" /> <input type=\"submit\" /> </form>";
       }
 
+    else:
+      print "The first user is already created! Check in your database";
     endif;
 
   }

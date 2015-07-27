@@ -766,9 +766,9 @@ Class ReporterGUI
 		  return false;
 		}
 
-		$name = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
-		$password = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($password)));
-		$permission = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($permission)));
+		$name = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
+		$password = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($password)));
+		$permission = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($permission)));
 
 		if( strlen($name) >= 1 || strlen($password) >= 1 )
 		{

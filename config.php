@@ -11,7 +11,7 @@ $config['installed-sec'] = true;
 $config['versions'] = "1.2";
 
 # Check update version of ReporterGUI WebInterface from github.com
-$config['check-update'] = true;
+$config['check-update'] = false;
 
 $config['nameServer'] = "NewMcStory";
 $config['pageName'] = "ReporterGUI Web Interface";

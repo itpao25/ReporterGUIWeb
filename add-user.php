@@ -1,5 +1,4 @@
 <?php
-
 /**
 *  This file is a class of ReporterGUI
 *
@@ -18,45 +17,49 @@
 *
 *  @package ReporterGUI
 */
-
-// Funzione generale per l'aggiunta di un nuovo server Bungeecord
-
 require_once("inc/heart.inc.php");
-
-// Risolvo il problema di sicurezza accessibile dall'esterno facendo la richiesta POST
-// In quanto la funzione isLogged() viene chiamata tramite la header, quindi dopo il getHeader()
-// Fix in 1.2
 
 if($RGWeb->isLogged() == false) {
   die();
 }
-
-if(isset($_POST['name-server-add'])) {
-  $send = $RGWeb->addServer($_POST['name-server-add']);
-  die();
-}
 if($RGWeb->getGroup->isAdmin() == false) {
-  $RGWeb->getHeader("Add server", true);
+  $RGWeb->getHeader("Users");
   die($RGWeb->getUtily->messageNoPermission());
 }
+if(isset($_POST['name-user-add']) && isset($_POST['pass-user-add']) &&
+isset($_POST['pass2-user-add']) && isset($_POST['group-user-add'])) {
 
-$RGWeb->getHeader("Add server", true);
+  if($_POST['pass-user-add'] == $_POST['pass2-user-add'])
+    $send = $RGWeb->addUsers($_POST['name-user-add'], $_POST['pass-user-add'], $_POST['group-user-add']);
+  else
+    die("The passwords do not match!");
+  die();
 
+}
+
+$RGWeb->getHeader("Users");
 ?>
 <div class="container">
-  <h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add server</h2>
+  <h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add user</h2>
 
   <div class="row">
     <div class="colonna_50">
       <div id="messaggio-add" ></div>
-      <form id="add-server" action="add-server.php" class="add-server" method="post">
-        <input type="text" name="name-server-add" placeholder="Name" />
-        <input type="submit" name="submit-server-add" value="Create" />
+      <form id="add-user" action="add-user.php" class="add-server" method="post">
+        <input type="text" name="name-user-add" placeholder="Username" />
+        <input type="password" name="pass-user-add" placeholder="Password" />
+        <input type="password" name="pass2-user-add" placeholder="Repeat password" />
+        <select name="group-user-add">
+          <option value="admin">Admin</option>
+          <option value="moderator">Moderator</option>
+          <option value="helper">Helper</option>
+        </select>
+        <input type="submit" name="submit-server-add" value="Create user" />
       </form>
     </div>
     <div class="colonna_50">
       <div class="box_cont">
-        <div class="box-informazioni">
+        <div class="box-informazioni-green">
           <h2>Information</h2>
           Use the server name set by config.yml: <br />
           <ul>
@@ -72,23 +75,23 @@ $RGWeb->getHeader("Add server", true);
 
 <!-- use ajax for send a request -->
 <script type="text/javascript">
-  $("#add-server").submit(function() {
-    var url = "add-server.php";
+  $("#add-user").submit(function() {
+    var url = "add-user.php";
       $.ajax({
          type: "POST",
          url: url,
-         data: $("#add-server").serialize(),
+         data: $("#add-user").serialize(),
          success: function(data)
          {
            $("#messaggio-add").show();
-           if(data.trim() == "Server successfully added!")
+           if(data.trim() == "User successfully added!")
            {
              if($("#messaggio-add").hasClass("messaggio-errore")){
                $("#messaggio-add").removeClass("messaggio-errore");
              }
              $("#messaggio-add").addClass("messaggio-success");
 
-             redirect("server-list.php", 1000);
+             redirect("users.php", 1000);
 
            } else {
 

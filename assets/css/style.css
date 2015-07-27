@@ -206,7 +206,15 @@ button.right {
   padding: 10px;
 	color: #878585;
 }
-.box-informazioni h2 {
+.box-informazioni-green {
+	border-left: 2px solid #2FB455;
+	background-color: #EAE8E8;
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+	color: #878585;
+}
+.box-informazioni h2,
+.box-informazioni-green h2 {
 	margin: 0px;
 }
 /* Message box */
@@ -229,7 +237,8 @@ div.messaggio-errore {
   border: 1px solid #E44E4E;
 }
 /* Add server css */
-form.add-server input[type="text"] {
+form input[type="text"],
+form input[type="password"] {
   display: block;
   width: 100%;
   padding: 8px 12px;
@@ -246,11 +255,31 @@ form.add-server input[type="text"] {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-form.add-server input[type="text"]:focus {
+form select {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555;
+  vertical-align: middle;
+  background-color: #FFF;
+  background-image: none;
+  border: 1px solid #CCC;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+form input[type="text"]:focus,
+form input[type="password"]:focus
+ {
   box-shadow:0 0 5px #999999!important;
   border-color:#999999!important;
 }
-form.add-server input[type="submit"] {
+form.add-server input[type="submit"],
+form.add-user input[type="submit"] {
   padding: 8px 12px;
   width: 100%;
   border: 1px solid #428bca;
@@ -261,12 +290,16 @@ form.add-server input[type="submit"] {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #fff;
 }
+form#add-user input {
+  margin-bottom: 3px;
+}
 #messaggio-add {
   display: none;
   margin-bottom: 10px;
 }
 table {
   border-spacing: 0px;
+  border: 2px solid #DDD;
 }
 thead {
   background-color: #F9F9F9;

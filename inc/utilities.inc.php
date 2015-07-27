@@ -42,7 +42,6 @@ Class RGUtilities
 		echo "<div class='container messaggio-success'>You logged in successfully!</div>";
 		echo "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
 	}
-
 	/**
 	* Message for login error
 	* @return html
@@ -56,7 +55,6 @@ Class RGUtilities
 		</script>";
 		echo "<div class='container messaggio-errore'>Invalid password or username!</div>";
 	}
-
 	/**
 	* Message for logout success
 	*/
@@ -124,8 +122,6 @@ Class RGUtilities
   public function getCurrentYear() {
     return date("Y");
   }
-
-
   /**
   * Get name of server
   * @return name
@@ -145,24 +141,29 @@ Class RGUtilities
     return $this->getUrlServiceAvatar($nickname);
   }
 
-  /**
-  * Get service url from config
-  * Check string is isset, then replace variable {username} to nickname
-  *
-  * @param nickname Nickname of the player
-  * @return url service
-  */
-  public function getUrlServiceAvatar($username) {
+	/**
+	* Get service url from config
+	* Check string is isset, then replace variable {username} to nickname
+	*
+	* @param nickname Nickname of the player
+	* @return url service
+	*/
+	public function getUrlServiceAvatar($username) {
 
-    if(!$this->getConfig("urlServiceAvatar"))
-    {
-      return "https://crafatar.com/avatars/". $username ."";
-    } else {
-      return str_replace("{username}", $username ,$this->getConfig("urlServiceAvatar"));
-    }
+		if(!$this->getConfig("urlServiceAvatar"))
+		{
+			return "https://crafatar.com/avatars/". $username ."";
+		} else {
+			return str_replace("{username}", $username ,$this->getConfig("urlServiceAvatar"));
+		}
+	}
 
-  }
-  public function getFavicon() {}
+	/**
+	* Display error no permission for view page
+	*/
+	public function messageNoPermission() {
+		echo "<div class=\"container messaggio-errore\">You do not have access to view this page!</div>";
+	}
 
 }
 $Utilities = new RGUtilities();

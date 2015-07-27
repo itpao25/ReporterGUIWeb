@@ -44,21 +44,24 @@ define("RG_INSTALL", dirname(dirname(__FILE__)). "/install", true);
 
 Class ReporterGUI
 {
-	/**
-	* Get utility globale per la classe
-	*/
+
+	// Load class variable
 	public $getUtily;
+	public $getGroup;
+	public $getUpdate;
+
 	private $mysqli = false;
 
-	function __construct($loadClass = null) {
+	function __construct() {
 
 		$load = new loadClass();
 		$this->getUtily = $load->getUtily();
+		$this->getGroup = $load->getGroup();
+		$this->getUpdate = $load->getUpdate();
 
 		/* Controllo se è stato installato nel mysql */
 		$this->makeDB();
 		$this->openConMysql();
-
 
 		/* Start the session global */
 		session_start();
@@ -75,13 +78,15 @@ Class ReporterGUI
 	*/
 	public function openConMysql() {
 
+
 		$mysql_host = $this->getConfig("mysql-host");
 		$mysql_user = $this->getConfig("mysql-user");
 		$mysql_password = $this->getConfig("mysql-password");
 		$mysql_namedb = $this->getConfig("mysql-databaseName");
 		$mysql_getPort = $this->getConfig("mysql-port");
 
-		$this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort) or die("Errore durante la connessione " . mysqli_error($con));
+		$this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort);
+
 
 		//if(!$this->mysqli == false) die("Errore nello stabilire una connessione al database");
 
@@ -346,16 +351,15 @@ Class ReporterGUI
 	 */
 	public function getLastReportHtmlIndex($name, $num) {
 
-		$sql_query = "SELECT * FROM `reporter` WHERE server='{$this->real_escape_string($name)}' AND status='1' ORDER BY `reporter`.`Time` DESC LIMIT 0,{$num}";
+		$name = mysqli_real_escape_string($this->mysqli, $name);
+		$sql_query = "SELECT * FROM `reporter` WHERE server='$name' AND status='1' ORDER BY `reporter`.`Time` DESC LIMIT 0,{$num}";
 		$sql = $this->runQueryMysql($sql_query);
 		$totalreport = $sql->num_rows;
 
 		print "<h4>Last report waiting:</h4><ul class=\"lastreport-serverlist-dash\">";
-
 		if($totalreport == 0) {
 			print "<i>No report for this server!</i>";
 		}
-
 		while($row = $sql->fetch_array())
 		{
 
@@ -371,8 +375,7 @@ Class ReporterGUI
 			print $html;
 
 		}
-		print "
-				</ul>";
+		print "</ul>";
 
 	}
 
@@ -391,21 +394,7 @@ Class ReporterGUI
 		return $config[$conf];
 
 	}
-	/**
-	* Get Url page complete
-	*
-	* @param Pos Position on the page request
-	* @return Structure of the template header
-	*/
-	public function getUrlCurrent() {}
 
-	/**
-	* Get hash password users
-	*
-	*/
-	public function getHasPassword() {
-
-	}
 	/**
 	* Login primary function
 	*
@@ -459,6 +448,9 @@ Class ReporterGUI
 				* e aggiorno le chiavi di login
 				*/
 				$this->updateKeyLogin($usernameSEC, $saltSHA512, $salt_id);
+				$this->updateLastLogin($usernameSEC);
+				$this->updateLastIP($usernameSEC);
+
 				return true;
 
 			} else
@@ -501,11 +493,27 @@ Class ReporterGUI
 	* @param username
 	*/
 	private function updateKeyLogout($username) {
-
 		$this->runQueryMysql("UPDATE webinterface_login SET salt_logged='' WHERE username='". $username ."'");
 		$this->runQueryMysql("UPDATE webinterface_login SET salt_login='' WHERE username='". $username ."'");
 	}
 
+	/**
+	*	Update last login for user
+	* @param username User is logged
+	*/
+	private function updateLastLogin($username) {
+		$time = date('Y-m-d H:i', time());
+		$this->runQueryMysql("UPDATE webinterface_login SET lastlogin='{$time}' WHERE username='". $username ."'");
+	}
+
+	/**
+	*	Update last ip for client user
+	* @param username User is logged
+	*/
+	private function updateLastIP($username) {
+		$ip_adress = $this->getUtily->getIndirizzoIP();
+		$this->runQueryMysql("UPDATE webinterface_login SET lastIP='{$ip_adress}' WHERE username='". $username ."'");
+	}
 	/**
 	* Create a session using PHP without cookie (Possibile update)
 	*
@@ -559,16 +567,6 @@ Class ReporterGUI
 				unset($_SESSION['rg_sessionSalt']);
 
 			}
-
-			/* echo "<br />";
-			echo $session_salt;
-			echo "<br />";
-			echo $session_user;
-			echo "<br />";
-			echo $session_id;
-			echo "<br />"; */
-			/* Salt corrente */
-			//return array ($session_salt, $session_id, $session_user);
 		}
 		return false;
 	}
@@ -587,7 +585,6 @@ Class ReporterGUI
 		/* Creo la saltkey  */
 		$saltSHA512 = hash('sha512', $session_id.$useragent.$ip_adress);
 
-
 		if(!$saltSHA512 == $session_salt) {
 			return false;
 		}
@@ -604,7 +601,7 @@ Class ReporterGUI
 	}
 	/**
 	* Logout function
-	*
+	* @return redirect in index.php with param get logout=true
 	*/
 	public function getLogOut() {
 
@@ -628,7 +625,9 @@ Class ReporterGUI
 	*/
 	public function checkKeyID($username, $key) {
 
-		$query = $this->runQueryMysql("SELECT * from webinterface_login WHERE username='{$this->real_escape_string($username)}' AND salt_login='{$this->real_escape_string($key)}'");
+		$username = mysqli_real_escape_string($this->mysqli, $username);
+		$key = mysqli_real_escape_string($this->mysqli, $key);
+		$query = $this->runQueryMysql("SELECT * from webinterface_login WHERE username='$username' AND salt_login='$key'");
 
 		if($query->num_rows > 0):
 			return true;
@@ -644,27 +643,28 @@ Class ReporterGUI
 	*/
 	public function addServer($name) {
 
-		// Rendo i caratteri della variabile locale nome minuscoli per non creare problemi di case sensitive
-		$name = strtolower($this->escape_html($name));
-
-		// Checking if the server already exists
-		$check = $this->runQueryMysql("SELECT name FROM webinterface_servers WHERE name='{$this->real_escape_string($name)}'");
-
-		// controllo se il risultato della query è maggiore di zero, in caso ritorno con false e printo il messaggio di errore
-		if($check->num_rows > 0)
-		{
-			print "The server already exists!";
+		if($this->isLogged() == false) {
 			return false;
 		}
+		// Rendo i caratteri della variabile locale nome minuscoli per non creare problemi di case sensitive
+		$name = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
 
 		if( strlen($name) >= 1 )
 		{
+			// Checking if the server already exists
+			$check = $this->runQueryMysql("SELECT name FROM webinterface_servers WHERE name='$name'");
 
-			$query = $this->runQueryMysql("INSERT INTO webinterface_servers(`ID` ,`name`) VALUES (NULL , '{$this->real_escape_string($name)}')") or die (mysqli_error($this->mysqli));
+			// controllo se il risultato della query è maggiore di zero, in caso ritorno con false e printo il messaggio di errore
+			if($check->num_rows > 0)
+			{
+				print "The server already exists!";
+				return false;
+			}
+
+			$query = $this->runQueryMysql("INSERT INTO webinterface_servers(`ID` ,`name`) VALUES (NULL , '$name')") or die (mysqli_error($this->mysqli));
 			print "Server successfully added!";
 			return true;
 		}	else {
-
 			echo "Please fill the required fields (name)";
 			return false;
 		}
@@ -677,9 +677,8 @@ Class ReporterGUI
 	*/
 	public function isServerExists($name) {
 
-		$name = strtolower($name);
-
-		$check = $this->runQueryMysql("SELECT name FROM webinterface_servers WHERE name='{$this->real_escape_string($name)}'");
+		$name = strtolower(mysqli_real_escape_string($this->mysqli, $name));
+		$check = $this->runQueryMysql("SELECT name FROM webinterface_servers WHERE name='$name'");
 		if($check->num_rows == 1)
 		{
 			return true;
@@ -694,7 +693,8 @@ Class ReporterGUI
 	* @return query
 	*/
 	public function deleteServer($name) {
-		return $this->runQueryMysql("DELETE FROM webinterface_servers WHERE name ='{$this->real_escape_string($name)}'");
+		$name = mysqli_real_escape_string($this->mysqli, $name);
+		return $this->runQueryMysql("DELETE FROM webinterface_servers WHERE name ='$name'");
 	}
 
 	/**
@@ -712,7 +712,8 @@ Class ReporterGUI
 			return false;
 		}
 
-		$sql_query = $this->runQueryMysql("SELECT * FROM `reporter` WHERE ID={$this->real_escape_string($id)}");
+		$id = $this->real_escape_string($id);
+		$sql_query = $this->runQueryMysql("SELECT * FROM `reporter` WHERE ID={$id}");
 
 		if($sql_query->num_rows == 1) {
 			return true;
@@ -752,7 +753,56 @@ Class ReporterGUI
 		return array ($id, $PlayerReport, $PlayerFrom, $reason, $WorldReport, $WorldFrom, $time, $server, $status);
 
 	}
+
+	/**
+	* Public function for add user
+	* @param post name user
+	* @return query
+	*/
+	public function addUsers($name, $password, $permission) {
+
+		// Sicurezza all'interno della funzione, utilizzata in caso di escape della prima
+		if($this->isLogged() == false) {
+		  return false;
+		}
+
+		$name = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
+		$password = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($password)));
+		$permission = strtolower(mysqli_real_escape_string($this->mysqli, $this->escape_html($permission)));
+
+		if( strlen($name) >= 1 || strlen($password) >= 1 )
+		{
+			// Checking if the users already exists
+			$check = $this->runQueryMysql("SELECT username FROM webinterface_login WHERE username='{$name}'");
+
+			if($check->num_rows > 0)
+			{
+				print "The user already exists!";
+				return false;
+			}
+			if($this->getGroup->getGroupID($permission) == 0) {
+				print "Error to check group user!";
+				return false;
+			}
+			$passwordCRIPT = hash('sha512', $password);
+			$query = $this->runQueryMysql("INSERT INTO webinterface_login(`ID` ,`username`,`password`,`permission`) VALUES (NULL , '$name', '$passwordCRIPT', '$permission')") or die (mysqli_error($this->mysqli));
+			print "User successfully added!";
+
+			return true;
+		}	else {
+			echo "Please fill the required fields";
+			return false;
+		}
+
+	}
+
 }
+
+/**
+* Gestione dei log per il login
+* @param stringa
+*/
+
 $RGWeb = new ReporterGUI();
 
 /* Carico altre classi passando dal class root (ReporterGUI) */
@@ -766,6 +816,24 @@ Class loadClass
 		include("utilities.inc.php");
 		return $Utilities;
 	}
+	/**
+	* Load the class for group user
+	* @return variable in class RGroups
+	*/
+	function getGroup() {
+		include("groups.inc.php");
+		return $RGroups;
+	}
+
+	/**
+	* Load the class for update
+	* @return variable in class RGUpdate
+	*/
+	function getUpdate() {
+		include("update.inc.php");
+		return $RGUpdate;
+	}
+
 }
 
 $ClassLoader = new loadClass();

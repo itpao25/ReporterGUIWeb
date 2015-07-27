@@ -1,10 +1,9 @@
 <?php
+if (!defined('RG_ROOT')) die();
 
-		if (!defined('RG_ROOT')) die();
-
-		if($this->isLogged() == false)
-			die("Devi essere loggato per poter vedere questa pagina!");
-
+if($this->isLogged() == false) {
+	die("You must be logged in to view this page!");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,6 +46,8 @@
 					<nav>
 						<a id="menu-Dashboard" href="index.php">Dashboard</a>
 						<a id="menu-Servers" href="server-list.php">Server list</a>
+						<!-- Admin menu -->
+						<?= $this->getGroup->getMenuGroup(); ?>
 						<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>
 					</nav>
 				</div>

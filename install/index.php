@@ -29,12 +29,12 @@ Class ReporterGUIInstall {
     $this->getHeader();
 
     $mysql_host = $this->getConfig("mysql-host");
-		$mysql_user = $this->getConfig("mysql-user");
-		$mysql_password = $this->getConfig("mysql-password");
-		$mysql_namedb = $this->getConfig("mysql-databaseName");
-		$mysql_getPort = $this->getConfig("mysql-port");
+    $mysql_user = $this->getConfig("mysql-user");
+    $mysql_password = $this->getConfig("mysql-password");
+    $mysql_namedb = $this->getConfig("mysql-databaseName");
+    $mysql_getPort = $this->getConfig("mysql-port");
 
-		$this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort) or die("Errore durante la connessione " . mysqli_error($con));
+    $this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort) or die("Errore durante la connessione " . mysqli_error($con));
 
     if($this->mysqli) {
       $this->createTableLogin();
@@ -58,17 +58,17 @@ Class ReporterGUIInstall {
 	}
 
   /**
-	* Run query from mysql
-	*/
-	private function runQueryMysql($query) {
+  * Run query from mysql
+  */
+  private function runQueryMysql($query) {
     $q = $this->mysqli->query($query);
     return $q;
-	}
+  }
   /* Escape string utilty */
-	public function real_escape_string($str)
- 	{
+  public function real_escape_string($str)
+  {
     return $this->mysqli->real_escape_string($str);
-	}
+  }
 
   private function createTableLogin() {
 
@@ -80,9 +80,11 @@ Class ReporterGUIInstall {
         `ID` int(11) unsigned NOT NULL auto_increment,
         `username` varchar(255) NOT NULL default '',
         `password` varchar(255) NOT NULL default '',
-        `salt_login` varchar(500) NOT NULL default '',
-        `salt_logged` varchar(500) NOT NULL default '',
-        `permission` varchar(500) NOT NULL default '',
+        `salt_login` varchar(255) NOT NULL default '',
+        `salt_logged` varchar(255) NOT NULL default '',
+        `permission` varchar(255) NOT NULL default '',
+        `lastlogin` varchar(255) NOT NULL default '',
+        `lastIP` varchar(255) NOT NULL default '',
         PRIMARY KEY  (`ID`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8";
 

@@ -60,8 +60,7 @@ $RGWeb->getHeader("Users");
     <div class="colonna_50">
       <div class="box_cont">
         <div class="box-informazioni-green">
-          <h2>Information</h2>
-          
+			<h2>Information</h2>
         </div>
       </div>
     </div>

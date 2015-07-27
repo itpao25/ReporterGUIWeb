@@ -25,20 +25,19 @@ Class RGUpdate
 {
   public function checkUpdate() {
     if($this->getLastVersion() == $this->getCurrentVersion()) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
   public function getLastVersion() {
-    $commits = file_get_contents("https://raw.githubusercontent.com/itpao25/ReporterGUIWeb/master/inc/version.text.php");
-    echo $commits;
-    return $commits;
+    $commits = strip_tags(file_get_contents("https://raw.githubusercontent.com/itpao25/ReporterGUIWeb/master/inc/version.text.php"));
+    return trim($commits);
   }
   public function getCurrentVersion() {
     $path = realpath(dirname(__FILE__));
-    $commits = file_get_contents($path. "/version.text.php");
-    return $commits;
+    $commits = strip_tags(file_get_contents($path. "/version.text.php"));
+    return trim($commits);
   }
 
 }

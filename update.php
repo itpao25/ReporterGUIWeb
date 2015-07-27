@@ -26,15 +26,21 @@ print "<div class=\"container\"><br />";
 if($RGWeb->getGroup->isAdmin() == false) {
   die($RGWeb->getUtily->messageNoPermission());
 }
-
+print "<h2>Update</h2>";
 if($RGWeb->getUpdate->checkUpdate()) {
 
   $last = $RGWeb->getUpdate->getCurrentVersion();
-  print "You have the latest version: ". $last;
+  print "<div class=\"messaggio-success\">You have the latest version: ". $last ."</div>";
+
 } else {
+
   $last = $RGWeb->getUpdate->getLastVersion();
-  print "You do not have the latest version!
+  $current = $RGWeb->getUpdate->getCurrentVersion();
+
+  print "<div class=\"messaggio-errore\">You do not have the latest version!
 Upgrade to: ". $last;
+  print "<br /><b>You have the version: ". $current ."</b></div>";
+
 }
 
 print "</div>";

@@ -5,12 +5,13 @@
 #  https://www.spigotmc.org/resources/reportergui.8596/
 if (!defined('RG_ROOT')) die("This file can not be opened in this way");
 
-$config['installed-sec'] = true;
+$config['installed-sec'] = false;
 
 /* Do not touch the version please */
 $config['versions'] = "1.2";
 
 # Check update version of ReporterGUI WebInterface from github.com
+# Not yet enabled
 $config['check-update'] = false;
 
 $config['nameServer'] = "NewMcStory";

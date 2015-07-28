@@ -6,6 +6,6 @@ Web interface for the plugin bukkit ReporterGUI
 <a href="https://www.spigotmc.org/resources/reportergui.8596/" >https://www.spigotmc.org/resources/reportergui.8596/</a>
 
 <h4>Demo:</h4>
-http://itpao25.ovh/ReporterGUI/
-Username : itpao25 
+http://itpao25.ovh/ReporterGUI/ <br />
+Username : itpao25<br />
 Password : ciaociao

@@ -20,6 +20,11 @@
 
 require_once("inc/heart.inc.php");
 $RGWeb->getHeader("Users");
+
+if($RGWeb->getGroup->getGroupID() == 1) {
+    die($RGWeb->getUtily->messageNoPermission());
+}
+
 print "<div class=\"container\">";
 print "<h2>Users
         <span class=\"right\">
@@ -28,6 +33,7 @@ print "<h2>Users
       </h2>";
 
 $RGWeb->getGroup->getListUsers();
+
 print "</div>";
 $RGWeb->getFooter();
 ?>

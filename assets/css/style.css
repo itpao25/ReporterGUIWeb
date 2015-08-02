@@ -1,36 +1,34 @@
 /*                  ReporterGUI Web Interface                    */
 /*                      2015 - itpao25                           */
-
 /*      La notte e' solo la fine del giorno, seriously?          */
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
-
 * {
   outline: none !important;
 }
 *:focus {
   outline: none !important;
 }
-body, html{
+body, html {
   padding: 0px;
   margin: 0px;
   height: 100%;
-  font-family: 'Open Sans',sans-serif!important;
+  font-family: 'Open Sans', sans-serif!important;
 }
 div.header {
-  height: 165px;
+  height: 115px;
   position: relative;
   background-image: url("../img/background_login.png");
   background-repeat: repeat;
 }
-div.header > div.navbar {
-  position: absolute;
-  bottom: 0;
+div.navbar {
+  display: block;
   width: 100%;
+  height: 53px;
   box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
   background: #2E2E2E none repeat scroll 0% 0%;
 }
-div.header > div.navbar nav > a {
+div.navbar nav > a {
   padding: 15px;
   text-decoration: none !important;
   outline: 0px !important;
@@ -38,86 +36,91 @@ div.header > div.navbar nav > a {
   display: block;
   float: left;
 }
-div.header > div.navbar nav > a.menu-right {
+div.navbar nav > a.menu-right {
   float: right;
 }
-div.header > div.navbar nav > a.active {
+div.navbar nav > a.active {
   font-weight: bold;
 }
 .logo {
-	float: left;
-	max-width: 310px;
+  float: left;
+  max-width: 310px;
 }
-.logo > a > img{
-	width: 100%;
-	padding-top: 6px;
+.logo > a > img {
+  width: 100%;
+  padding-top: 6px;
+}
+.avatar-menu {
+  width: 35px;
+  margin: -10px 5px -10px -10px;
+  display: inline-block;
+  border-radius: 1px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
 }
 .container {
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: auto;
-	word-wrap: break-word;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  word-wrap: break-word;
 }
-
 @media (min-width: 768px) {
   .container {
     width: 750px;
   }
 }
-
 @media (min-width: 992px) {
   .container {
     width: 970px;
   }
 }
-
 @media (min-width: 1200px) {
   .container {
     width: 1170px;
   }
 }
 div.left {
-	float: left;
+  float: left;
 }
 div.right {
-	float: right;
+  float: right;
 }
 div.clear {
-	clear:both;
+  clear: both;
 }
-
 footer {
-	width:100%;
-	color: #fff;
-	box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
-	background: #2E2E2E none repeat scroll 0% 0%;
-	height: 50px;
+  width: 100%;
+  color: #fff;
+  box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
+  background: #2E2E2E none repeat scroll 0% 0%;
+  height: 50px;
   margin-top: 20px;
 }
 .container-footer {
-	padding: 15px;
+  padding: 15px;
 }
 .container-footer div.left {
-	font-weight: bold;
+  font-weight: bold;
 }
+
 /* Gestione pagina dashboard */
+
 div.list-server-dash {
-	display: block;
+  display: block;
   overflow: hidden;
 }
 div.list-server-dash > div.container-list-server {
-	float: left;
-	width: 33%;
-	display: block;
-	min-height: 160px;
-	border-radius: 3px;
+  float: left;
+  width: 33%;
+  display: block;
+  min-height: 160px;
+  border-radius: 3px;
 }
 .list-server-dash .list-server-dash_name {
-	margin: 3px 0px 10px;
-	padding: 10px;
-	box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.1);
-	height: 420px;
+  margin: 3px 0px 10px;
+  padding: 10px;
+  box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.1);
+  height: 420px;
   border-left: 1px solid #E0E0E0;
 }
 .list-server-dash_name h3 {
@@ -127,97 +130,99 @@ div.list-server-dash > div.container-list-server {
   color: #333;
 }
 span.edit-serverlist-dash {
-	float: right;
-	cursor: pointer;
+  float: right;
+  cursor: pointer;
 }
 .list-server-dash .lastreport-serverlist-dash {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
 }
 .list-server-dash .lastreport-serverlist-dash > li {
-	width: 100%;
-	display: block;
-	float: left;
-	height: 45px;
+  width: 100%;
+  display: block;
+  float: left;
+  height: 45px;
   cursor: pointer;
-  position:relative;
+  position: relative;
 }
 .list-server-dash .lastreport-serverlist-dash > li a {
-  position:absolute;
-  top:0px;
-  left:0px;
-  width:100%;
-  height:100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   color: #000 !important;
 }
 .list-server-dash .lastreport-serverlist-dash > li:hover .avatar-reported-dash img {
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
 }
 .list-server-dash .lastreport-serverlist-dash > li .avatar-reported-dash {
-	float: left;
-	max-width: 40px;
+  float: left;
+  max-width: 40px;
 }
 .list-server-dash .lastreport-serverlist-dash > li .avatar-reported-dash img {
-	max-width: 40px;
+  max-width: 40px;
 }
 .list-server-dash .lastreport-serverlist-dash > li .nickname-reported-dash {
-	float: left;
-	padding-left: 10px;
-	line-height: 33px;
-	font-size: 21px;
+  float: left;
+  padding-left: 10px;
+  line-height: 33px;
+  font-size: 21px;
 }
 button.button-primario {
-	padding: 8px 12px;
-	border: 2px solid #F44A4A;
-	border-radius: 2px;
-	cursor: pointer;
-	background-color: #FA4F4F;
-	color: #fff;
-	transition: all 0.15s ease-in-out 0s;
-	text-shadow: 0px 0px 3px rgba(150, 150, 150, 0.55);
+  padding: 8px 12px;
+  border: 2px solid #F44A4A;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #FA4F4F;
+  color: #fff;
+  transition: all 0.15s ease-in-out 0s;
+  text-shadow: 0px 0px 3px rgba(150, 150, 150, 0.55);
 }
 button.button-primario:hover {
-	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
 }
 button.right {
-	float: right;
+  float: right;
 }
 .link_clear {
   color: #000 !important;
   text-decoration: none !important;
 }
 .row {
-	overflow: hidden;
+  overflow: hidden;
 }
 .row .box_cont {
-	margin: 0px 10px 10px 10px;
+  margin: 0px 10px 10px 10px;
 }
 .row > div.colonna_50 {
-	width: 50%;
-	float: left;
+  width: 50%;
+  float: left;
 }
 
 /* Box */
+
 .box-informazioni {
-	border-left: 2px solid #FA4F4F;
-	background-color: #EAE8E8;
-	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  border-left: 2px solid #FA4F4F;
+  background-color: #EAE8E8;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
-	color: #878585;
+  color: #878585;
 }
 .box-informazioni-green {
-	border-left: 2px solid #2FB455;
-	background-color: #EAE8E8;
-	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  border-left: 2px solid #2FB455;
+  background-color: #EAE8E8;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
-	color: #878585;
+  color: #878585;
 }
-.box-informazioni h2,
-.box-informazioni-green h2 {
-	margin: 0px;
+.box-informazioni h2, .box-informazioni-green h2 {
+  margin: 0px;
 }
+
 /* Message box */
+
 div.messaggio-success {
   padding: 5px;
   margin-top: 5px;
@@ -236,9 +241,13 @@ div.messaggio-errore {
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.21);
   border: 1px solid #E44E4E;
 }
+div.messaggio-errore a {
+  color: rgb(255, 255, 255);
+  text-decoration: none !important;
+}
 /* Add server css */
-form input[type="text"],
-form input[type="password"] {
+
+form input[type="text"], form input[type="password"] {
   display: block;
   width: 100%;
   padding: 8px 12px;
@@ -272,14 +281,11 @@ form select {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-form input[type="text"]:focus,
-form input[type="password"]:focus
- {
-  box-shadow:0 0 5px #999999!important;
-  border-color:#999999!important;
+form input[type="text"]:focus, form input[type="password"]:focus {
+  box-shadow: 0 0 5px #999999!important;
+  border-color: #999999!important;
 }
-form.add-server input[type="submit"],
-form.add-user input[type="submit"] {
+form.add-server input[type="submit"], form.add-user input[type="submit"] {
   padding: 8px 12px;
   width: 100%;
   border: 1px solid #428bca;
@@ -316,4 +322,8 @@ tbody tr:hover {
 }
 tr.list-server-table {
   cursor: pointer;
+}
+h2.h2-head {
+  border-bottom: 1px dashed #808080;
+
 }

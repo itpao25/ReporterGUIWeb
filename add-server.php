@@ -31,16 +31,23 @@ if($RGWeb->isLogged() == false) {
   die();
 }
 
-if(isset($_POST['name-server-add'])) {
-  $send = $RGWeb->addServer($_POST['name-server-add']);
-  die();
-}
-if($RGWeb->getGroup->isAdmin() == false) {
+/**
+* Check user logged is admin
+*/
+if($RGWeb->getGroup->isAdmin() == true) {
+
+  /* Add user through post request */
+  if(isset($_POST['name-server-add'])) {
+    $send = $RGWeb->addServer($_POST['name-server-add']);
+    die();
+  }
+
   $RGWeb->getHeader("Add server", true);
+} else {
+  $RGWeb->getHeader("Add server", true);
+  /* User logged is not admin */
   die($RGWeb->getUtily->messageNoPermission());
 }
-
-$RGWeb->getHeader("Add server", true);
 
 ?>
 <div class="container">

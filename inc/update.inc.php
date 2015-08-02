@@ -23,6 +23,9 @@ if (!defined('RG_ROOT')) die();
 
 Class RGUpdate
 {
+  public $linkGithub = "https://github.com/itpao25/ReporterGUIWeb";
+  public $spigot = "https://www.spigotmc.org/resources/reporterguiweb.9821/";
+
   public function checkUpdate() {
     if($this->getLastVersion() == $this->getCurrentVersion()) {
       return true;

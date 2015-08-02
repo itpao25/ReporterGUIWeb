@@ -20,7 +20,6 @@
 
 if (!defined('RG_ROOT')) die();
 ?>
-
 <footer>
 	<div class="container container-footer">
 		<div class="left clear">

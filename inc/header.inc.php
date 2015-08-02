@@ -2,6 +2,7 @@
 if (!defined('RG_ROOT')) die();
 
 if($this->isLogged() == false) {
+	print "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
 	die("You must be logged in to view this page!");
 }
 ?>
@@ -37,20 +38,21 @@ if($this->isLogged() == false) {
 			<div class="container">
 				<div class="logo">
 					<a href="index.php">
-						<img src="assets/img/logo-rgui.png" />
+						<img src="<?= $this->getUtily->getLogo(); ?>" />
 					</a>
 				</div>
 			</div>
-			<div class="navbar">
-				<div class="container">
-					<nav>
-						<a id="menu-Dashboard" href="index.php">Dashboard</a>
-						<a id="menu-Servers" href="server-list.php">Server list</a>
-						<!-- Admin menu -->
-						<?= $this->getGroup->getMenuGroup(); ?>
-						<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>
-					</nav>
-				</div>
+		</div>
+		<div class="navbar">
+			<div class="container">
+				<nav>
+					<a> <img class="avatar-menu" src="<?= $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?= $this->getUsername(); ?></a>
+					<a id="menu-Dashboard" href="index.php">Dashboard</a>
+					<a id="menu-Servers" href="server-list.php">Server list</a>
+					<!-- Admin menu -->
+					<?= $this->getGroup->getMenuGroup(); ?>
+					<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>
+				</nav>
 			</div>
 		</div>
 

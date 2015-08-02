@@ -17,26 +17,23 @@
 *  GNU General Public License for more details.
 *
 *  @package ReporterGUI
-*/
-/*
-	Classe principale per la gestione delle pagine
-	Main class for the management of pages
-
-	Questo progetto è creato in italia, molti commenti sono stati scritti in italiano per
-	permettere di gestire meglio il codice
-
-	This project is created in Italy, many comments were written in Italian for
-	allow to better manage the code
-
-
-	Cose da fare:
-
-	- Finire il sistema di edit server
-	- Gestione degli utenti con i permessi
-	- V Gestire l'homepage facendo vedere la lista dei server con i last reports
-	- Creare il file view-report.php con i parametri get per visualizzare / eliminare una segnalazione
-	- Gestire i menu attraverso i permessi degli utenti
-
+*
+*	Classe principale per la gestione delle pagine
+*	Main class for the management of pages
+*
+*	Questo progetto è creato in italia, molti commenti sono stati scritti in italiano per
+*	permettere di gestire meglio il codice
+*
+*	This project is created in Italy, many comments were written in Italian for
+*	allow to better manage the code
+* 1.3
+* - Added the system log of anything happening inside the panel
+* - Improved the system of permission for users
+* - Improved statistics in the dashboard
+* - Now for the admin can delete a user (It will not be possible to delete the user with id 1)
+* - Added salt to the password! (SHA512 + salt)
+* - Added the name of the user logged with the head skin (minecraft)
+* - Added the possibility to change the logo, inserting their logo
 */
 
 define("RG_ROOT", "true", true);
@@ -113,26 +110,33 @@ Class ReporterGUI
 	public function makeDB() {
 
 		$val = $this->getConfig("installed-sec");
-		if($val == false)
+		if($val == false):
 			$this->getUtily->messageInstall();
-		else
+		else:
 
 			if($this->mysqli == false) $this->openConMysql();
 
 			$query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_servers'");
 			$query2 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_login'");
+			$query3 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_logs'");
 
-			if($query->num_rows !=1 || $query2->num_rows !=1) {
-
+			if($query->num_rows !=1 || $query2->num_rows !=1 || $query3->num_rows !=1)
+			{
 				if($this->folder_exist(RG_INSTALL))
+				{
 					print "<meta http-equiv=\"refresh\" content=\"0;URL=install/\">";
-
-			} else {
-
+				} else
+				{
+					die("Error reading tables in database");
+				}
+			} else
+			{
 				if($this->folder_exist(RG_INSTALL))
 					$this->getUtily->messageInstallFolder();
 
 			}
+
+		endif;
 	}
 	/**
 	* Run query from mysql
@@ -421,7 +425,11 @@ Class ReporterGUI
 			$usernameSEC = trim(strip_tags($this->real_escape_string($username)));
 			$passwordSEC = trim(strip_tags($this->real_escape_string($password)));
 
-			$passwordCRIPT = hash('sha512', $passwordSEC);
+			// Salt private for password
+			// Added in 1.3
+
+			$salt = "w\|KT!jc@sn/@h//X";
+			$passwordCRIPT = hash('sha512', $passwordSEC.$salt);
 			$query = $this->queryLogin($usernameSEC, $passwordCRIPT);
 
 			/* Numero dei risultati trovati nella query */
@@ -450,6 +458,7 @@ Class ReporterGUI
 				$this->updateKeyLogin($usernameSEC, $saltSHA512, $salt_id);
 				$this->updateLastLogin($usernameSEC);
 				$this->updateLastIP($usernameSEC);
+				$this->addLogs("User logged in");
 
 				return true;
 
@@ -609,6 +618,7 @@ Class ReporterGUI
 
 			$session_user = $this->real_escape_string($_SESSION['rg_username']);
 			$this->updateKeyLogout($session_user);
+			$this->addLogs("User logged out");
 
 			unset($_SESSION['rg_username']);
 			unset($_SESSION['rg_sessionId']);
@@ -662,6 +672,8 @@ Class ReporterGUI
 			}
 
 			$query = $this->runQueryMysql("INSERT INTO webinterface_servers(`ID` ,`name`) VALUES (NULL , '$name')") or die (mysqli_error($this->mysqli));
+			$this->addLogs("Server added ({$name})");
+
 			print "Server successfully added!";
 			return true;
 		}	else {
@@ -693,7 +705,13 @@ Class ReporterGUI
 	* @return query
 	*/
 	public function deleteServer($name) {
+
+		/* Check user logged is admin */
+		if($this->getGroup->isAdmin() == false) {
+				return;
+		}
 		$name = mysqli_real_escape_string($this->mysqli, $name);
+		$this->addLogs("Deleted server ({$name})");
 		return $this->runQueryMysql("DELETE FROM webinterface_servers WHERE name ='$name'");
 	}
 
@@ -701,9 +719,34 @@ Class ReporterGUI
 	* get int total server added
 	*/
 	public function getIntTotalServer() {
-		$list = $this->runQueryMysql("SELECT * FROM `webinterface_servers`");
+		$list = $this->runQueryMysql("SELECT ID FROM `webinterface_servers`");
 		return $list->num_rows;
 	}
+
+	/**
+	* get int total report
+	*/
+	public function getIntTotalReport() {
+		$list = $this->runQueryMysql("SELECT ID FROM `reporter`");
+		return $list->num_rows;
+	}
+
+	/**
+	* get int total report waiting
+	*/
+	public function getIntTotalReportWaiting() {
+		$list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='1'");
+		return $list->num_rows;
+	}
+
+	/**
+	* get int total report complete
+	*/
+	public function getIntTotalReportComplete() {
+		$list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='2'");
+		return $list->num_rows;
+	}
+
 
 	/* Check report id is exist */
 	public function isReportExist($id) {
@@ -784,9 +827,15 @@ Class ReporterGUI
 				print "Error to check group user!";
 				return false;
 			}
-			$passwordCRIPT = hash('sha512', $password);
+
+			// Salt private for password
+			// Added in 1.3
+
+			$salt = "w\|KT!jc@sn/@h//X";
+			$passwordCRIPT = hash('sha512', $password.$salt);
 			$query = $this->runQueryMysql("INSERT INTO webinterface_login(`ID` ,`username`,`password`,`permission`) VALUES (NULL , '$name', '$passwordCRIPT', '$permission')") or die (mysqli_error($this->mysqli));
 			print "User successfully added!";
+			$this->addLogs("Added user ({$name}), group {$permission}");
 
 			return true;
 		}	else {
@@ -796,7 +845,42 @@ Class ReporterGUI
 
 	}
 
-}
+	/**
+	* Public function for delete user
+	*/
+	public function deleteUser($id) {
+		if($this->getGroup->isAdmin() == false) {
+			return;
+		}
+		$uque = mysqli_real_escape_string($this->mysqli, $id);
+		$this->addLogs("User eliminated (ID: {$id})");
+		return $this->runQueryMysql("DELETE FROM webinterface_login WHERE ID={$uque}");
+	}
+
+	/* Log manager */
+	private function getTableLog() {
+		return "webinterface_logs";
+	}
+
+	/* Add logs to mysql*/
+	public function addLogs($action) {
+
+		// Username
+		$username = $this->getUsername();
+
+		// ID
+		$query = $this->runQueryMysql("SELECT ID,username FROM {$this->getTableLog()} WHERE username='$username'");
+		$queryArray = mysqli_fetch_assoc($query);
+		$id = $queryArray['ID'];
+		// Time
+		$time = date('Y-m-d H:i', time());
+		// IP
+		$ip = $this->getUtily->getIndirizzoIP();
+		$query = $this->runQueryMysql("INSERT INTO webinterface_logs(`ID` ,`action`,`username`,`IP`, `time`) VALUES (NULL , '$action', '$username', '$ip', '$time')") or die (mysqli_error($this->mysqli));
+
+	}
+
+ }
 
 /**
 * Gestione dei log per il login

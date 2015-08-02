@@ -29,16 +29,26 @@ if (!defined('RG_ROOT_INDEX')) die();
 	</h2>
 	<?php $this->getListIndex(); ?>
 	<br />
-
+	<!-- stats -->
 	<h2 style="border-bottom: 1px dashed #808080;">
 		<i class="fa fa-line-chart"></i> Stats
 	</h2>
 	<div class="row">
 		<div class="colonna_50">
-			<b>Total server registered:</b> <?= $this->getIntTotalServer(); ?><br />
+			<b style="font-size: 22px;" >Total server registered:</b> <?= $this->getIntTotalServer(); ?><br />
+			<b>Total report: </b><?= $this->getIntTotalReport(); ?> <br />
+			<b>Total report in waiting: </b><?= $this->getIntTotalReportWaiting(); ?> <br />
+			<b>Total report completed: </b><?= $this->getIntTotalReportComplete(); ?> <br />
 		</div>
 		<div class="colonna_50">
-		
+			<?php
+			if($this->getGroup->isAdmin() || $this->getGroup->isModerator()) {
+				print "<b style=\"font-size: 22px\"><i style=\"font-size: 60px;float: right;color: #7F7F7F;\" class=\"fa fa-users\"></i> Users registred: </b>". $this->getGroup->getNumUser();
+				print "<br /> <b>Admin:</b> {$this->getGroup->getNumUserAdmin()} <br />";
+				print "<b>Moderator:</b> {$this->getGroup->getNumUserMod()} <br />";
+				print "<b>Helper:</b> {$this->getGroup->getNumUserHelper()} <br />";
+			}
+			?>
 		</div>
 	</div>
 </div>

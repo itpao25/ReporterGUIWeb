@@ -37,8 +37,10 @@ Class ReporterGUIInstall {
     $this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort) or die("Errore durante la connessione " . mysqli_error($con));
 
     if($this->mysqli) {
+      // Create tables
       $this->createTableLogin();
       $this->createTableServer();
+      $this->createTableLogs();
       $this->createAdmin();
     }
 
@@ -70,6 +72,9 @@ Class ReporterGUIInstall {
     return $this->mysqli->real_escape_string($str);
   }
 
+  /**
+  * Create a table 'webinterface_login'
+  */
   private function createTableLogin() {
 
     $query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_login'");
@@ -102,6 +107,9 @@ Class ReporterGUIInstall {
 
   }
 
+  /**
+  * Create a table 'webinterface_servers'
+  */
   private function createTableServer() {
 
     $query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_servers'");
@@ -130,6 +138,39 @@ Class ReporterGUIInstall {
   }
 
   /**
+  * Create a table 'webinterface_logs'
+  * Added in 1.3
+  */
+  private function createTableLogs() {
+
+    $query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_logs'");
+
+    if($query->num_rows !=1):
+
+      $sql = "CREATE TABLE IF NOT EXISTS `webinterface_logs` (
+      `ID` int(11) unsigned NOT NULL auto_increment,
+      `action` varchar(255) NOT NULL default '',
+      `username` varchar(255) NOT NULL default '',
+      `IP` varchar(100) NOT NULL default '',
+      `time` varchar(100) NOT NULL default '',
+      PRIMARY KEY  (`ID`)
+      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8";
+
+      $this->runQueryMysql($sql);
+
+      print "The table `webinterface_logs` was created successfully!";
+      print "<br />";
+    else:
+
+      if(!isset($_POST['add-useradmin']) && !isset($_POST['add-useradmin2']) ) {
+        print "The table `webinterface_logs` was not created because it already exists!";
+        print "<br />";
+      }
+    endif;
+
+
+  }
+  /**
   * Creo l'utente amministratore primario
   */
   private function createAdmin() {
@@ -143,24 +184,33 @@ Class ReporterGUIInstall {
       * @param post add-useradmin (username)
       * @param post add-useradmin2 (password)
       */
-      if(isset($_POST['add-useradmin']) && isset($_POST['add-useradmin2'])) {
+      if(isset($_POST['add-useradmin']) && isset($_POST['add-useradmin2']))
+      {
 
         $username = trim(strip_tags($this->real_escape_string($_POST['add-useradmin'])));
         $password = trim(strip_tags($this->real_escape_string($_POST['add-useradmin2'])));
-        $password_crip = hash('sha512', $password);
+
+        // Salt private for password
+        // Added in 1.3
+
+        $salt = "w\|KT!jc@sn/@h//X";
+        $password_crip = hash('sha512', $password.$salt);
 
         /* Check if the user already exists */
         $check = $this->runQueryMysql("SELECT ID, permission FROM webinterface_login WHERE username='".$username."'");
 
-        if($check->num_rows == 0) {
+        if($check->num_rows == 0)
+        {
           $this->runQueryMysql("INSERT INTO webinterface_login(username, password, permission) VALUES ('$username', '$password_crip', 'admin')") or die(mysqli_error($this->mysqli));
           print "The administrator account $username has been successfully created, using the password you entered ($password)";
           print "<br /><a href=\"../\">Next step</a>";
-          //print "<meta http-equiv=\"refresh\" content=\"3;URL=install/\">";
-        } else {
+
+        } else
+        {
           print "The user $username already exists!";
         }
-      } else {
+      } else
+      {
         print "<h4>Create the administrator account to start: </h4>";
         print "<form method=\"post\" ><input placeholder=\"Name\" type=\"text\" name=\"add-useradmin\" /> <input placeholder=\"Password\" type=\"text\" name=\"add-useradmin2\" /> <input type=\"submit\" /> </form>";
       }

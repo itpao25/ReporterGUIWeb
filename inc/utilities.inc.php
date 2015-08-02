@@ -148,22 +148,55 @@ Class RGUtilities
 	* @param nickname Nickname of the player
 	* @return url service
 	*/
-	public function getUrlServiceAvatar($username) {
-
-		if(!$this->getConfig("urlServiceAvatar"))
-		{
-			return "https://crafatar.com/avatars/". $username ."";
-		} else {
+	public function getUrlServiceAvatar($username)
+	{
+		// Check string in config is isset
+		if(!$this->getConfig("urlServiceAvatar")):
+			return "https://crafatar.com/avatars/". $username;
+		else:
 			return str_replace("{username}", $username ,$this->getConfig("urlServiceAvatar"));
-		}
+		endif;
+
 	}
 
+	/**
+	* Get service url from config for
+	* menu
+	* @param username
+	*/
+	public function getUrlServiceAvatarMenu($username)
+	{
+		if(!$this->getConfig("urlServiceAvatarMenu")):
+			return "https://crafatar.com/avatars/". $username;
+		else:
+			return str_replace("{username}", $username ,$this->getConfig("urlServiceAvatarMenu"));
+		endif;
+	}
+
+	/* Get custom logo */
+	public function getLogo() {
+
+		if(!trim($this->getConfig("customLogo")) == ""):
+			$url = $this->getConfig("customLogo");
+			return $url;
+		else:
+			return "assets/img/logo-rgui.png";
+		endif;
+	}
 	/**
 	* Display error no permission for view page
 	*/
 	public function messageNoPermission() {
-		echo "<div class=\"container messaggio-errore\">You do not have access to view this page!</div>";
+		echo "<br /><div class=\"container messaggio-errore\">You do not have access to view this page!</div>";
 	}
+
+	/**
+	* Display error for user not exists
+	*/
+	public function userNotExists() {
+		echo "<br /><div class=\"container messaggio-errore\">This user does not exist!!</div>";
+	}
+
 
 }
 $Utilities = new RGUtilities();

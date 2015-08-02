@@ -33,11 +33,11 @@
 require_once("inc/heart.inc.php");
 $RGWeb->getHeader("Edit server", true);
 
-if(isset($_GET['name']) && !isset($_GET['m'])) {
-
+if(isset($_GET['name']) && !isset($_GET['m']))
+{
   // Check if the server exists
-  if($RGWeb->isServerExists($_GET['name'])) {
-
+  if($RGWeb->isServerExists($_GET['name']))
+  {
     $server = $RGWeb->escape_html($_GET['name']);
     ?>
     <div class="container">
@@ -80,18 +80,20 @@ if(isset($_GET['name']) && !isset($_GET['m'])) {
         break;
       case 'delete':
 
+        /* Check user logged is admin */
+        if($RGWeb->getGroup->isAdmin() == false) {
+          die($RGWeb->getUtily->messageNoPermission());
+        }
+        
         if(isset($_GET['key'])):
 
-          if($RGWeb->checkKeyID($_SESSION['rg_username'], $_GET['key'])) {
-
-
+          if($RGWeb->checkKeyID($_SESSION['rg_username'], $_GET['key']))
+          {
             $RGWeb->deleteServer($server);
-
             echo "<br /><div class='container messaggio-success'>The server {$server} was deleted successfully!</div>";
             echo "<meta http-equiv=\"refresh\" content=\"1; URL=server-list.php\">";
-
-          } else {
-
+          } else
+          {
             echo "<br /><div class=\"container\"><div class=\"messaggio-errore\">The key user is not valid!</div></div>";
           }
 
@@ -103,8 +105,6 @@ if(isset($_GET['name']) && !isset($_GET['m'])) {
         /* Nessuna azione trovata per la richiesta get name */
         echo "<br /><div class=\"container\"><div class=\"messaggio-errore\">This action is not valid!</div></div>";
         break;
-
-
       }
   } else {
     echo "<br /><div class=\"container\"><div class=\"messaggio-errore\">This server does not exist!</div></div>";

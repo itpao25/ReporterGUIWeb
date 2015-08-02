@@ -22,6 +22,7 @@ require_once("inc/heart.inc.php");
 if($RGWeb->isLogged() == true)
   $RGWeb->getLogOut();
 else
-  die("Devi essere loggato per poter fare questa azione!");
+  print "You must be logged in to view this page!";
+  die("<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">");
 
 ?>

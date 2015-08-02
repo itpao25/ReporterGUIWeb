@@ -22,10 +22,11 @@ require_once("inc/heart.inc.php");
 $RGWeb->getHeader("Update");
 
 print "<div class=\"container\"><br />";
-/* Check user is admin */
-if($RGWeb->getGroup->isAdmin() == false) {
+/* Check user is admin or moderator */
+if($RGWeb->getGroup->getGroupID() == 1) {
   die($RGWeb->getUtily->messageNoPermission());
 }
+
 print "<h2>Update</h2>";
 if($RGWeb->getUpdate->checkUpdate()) {
 
@@ -39,8 +40,11 @@ if($RGWeb->getUpdate->checkUpdate()) {
 
   print "<div class=\"messaggio-errore\">You do not have the latest version!
 Upgrade to: ". $last;
-  print "<br /><b>You have the version: ". $current ."</b></div>";
-
+  print "<br /><b>You have the version: ". $current ."</b><br />";
+  print "<br /><b>Download:</b> <br />";
+  print "<b>Github: </b> <a href=\"{$RGWeb->getUpdate->linkGithub}\">{$RGWeb->getUpdate->linkGithub}</a><br />";
+  print "<b>SpigotMC: </b> <a href=\"{$RGWeb->getUpdate->spigot}\">{$RGWeb->getUpdate->spigot}</a><br />";
+  print "</div>";
 }
 
 print "</div>";

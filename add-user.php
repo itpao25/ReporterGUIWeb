@@ -19,25 +19,36 @@
 */
 require_once("inc/heart.inc.php");
 
+
 if($RGWeb->isLogged() == false) {
   die();
 }
-if($RGWeb->getGroup->isAdmin() == false) {
+
+/**
+* Check user logged is admin
+*/
+if($RGWeb->getGroup->isAdmin() == true) {
+
+  /* Add server through post request */
+  if(isset($_POST['name-user-add']) && isset($_POST['pass-user-add']) &&
+  isset($_POST['pass2-user-add']) && isset($_POST['group-user-add']))
+  {
+    if($_POST['pass-user-add'] == $_POST['pass2-user-add']) {
+      $send = $RGWeb->addUsers($_POST['name-user-add'], $_POST['pass-user-add'], $_POST['group-user-add']);
+      die();
+    } else
+    {
+      die("The passwords do not match!");
+    }
+  }
   $RGWeb->getHeader("Users");
+
+} else
+{
+  $RGWeb->getHeader("Users");
+  /* User logged is not admin */
   die($RGWeb->getUtily->messageNoPermission());
 }
-if(isset($_POST['name-user-add']) && isset($_POST['pass-user-add']) &&
-isset($_POST['pass2-user-add']) && isset($_POST['group-user-add'])) {
-
-  if($_POST['pass-user-add'] == $_POST['pass2-user-add'])
-    $send = $RGWeb->addUsers($_POST['name-user-add'], $_POST['pass-user-add'], $_POST['group-user-add']);
-  else
-    die("The passwords do not match!");
-  die();
-
-}
-
-$RGWeb->getHeader("Users");
 ?>
 <div class="container">
   <h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add user</h2>
@@ -60,7 +71,13 @@ $RGWeb->getHeader("Users");
     <div class="colonna_50">
       <div class="box_cont">
         <div class="box-informazioni-green">
-			<h2>Information</h2>
+          <h2>Information</h2>
+          Use the server name set by config.yml: <br />
+          <ul>
+            <li>multi-sever-enable: <b>true</b></li>
+            <li>server-name: "<b>hub</b>"</li>
+          </ul>
+          Then add the server as the "<b>hub</b>"
         </div>
       </div>
     </div>

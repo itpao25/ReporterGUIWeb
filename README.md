@@ -9,3 +9,5 @@ Web interface for the plugin bukkit ReporterGUI
 http://itpao25.ovh/ReporterGUI/ <br />
 Username : itpao25<br />
 Password : ciaociao
+
+<img src="http://i.imgur.com/o7UH05w.png" />

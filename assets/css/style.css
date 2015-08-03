@@ -170,7 +170,7 @@ span.edit-serverlist-dash {
   line-height: 33px;
   font-size: 21px;
 }
-button.button-primario {
+.button-primario {
   padding: 8px 12px;
   border: 2px solid #F44A4A;
   border-radius: 2px;
@@ -180,7 +180,7 @@ button.button-primario {
   transition: all 0.15s ease-in-out 0s;
   text-shadow: 0px 0px 3px rgba(150, 150, 150, 0.55);
 }
-button.button-primario:hover {
+.button-primario:hover {
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
 }
 button.right {
@@ -320,10 +320,13 @@ tbody td {
 tbody tr:hover {
   background-color: #F9F8F8;
 }
+tbody td.bordato {
+  border-bottom: 2px solid #DDD;
+  padding: 5px 5px;
+}
 tr.list-server-table {
   cursor: pointer;
 }
 h2.h2-head {
-  border-bottom: 1px dashed #808080;
-
+  border-bottom: 1px solid #E6E6E6;;
 }

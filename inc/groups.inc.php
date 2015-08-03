@@ -87,7 +87,7 @@ Class RGroups
   public function getListUsers() {
 
     global $RGWeb;
-    $query = $RGWeb->runQueryMysql("SELECT * FROM `webinterface_login`");
+    $query = $RGWeb->runQueryMysql("SELECT * FROM `webinterface_login` ORDER BY `webinterface_login`.`ID` ASC");
     print "<table style=\"width:100%\">
       <thead>
         <tr>
@@ -182,6 +182,7 @@ Class RGroups
   * @return [1] = username
   * @return [2] = lastlogin
   * @return [3] = lastIP
+  * @return [4] = Group
   */
   public function getDetailsUser($id, $check = null)
   {
@@ -193,15 +194,16 @@ Class RGroups
     global $RGWeb;
     $iden = $RGWeb->real_escape_string($id);
 
-    $query = $RGWeb->runQueryMysql("SELECT username,ID,lastlogin,permission,lastIP  FROM `webinterface_login` WHERE ID={$iden}");
+    $query = $RGWeb->runQueryMysql("SELECT username,ID,lastlogin,permission,lastIP,permission  FROM `webinterface_login` WHERE ID={$iden}");
     $queryArray = mysqli_fetch_assoc($query);
 
     $id = $queryArray['ID'];
-		$username = $queryArray['username'];
-		$lastlogin = $queryArray['lastlogin'];
-		$lastIP = $queryArray['lastIP'];
+    $username = $queryArray['username'];
+    $lastlogin = $queryArray['lastlogin'];
+    $lastIP = $queryArray['lastIP'];
+    $group = $queryArray['permission'];
 
-    return array ($id, $username, $lastlogin, $lastIP);
+    return array ($id, $username, $lastlogin, $lastIP, $group);
   }
 
   /**
@@ -238,6 +240,74 @@ Class RGroups
     global $RGWeb;
     $query = $RGWeb->runQueryMysql("SELECT permission FROM `webinterface_login` WHERE permission='helper'");
     return $query->num_rows;
+  }
+
+  /**
+  * Get select html for page edit user
+  */
+  public function getSelectOptionEdit($user) {
+    global $RGWeb;
+
+    $options = array('admin', 'moderator', 'helper');
+    $selected = $RGWeb->getGroupUser($user);
+
+    echo "<select name=\"editUser-group\" >";
+    foreach($options as $key)
+    {
+      if($selected == $key):
+        echo "<option value=\"$key\" selected =\"selected\"> $key </option>";
+      else:
+        echo "<option value=\"$key\"> $key </option>";
+      endif;
+    }
+    echo "</select>";
+  }
+
+  /**
+  * Changepassword for user, important function
+  */
+  public function changePassword($id, $password)
+  {
+    global $RGWeb;
+    if($RGWeb->getGroup->isAdmin() == false) {
+      retun;
+    }
+    $password = $RGWeb->real_escape_string($password);
+
+    // Password crypt
+    $salt = "w\|KT!jc@sn/@h//X";
+    $passwordCRYPT = hash('sha512', $password.$salt);
+
+    $id = $RGWeb->real_escape_string($id);
+
+    if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
+      $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET password='{$passwordCRYPT}' WHERE ID='{$id}'");
+      print "<br /><div class='container messaggio-success'>User successfully saved!</div>";
+    else:
+      print "<br /><div class='container messaggio-errore'>You can not change the password for this user!</div>";
+    endif;
+
+  }
+
+  /**
+  * Changegroup for user, important function
+  */
+  public function changeGroup($id, $group)
+  {
+    global $RGWeb;
+    if($RGWeb->getGroup->isAdmin() == false) {
+      retun;
+    }
+    $group = $RGWeb->real_escape_string($group);
+    $id = $RGWeb->real_escape_string($id);
+
+    if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
+      $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET permission='{$group}' WHERE ID={$id}");
+      print "<br /><div class='container messaggio-success'>User successfully saved!</div>";
+    else:
+      print "<br /><div class='container messaggio-errore'>You can not change the group for this user!</div>";
+    endif;
+
   }
 
 

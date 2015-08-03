@@ -26,6 +26,9 @@
 *
 *	This project is created in Italy, many comments were written in Italian for
 *	allow to better manage the code
+* 1.4
+* - You can now edit the group and password of a user (Only you can change the user ID 1 being logged in with that)
+* - Users on the list are now willing through Id from lowest to highest
 * 1.3
 * - Added the system log of anything happening inside the panel
 * - Improved the system of permission for users
@@ -388,12 +391,11 @@ Class ReporterGUI
 	private function getConfig($conf, $pos = null) {
 
 		/* Check the position of the file */
-		if($pos == "root" || $pos == null)
-
+		if($pos == "root" || $pos == null):
 			include("config.php");
-		elseif($pos == "Dir")
-
+		elseif($pos == "Dir"):
 			include(dirname(dirname(__FILE__)).'/config.php');
+		endif;
 
 		return $config[$conf];
 
@@ -545,6 +547,26 @@ Class ReporterGUI
 	*/
 	public function getUsername() {
 		return $_SESSION['rg_username'];
+	}
+
+	/* Get id user logged*/
+	public function getIDLogged() {
+
+    $username = $this->real_escape_string($_SESSION['rg_username']);
+    $query = $this->runQueryMysql("SELECT ID, username FROM `webinterface_login` WHERE username='{$username}'");
+    $row = mysqli_fetch_assoc($query);
+
+    return $row['ID'];
+	}
+
+	/* Get group user */
+	public function getGroupUser($username) {
+
+    $username = $this->real_escape_string($username);
+    $query = $this->runQueryMysql("SELECT ID, permission FROM `webinterface_login` WHERE ID='{$username}'");
+    $row = mysqli_fetch_assoc($query);
+
+    return $row['permission'];
 	}
 
 	/**

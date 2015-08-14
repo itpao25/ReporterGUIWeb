@@ -24,16 +24,13 @@ $RGWeb->getHeader("Users");
 if($RGWeb->getGroup->getGroupID() == 1) {
     die($RGWeb->getUtily->messageNoPermission());
 }
-
-print "<div class=\"container\">";
-print "<h2>Users
-        <span class=\"right\">
-          <a href=\"add-user.php\"><button class=\"button-primario right\"><i class=\"fa fa-plus\"></i> Add user</button></a>
-        </span>
-      </h2>";
-
+?>
+<h2>Users
+  <span class="right">
+    <a href="add-user.php"><button class="button-primario right"><i class="fa fa-plus"></i> Add user</button></a>
+  </span>
+</h2>
+<?php
 $RGWeb->getGroup->getListUsers();
-
-print "</div>";
 $RGWeb->getFooter();
 ?>

@@ -196,7 +196,14 @@ Class RGUtilities
 	public function userNotExists() {
 		echo "<br /><div class=\"container messaggio-errore\">This user does not exist!!</div>";
 	}
-
+	public function selfURL()
+	{
+		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+		$protocol = $this->strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/").$s;
+		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
+	}
+  public function strleft($s1, $s2) { return substr($s1, 0, strpos($s1, $s2)); }
 
 }
 $Utilities = new RGUtilities();

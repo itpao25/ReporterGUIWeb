@@ -50,35 +50,33 @@ if($RGWeb->getGroup->isAdmin() == true) {
   die($RGWeb->getUtily->messageNoPermission());
 }
 ?>
-<div class="container">
-  <h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add user</h2>
+<h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add user</h2>
 
-  <div class="row">
-    <div class="colonna_50">
-      <div id="messaggio-add" ></div>
-      <form id="add-user" action="add-user.php" class="add-server" method="post">
-        <input type="text" name="name-user-add" placeholder="Username" />
-        <input type="password" name="pass-user-add" placeholder="Password" />
-        <input type="password" name="pass2-user-add" placeholder="Repeat password" />
-        <select name="group-user-add">
-          <option value="admin">Admin</option>
-          <option value="moderator">Moderator</option>
-          <option value="helper">Helper</option>
-        </select>
-        <input type="submit" name="submit-server-add" value="Create user" />
-      </form>
-    </div>
-    <div class="colonna_50">
-      <div class="box_cont">
-        <div class="box-informazioni-green">
-          <h2>Information</h2>
-          Use the server name set by config.yml: <br />
-          <ul>
-            <li>multi-sever-enable: <b>true</b></li>
-            <li>server-name: "<b>hub</b>"</li>
-          </ul>
-          Then add the server as the "<b>hub</b>"
-        </div>
+<div class="row">
+  <div class="colonna_50">
+    <div id="messaggio-add" ></div>
+    <form id="add-user" action="add-user.php" class="add-server" method="post">
+      <input type="text" name="name-user-add" placeholder="Username" />
+      <input type="password" name="pass-user-add" placeholder="Password" />
+      <input type="password" name="pass2-user-add" placeholder="Repeat password" />
+      <select name="group-user-add">
+        <option value="admin">Admin</option>
+        <option value="moderator">Moderator</option>
+        <option value="helper">Helper</option>
+      </select>
+      <input type="submit" name="submit-server-add" value="Create user" />
+    </form>
+  </div>
+  <div class="colonna_50">
+    <div class="box_cont">
+      <div class="box-informazioni-green">
+        <h2>Information</h2>
+        Use the server name set by config.yml: <br />
+        <ul>
+          <li>multi-sever-enable: <b>true</b></li>
+          <li>server-name: "<b>hub</b>"</li>
+        </ul>
+        Then add the server as the "<b>hub</b>"
       </div>
     </div>
   </div>

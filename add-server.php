@@ -50,30 +50,28 @@ if($RGWeb->getGroup->isAdmin() == true) {
 }
 
 ?>
-<div class="container">
-  <h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add server</h2>
 
-  <div class="row">
-    <div class="colonna_50">
-      <div id="messaggio-add" ></div>
-      <form id="add-server" action="add-server.php" class="add-server" method="post">
-        <input type="text" name="name-server-add" placeholder="Name" />
-        <input type="submit" name="submit-server-add" value="Create" />
-      </form>
-    </div>
-    <div class="colonna_50">
-      <div class="box_cont">
-        <div class="box-informazioni">
-          <h2>Information</h2>
-          Use the server name set by config.yml: <br />
-          <ul>
-            <li>multi-sever-enable: <b>true</b></li>
-            <li>server-name: "<b>hub</b>"</li>
-          </ul>
-          Then add the server as the "<b>hub</b>"
-        </div>
+<h2 style="border-bottom: 1px dashed #808080;"><i class="fa fa-plus"></i> Add server</h2>
+<div class="row">
+  <div class="colonna_50">
+    <div id="messaggio-add" ></div>
+    <form id="add-server" action="add-server.php" class="add-server" method="post">
+    <input type="text" name="name-server-add" placeholder="Name" />
+    <input type="submit" name="submit-server-add" value="Create" />
+    </form>
+  </div>
+  <div class="colonna_50">
+    <div class="box_cont">
+      <div class="box-informazioni">
+      <h2>Information</h2>
+        Use the server name set by config.yml: <br />
+        <ul>
+          <li>multi-sever-enable: <b>true</b></li>
+          <li>server-name: "<b>hub</b>"</li>
+        </ul>
+        Then add the server as the "<b>hub</b>"
       </div>
-    </div>
+  </div>
   </div>
 </div>
 
@@ -90,23 +88,21 @@ if($RGWeb->getGroup->isAdmin() == true) {
            $("#messaggio-add").show();
            if(data.trim() == "Server successfully added!")
            {
-             if($("#messaggio-add").hasClass("messaggio-errore")){
+            if($("#messaggio-add").hasClass("messaggio-errore")){
                $("#messaggio-add").removeClass("messaggio-errore");
-             }
-             $("#messaggio-add").addClass("messaggio-success");
+            }
+            $("#messaggio-add").addClass("messaggio-success");
+            redirect("server-list.php", 1000);
 
-             redirect("server-list.php", 1000);
-
-           } else {
-
-             if($("#messaggio-add").hasClass("messaggio-success")){
-               $("#messaggio-add").removeClass("messaggio-success");
-             }
-
-             $("#messaggio-add").addClass("messaggio-errore");
+           } else
+          {
+           if($("#messaggio-add").hasClass("messaggio-success")){
+             $("#messaggio-add").removeClass("messaggio-success");
            }
-           $("#messaggio-add").html(data);
+           $("#messaggio-add").addClass("messaggio-errore");
+          }
 
+          $("#messaggio-add").html(data);
          }
        });
        return false;

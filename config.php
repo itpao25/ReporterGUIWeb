@@ -16,7 +16,7 @@ $config['mysql-password'] = "";
 $config['mysql-databaseName'] = "reportergui";
 
 /* Do not touch the version please */
-$config['versions'] = "1.4";
+$config['versions'] = "1.5";
 
 # Server Name
 $config['nameServer'] = "NewMcStory";
@@ -27,12 +27,17 @@ $config['pageName'] = "ReporterGUI Web Interface";
 # Custom server logo (insert URL with http / https)
 $config['customLogo'] = "";
 
-
 # Service for avatar attach
 # Use variable {username} for get name of the player
 $config['urlServiceAvatar'] = "https://crafatar.com/renders/head/{username}";
 
 # Service for avatar in menu
 $config['urlServiceAvatarMenu'] = "https://crafatar.com/avatars/{username}";
+
+#     Notify system
+#     Ajax time for check (millisecond)
+#     10000 = 10 seconds
+#     20000 = 20 seconds ecc..
+$config['notify-request'] = 10000;
 
 ?>

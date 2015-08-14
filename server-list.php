@@ -21,16 +21,12 @@
 require_once("inc/heart.inc.php");
 $RGWeb->getHeader("Servers");
 ?>
-
-<div class="container">
-  <h2>Servers
-    <span class="right">
-      <a href="add-server.php"><button class="button-primario right"><i class="fa fa-plus"></i> Add server</button></a>
-    </span>
-  </h2>
-  <?= $RGWeb->getServerList(); ?>
-</div>
-
+<h2>Servers
+  <span class="right">
+    <a href="add-server.php"><button class="button-primario right"><i class="fa fa-plus"></i> Add server</button></a>
+  </span>
+</h2>
 <?php
+$RGWeb->getServerList();
 $RGWeb->getFooter();
 ?>

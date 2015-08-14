@@ -67,7 +67,7 @@ if($this->isLogged() == true)
       <p class="benvenuto-text">
         Welcome Back. Login please
       </p>
-      <form action="index.php" method="post" >
+      <form enctype="application/x-www-form-urlencoded" action="index.php" method="post" >
         <input placeholder="Username" type="text" name="gdsmrfgm" />
         <input placeholder="Password" type="password" name="gdsmrfgdm" />
         <input type="submit" value="Login" name="bfghca" />

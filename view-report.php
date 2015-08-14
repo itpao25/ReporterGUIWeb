@@ -20,12 +20,11 @@
 
 require_once("inc/heart.inc.php");
 $RGWeb->getHeader("View report", true);
-?>
-<div class="container">
-<br />
-<?php
-if(isset( $_GET['id'] ))
 
+// Report single
+if(isset( $_GET['id'] ) && !isset( $_GET['server'])):
+
+  // Check report exists
   if($RGWeb->isReportExist($_GET['id'])) {
 
     $ID = strip_tags($_GET['id']);
@@ -60,11 +59,40 @@ if(isset( $_GET['id'] ))
   } else {
     print "<div class='container messaggio-errore'>Report not found!</div>";
   }
+elseif(isset( $_GET['server'] )):
 
-else
+  // View all report for server
+  // Check server is exists
+  if($RGWeb->isServerExists( $_GET['server'] )):
+    $server = $RGWeb->escape_html( $_GET['server'] );
+    print "<h2 style=\"border-bottom: 1px solid #E6E6E6;\">Server {$server} - list of reports <a class=\"title-list-reports\" href=\"edit-server.php?name={$server}\">Edit server <i class=\"fa fa-pencil\"></i></a></h2>";
+    # Pagination
+    $page = (!isset($_GET[ 'page' ])) ? 1 : $_GET[ 'page' ];
+    # Sort
+    $sort = (!isset($_GET[ 'sort' ])) ? "ID" : $_GET[ 'sort' ];
+    # Order by
+    $order = (!isset($_GET[ 'order' ])) ? "DESC" : $_GET[ 'order' ];
+    # Number display reports for page
+    $maxint = (!isset($_GET[ 'maxint' ])) ? 20 : $_GET[ 'maxint' ];
+
+    # Search query
+    $search = (!isset($_GET[ 'search' ]) || !isset($_GET[ 'keywords' ])) ? null : array($_GET[ 'search' ], $_GET[ 'keywords' ]);
+
+    # Send options
+    $option = $arrayName = array('page' => $page, 'sort' => $sort, 'order' => $order, 'maxint' => $maxint);
+
+    if($search != null):
+      $option['search'] = $search[0];
+      $option['keywords'] = $search[1];
+    endif;
+      $RGWeb->outputReportServer($server, $option);
+    else:
+      print "<br /><div class=\"messaggio-errore\">This server does not exist!</div>";
+    endif;
+else:
 print "<div class='container messaggio-errore'>Report not found!</div>";
-?>
-</div>
-<?php
+endif;
+
+
 $RGWeb->getFooter();
 ?>

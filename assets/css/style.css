@@ -3,6 +3,8 @@
 /*      La notte e' solo la fine del giorno, seriously?          */
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Exo);
+
 * {
   outline: none !important;
 }
@@ -14,6 +16,7 @@ body, html {
   margin: 0px;
   height: 100%;
   font-family: 'Open Sans', sans-serif!important;
+  background-color: #F5F5F5;
 }
 div.header {
   height: 115px;
@@ -64,6 +67,10 @@ div.navbar nav > a.active {
   margin-left: auto;
   word-wrap: break-word;
 }
+.container-principale {
+  background-color: #fff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -94,7 +101,6 @@ footer {
   box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
   background: #2E2E2E none repeat scroll 0% 0%;
   height: 50px;
-  margin-top: 20px;
 }
 .container-footer {
   padding: 15px;
@@ -119,7 +125,7 @@ div.list-server-dash > div.container-list-server {
 .list-server-dash .list-server-dash_name {
   margin: 3px 0px 10px;
   padding: 10px;
-  box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
   height: 420px;
   border-left: 1px solid #E0E0E0;
 }
@@ -329,4 +335,74 @@ tr.list-server-table {
 }
 h2.h2-head {
   border-bottom: 1px solid #E6E6E6;;
+}
+.container-nav {
+  background-color: #F5F5F5;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.title-list-reports {
+  float: right;
+  color: #333 !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  font-size: 15px;
+  line-height: 40px;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+}
+.filter-reports-list {
+  border-left: 2px solid #2FB455;
+  background-color: #F1F1F1;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  color: #878585;
+  padding: 10px;
+  height: 180px;
+}
+.filter-reports-list h4 {
+  margin: 0px;
+  color: #006400;
+}
+.filter-reports-list .select-filter {
+  width: 250px;
+  float: left;
+  margin-left: 15px;
+  color: #006400;
+}
+.filter-reports-list input[type="submit"] {
+  float: right;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 1px solid #50C24E;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #90EE90;
+  cursor: pointer;
+  color: #006400;
+  transition: box-shadow 0.15s ease-in-out 0s;
+  width: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: "Open Sans",sans-serif !important;
+  font-size: 15px;
+}
+.filter-reports-list input[type="submit"]:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
+}
+.navigationbar > a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 4px;
+  border: solid 1px #c0c0c0;
+  background: #e9e9e9;
+  box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
+  text-decoration: none;
+  color: #717171;
+  text-shadow: 0px 1px 0px rgba(255,255,255, 1);
+}
+.navigationbar > a.active {
+  font-weight: bold;
 }

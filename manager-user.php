@@ -33,7 +33,7 @@ if($RGWeb->getGroup->isAdmin() == false) {
 * @param id ? user
 * @param action
 */
-print "<div class=\"container\">";
+
 if(isset($_GET['id'])):
 
   if($RGWeb->getGroup->isUserIDExits($_GET['id']) == false) die($RGWeb->getUtily->userNotExists());
@@ -157,7 +157,6 @@ else:
   print $RGWeb->getUtily->userNotExists();
 endif;
 
-print "</div>";
 print "</div>";
 print "</div>";
 print "</div>";

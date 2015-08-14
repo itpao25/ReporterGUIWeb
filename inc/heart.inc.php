@@ -26,6 +26,13 @@
 *
 *	This project is created in Italy, many comments were written in Italian for
 *	allow to better manage the code
+* 1.5
+* - V Added notification for new report (In real time with sound notify!)
+* - You can set a time (es. milliseconds) to check in real time of the last report (for notifications)
+* - Added list of report with options for order data reports
+* - New is possibile delete / change status of report directly from the panel
+* - Now you can set the server that one staffer can manage
+* -
 * 1.4
 * - You can now edit the group and password of a user (Only you can change the user ID 1 being logged in with that)
 * - Users on the list are now willing through Id from lowest to highest
@@ -45,10 +52,10 @@ define("RG_INSTALL", dirname(dirname(__FILE__)). "/install", true);
 Class ReporterGUI
 {
 
-	// Load class variable
 	public $getUtily;
 	public $getGroup;
 	public $getUpdate;
+	public $getNotify;
 
 	private $mysqli = false;
 
@@ -58,6 +65,7 @@ Class ReporterGUI
 		$this->getUtily = $load->getUtily();
 		$this->getGroup = $load->getGroup();
 		$this->getUpdate = $load->getUpdate();
+		$this->getNotify = $load->getNotify();
 
 		/* Controllo se è stato installato nel mysql */
 		$this->makeDB();
@@ -70,28 +78,21 @@ Class ReporterGUI
 	function __destruct() {
 		/* Chiudo la connessione al database */
 		if($this->mysqli != false)
-			$this->mysqli->close();
+		$this->mysqli->close();
 	}
 
 	/**
 	* Mysql management
 	*/
 	public function openConMysql() {
-
-
 		$mysql_host = $this->getConfig("mysql-host");
 		$mysql_user = $this->getConfig("mysql-user");
 		$mysql_password = $this->getConfig("mysql-password");
 		$mysql_namedb = $this->getConfig("mysql-databaseName");
 		$mysql_getPort = $this->getConfig("mysql-port");
-
 		$this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort);
-
-
 		//if(!$this->mysqli == false) die("Errore nello stabilire una connessione al database");
-
 		return $this->mysqli;
-
 	}
 
 	/**
@@ -111,17 +112,15 @@ Class ReporterGUI
 	* For safety issue should be removed mandatorily
 	*/
 	public function makeDB() {
-
 		$val = $this->getConfig("installed-sec");
 		if($val == false):
 			$this->getUtily->messageInstall();
 		else:
-
 			if($this->mysqli == false) $this->openConMysql();
 
-			$query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_servers'");
-			$query2 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_login'");
-			$query3 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_logs'");
+				$query = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_servers'");
+				$query2 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_login'");
+				$query3 = $this->runQueryMysql("SHOW TABLES LIKE 'webinterface_logs'");
 
 			if($query->num_rows !=1 || $query2->num_rows !=1 || $query3->num_rows !=1)
 			{
@@ -135,12 +134,12 @@ Class ReporterGUI
 			} else
 			{
 				if($this->folder_exist(RG_INSTALL))
-					$this->getUtily->messageInstallFolder();
+				$this->getUtily->messageInstallFolder();
 
 			}
-
 		endif;
 	}
+
 	/**
 	* Run query from mysql
 	*/
@@ -182,7 +181,7 @@ Class ReporterGUI
 	*/
 	public function getHomeIndex() {
 
-		$this->getHeader("Dashboard");
+	$this->getHeader("Dashboard");
 		require_once("index.inc.php");
 		$this->getFooter();
 
@@ -202,14 +201,14 @@ Class ReporterGUI
 
 		print "
 		<table style=\"width:100%\">
-			<thead>
-				<tr>
-					<td><b>Name</b></td>
-					<td><b>Total report</b></td>
-					<td><b>Complete</b></td>
-					<td><b>Waiting</b></td>
-				</tr>
-			</thead>";
+		<thead>
+		<tr>
+		<td><b>Name</b></td>
+		<td><b>Total report</b></td>
+		<td><b>Complete</b></td>
+		<td><b>Waiting</b></td>
+		</tr>
+		</thead>";
 
 		$num = $list->num_rows;
 
@@ -221,16 +220,16 @@ Class ReporterGUI
 			<td></td>
 			</tr>";
 
-		while($row = $list->fetch_array()) {
+			while($row = $list->fetch_array()) {
 
 			// Process each row
 			// Valori presi dalla tabella `reporter` utilizzando le funzioni pubbliche
 			print "
-			<tr class=\"list-server-table\" data-href=\"edit-server.php?name={$row['name']}\">
-				<td>{$row['name']}</td>
-				<td>{$this->getTotalReport($row['name'])}</td>
-				<td>{$this->getCompleteReport($row['name'])}</td>
-				<td>{$this->getWaitingReport($row['name'])}</td>
+			<tr class=\"list-server-table\" data-href=\"view-report.php?server={$row['name']}\">
+			<td>{$row['name']}</td>
+			<td>{$this->getTotalReport($row['name'])}</td>
+			<td>{$this->getCompleteReport($row['name'])}</td>
+			<td>{$this->getWaitingReport($row['name'])}</td>
 			</tr>";
 
 		}
@@ -287,7 +286,7 @@ Class ReporterGUI
 		$totali = $list->num_rows;
 
 		if($totali == 0) {
-				print "<a class=\"link_clear\" href=\"add-server.php\">No server present, add one?</a>";
+			print "<a class=\"link_clear\" href=\"add-server.php\">No server present, add one?</a>";
 		}
 
 		for($i = 1; $row = $list->fetch_array(); $i++) {
@@ -302,22 +301,25 @@ Class ReporterGUI
 
 			print "
 				<div class=\"list-server-dash_name\">
-					<h3>{$row['name']}
-						<span class=\"edit-serverlist-dash\">
-							<a href=\"edit-server.php?name={$row['name']}\">
-								<i class=\"fa fa-pencil\"></i>
-							</a>
-						</span>
-					</h3>";
+				<h3>
+					<a href=\"view-report.php?server={$row['name']}\">
+					{$row['name']}
+					</a>
+					<span class=\"edit-serverlist-dash\">
+					<a href=\"edit-server.php?name={$row['name']}\">
+					<i class=\"fa fa-pencil\"></i>
+					</a>
+					</span>
+				</h3>";
 
 			/* Uso la funzione per convertire gli spazi in <br /> tag html */
 			print nl2br("Total report: <b>{$this->getTotalReport($row['name'])}</b>
-				Report resolved: <b>{$this->getCompleteReport($row['name'])}</b>
-				Waiting report: <b>{$this->getWaitingReport($row['name'])}</b>");
+			Report resolved: <b>{$this->getCompleteReport($row['name'])}</b>
+			Waiting report: <b>{$this->getWaitingReport($row['name'])}</b>");
 
 			$this->getLastReportHtmlIndex($row['name'], 5);
 			print "
-				</div>
+			</div>
 			</div>";
 
 
@@ -330,15 +332,14 @@ Class ReporterGUI
 				print "
 				<div class=\"container-list-server\"></div>";
 				$i++;
-
 				// Controllo se aggiungendo comunque un campo resta non multiplo di 3
 				// Quindi 3 / 1 disponibili
-				if($i % 3 != 0) {
+				if($i % 3 != 0)
+				{
 					print "
 					<div class=\"container-list-server\"></div>";
 					$i++;
 				}
-
 			}
 
 			/* Controllo se il valore $i non è 1 ed è multiplo di 4, perchè deve essere usato solo per il footer del div */
@@ -351,11 +352,11 @@ Class ReporterGUI
 	}
 
 	/**
-	 * Get last report html for index
-	 *
-	 * @param name Nome del server
-	 * @param num Numero di ultimi report da visualizzare
-	 */
+	* Get last report html for index
+	*
+	* @param name Nome del server
+	* @param num Numero di ultimi report da visualizzare
+	*/
 	public function getLastReportHtmlIndex($name, $num) {
 
 		$name = mysqli_real_escape_string($this->mysqli, $name);
@@ -388,7 +389,7 @@ Class ReporterGUI
 
 	/* Function private to get config data
 	*/
-	private function getConfig($conf, $pos = null) {
+	public function getConfig($conf, $pos = null) {
 
 		/* Check the position of the file */
 		if($pos == "root" || $pos == null):
@@ -535,7 +536,7 @@ Class ReporterGUI
 
 		if(!empty($username) && !empty($salt) && !empty($saltID)) {
 
-			/* Creo la sessione per l'utente */
+		/* Creo la sessione per l'utente */
 			$_SESSION['rg_username'] = $username;
 			$_SESSION['rg_sessionSalt'] = $salt;
 			$_SESSION['rg_sessionId'] = $saltID;
@@ -552,21 +553,21 @@ Class ReporterGUI
 	/* Get id user logged*/
 	public function getIDLogged() {
 
-    $username = $this->real_escape_string($_SESSION['rg_username']);
-    $query = $this->runQueryMysql("SELECT ID, username FROM `webinterface_login` WHERE username='{$username}'");
-    $row = mysqli_fetch_assoc($query);
+		$username = $this->real_escape_string($_SESSION['rg_username']);
+		$query = $this->runQueryMysql("SELECT ID, username FROM `webinterface_login` WHERE username='{$username}'");
+		$row = mysqli_fetch_assoc($query);
 
-    return $row['ID'];
+		return $row['ID'];
 	}
 
 	/* Get group user */
 	public function getGroupUser($username) {
 
-    $username = $this->real_escape_string($username);
-    $query = $this->runQueryMysql("SELECT ID, permission FROM `webinterface_login` WHERE ID='{$username}'");
-    $row = mysqli_fetch_assoc($query);
+		$username = $this->real_escape_string($username);
+		$query = $this->runQueryMysql("SELECT ID, permission FROM `webinterface_login` WHERE ID='{$username}'");
+		$row = mysqli_fetch_assoc($query);
 
-    return $row['permission'];
+		return $row['permission'];
 	}
 
 	/**
@@ -591,12 +592,10 @@ Class ReporterGUI
 			{
 				return true;
 			} else {
-
 				/* If key is not valid, unset all session (and prevent error) */
 				unset($_SESSION['rg_username']);
 				unset($_SESSION['rg_sessionId']);
 				unset($_SESSION['rg_sessionSalt']);
-
 			}
 		}
 		return false;
@@ -697,7 +696,7 @@ Class ReporterGUI
 			$this->addLogs("Server added ({$name})");
 
 			print "Server successfully added!";
-			return true;
+				return true;
 		}	else {
 			echo "Please fill the required fields (name)";
 			return false;
@@ -730,7 +729,7 @@ Class ReporterGUI
 
 		/* Check user logged is admin */
 		if($this->getGroup->isAdmin() == false) {
-				return;
+		return;
 		}
 		$name = mysqli_real_escape_string($this->mysqli, $name);
 		$this->addLogs("Deleted server ({$name})");
@@ -828,7 +827,7 @@ Class ReporterGUI
 
 		// Sicurezza all'interno della funzione, utilizzata in caso di escape della prima
 		if($this->isLogged() == false) {
-		  return false;
+			return false;
 		}
 
 		$name = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
@@ -838,13 +837,13 @@ Class ReporterGUI
 		{
 			// Checking if the users already exists
 			$check = $this->runQueryMysql("SELECT username FROM webinterface_login WHERE username='{$name}'");
-
 			if($check->num_rows > 0)
 			{
 				print "The user already exists!";
 				return false;
 			}
-			if($this->getGroup->getGroupID($permission) == 0) {
+			if($this->getGroup->getGroupID($permission) == 0)
+			{
 				print "Error to check group user!";
 				return false;
 			}
@@ -878,11 +877,11 @@ Class ReporterGUI
 		return $this->runQueryMysql("DELETE FROM webinterface_login WHERE ID={$uque}");
 	}
 
-	/* Log manager */
+	# Log manager
+	/* Table log */
 	private function getTableLog() {
 		return "webinterface_logs";
 	}
-
 	/* Add logs to mysql*/
 	public function addLogs($action) {
 
@@ -901,13 +900,241 @@ Class ReporterGUI
 
 	}
 
- }
+	/**
+	* Get all report for server
+	* Called in view-report.php
+	* @since 1.5
+	* @param name - name of server for get all reports
+	* @param option - option for filter / order reports
+	*/
+	public function outputReportServer($name, $option = null) {
 
-/**
-* Gestione dei log per il login
-* @param stringa
-*/
+		// Default option
+		static $DEFAULT_OPTION_SORT = array("ID", "PlayerReport","PlayerFrom", "Reason", "WorldReport", "WorldFrom", "Time", "status");
+		static $DEFAULT_OPTION_ORDER = array("ASC","DESC");
+		static $DEFAULT_OPTION_MAXINT = array(20, 50, 100, 200);
 
+		// Controllo se il nome corrisponde ad un server
+		if($this->isServerExists( $name ) == false) return;
+
+		// Escape name
+		$name = $this->real_escape_string($name);
+
+		// Controllo se le opzioni della funzioni non sono nulle
+		// Per prevenire errori
+		$isOptions = is_array( $option ) || is_object( $option ) && $option != null;
+		if( $isOptions ) {
+
+			// UHM, c'è un pò di confusione qua? LOL
+
+			# Options
+			$page = isset($option['page']) && is_numeric($option['page']) ? $option['page'] : 1;
+			$sort = in_array($option['sort'], $DEFAULT_OPTION_SORT) ? $option['sort'] : "ID";
+			$order = in_array($option['order'], $DEFAULT_OPTION_ORDER) ? $option['order'] : "DESC";
+			$reportPerPage = is_numeric($option['maxint']) && in_array($option['maxint'], $DEFAULT_OPTION_MAXINT) ? $option['maxint'] : 20;
+			# Search query
+			$isSearch = isset($option['search']) && in_array($option['search'], $DEFAULT_OPTION_SORT) && isset($option['keywords']) ? true : false;
+			$search = isset($option['search']) && in_array($option['search'], $DEFAULT_OPTION_SORT) ? $option['search'] : null;
+			# keywords for search
+			$keywords = isset($option['keywords']) ? $option['keywords'] : null;
+
+			# Pagination
+			$escape_search = $this->real_escape_string($keywords);
+			$escape_page = $this->real_escape_string($page);
+			$primisReportPerPage = $reportPerPage * ($escape_page - 1);
+
+			if($isSearch != true) {
+				$query = "SELECT * FROM `reporter` WHERE server='{$name}' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
+			} else {
+				# Query for search reports
+				/* Check if search type is ID and Keyword is not a number */
+				if($search == "ID" && !is_numeric($escape_search)) print "<div class=\"messaggio-errore\">You can only enter a number for the id field!</div><br/>";
+
+				$query = "SELECT * FROM `reporter` WHERE server='{$name}' AND {$search} LIKE '%".$escape_search."%' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
+			}
+			$report = $this->runQueryMysql($query);
+
+			// Int total report for server
+			$total = $this->getTotalReport($name);
+
+			# Funzione per ordinare i report
+			# Riordino la colonna per sort
+			if($total != 0):
+
+				print "<div class=\"filter-reports-list\">";
+				print "<h4>Filter reports</h4><br />";
+				print "<form method=\"GET\" action=\"view-report.php\">";
+				print "<div style=\"margin-left: 0px\" class=\"select-filter\">";
+				print "Sort: <select name=\"sort\">";
+				foreach($DEFAULT_OPTION_SORT as $key)
+				{
+					if($sort == $key):
+						echo "<option value=\"$key\" selected =\"selected\"> $key </option>";
+					else:
+						echo "<option value=\"$key\"> $key </option>";
+					endif;
+				}
+				print "</select></div>";
+				# Riordino la colonna per order
+				print "<div class=\"select-filter\">";
+				print "Order by: <select name=\"order\" >";
+				foreach($DEFAULT_OPTION_ORDER as $key)
+				{
+					if($order == $key):
+						echo "<option value=\"$key\" selected =\"selected\"> $key </option>";
+					else:
+						echo "<option value=\"$key\"> $key </option>";
+					endif;
+				}
+				print "</select></div>";
+				# Numero dei report per pagina
+				print "<div class=\"select-filter\">";
+				print "View reports for page: <select name=\"maxint\">";
+				foreach($DEFAULT_OPTION_MAXINT as $key)
+				{
+					print $key;
+					if($reportPerPage == $key):
+						echo "<option value=\"$key\" selected =\"selected\"> $key </option>";
+					else:
+						echo "<option value=\"$key\"> $key </option>";
+					endif;
+				}
+				print "</select></div>";
+				print "<input type=\"hidden\" name=\"server\" value=\"{$name}\">";
+				print "<input type=\"hidden\" name=\"page\" value=\"{$escape_page}\">";
+				if($isSearch == true) {
+					print "<input type=\"hidden\" name=\"search\" value=\"{$search}\">";
+					print "<input type=\"hidden\" name=\"keywords\" value=\"{$escape_search}\">";
+				}
+				print "<input type=\"submit\" value=\"Apply\" />";
+				print "</form>";
+				print "</div>";
+				endif;
+
+			// Navigation bar
+			// Ciclo che permette di aggiungere alla variabile nav il
+			// contenuto del menu che dovrà essere mostrato per la barra di navigazione
+			$int = $report->num_rows;
+
+			if($total != 0):
+				$nav = "<div class=\"container-nav\"><div class=\"navigationbar\">";
+				/* Il valore int $total / $reportPerPage equivale al numero totale di report per il numero massimo di visualizzazioni nella pagina*/
+				$num = ceil($total / $reportPerPage);
+
+				// Link for next / prev page
+				$url = $this->getUtily->selfURL();
+				$newurl = preg_replace("/&page=[0-9]+/", "", $url);
+
+				if($escape_page - 1) {
+					$pag = $escape_page -1;
+					$nav .= "<a href='{$newurl}&page={$pag}'>Prev</a>";
+				}
+				for ($i = 1; $i <= ceil($total / $reportPerPage); $i++) {
+					$nav .= ($i != $escape_page ) ? "<a href='{$newurl}&page={$i}'>{$i}</a>": "<a class=\"active\" href='{$newurl}&page={$i}'>{$i}</a>";
+				}
+				if($num != $escape_page && $escape_page + 1) {
+					$pag = $escape_page +1;
+					$nav .= "<a href='{$newurl}&page={$pag}'>Next</a>";
+				}
+
+				$nav .= "</div></div>";
+				print $nav;
+			endif;
+
+		} else
+		{
+			throw new Exception("Le operazioni che sta facendo la funzione outputReportServer() non sono corrette");
+		}
+		$head = "<table style=\"width:100%\">
+		<thead>
+		<tr>
+		<td><b>ID</b></td>
+		<td><b>Player Report</b></td>
+		<td><b>By</b></td>
+		<td><b>Reason</b></td>
+		<td><b>Time</b></td>
+		<td><b>In world (reported)</b></td>
+		<td><b>In world (by)</b></td>
+		<td><b>Status</b></td>
+		</tr>
+		</thead>";
+		print $head;
+
+		$num = 0;
+		while($row = $report->fetch_array())
+		{
+			$reason = strip_tags($row['Reason']);
+			$html = "<tr class=\"list-server-table\" data-href=\"view-report.php?id={$row['ID']}\">";
+			$html .= "<td>{$row['ID']}</td>";
+			$html .= "<td>{$row['PlayerReport']}</td>";
+			$html .= "<td>{$row['PlayerFrom']}</td>";
+			$html .= "<td>{$reason}</td>";
+			$html .= "<td>{$row['Time']}</td>";
+			$html .= "<td>{$row['WorldReport']}</td>";
+			$html .= "<td>{$row['WorldFrom']}</td>";
+			$html .= "<td>{$row['status']}</td>";
+			$html .= "</tr>";
+
+			print $html;
+			$num++;
+		}
+		if($num == 0) {
+			// No report found
+			print "<tr class=\"list-server-table\" >
+			<td >No report present</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>";
+		}
+		print "</table>";
+
+		if($total != 0):
+			/* Navigation bar */
+			print $nav;
+		endif;
+		/* Form for search report */
+		if($total != 0):
+			print $this->searchReportListServer($name, $search, $keywords);
+		endif;
+	}
+
+	/**
+	* Form for search reports (using in function outputReportServer)
+	* @since 1.5
+	*/
+	private function searchReportListServer($server, $type = null, $keywords = null) {
+		static $DEFAULT_OPTION_SORT = array("ID", "PlayerReport","PlayerFrom", "Reason", "WorldReport", "WorldFrom", "Time", "status");
+		print "<br /><div class=\"filter-reports-list\">";
+		print "<h4>Search report</h4><br />";
+		print "<form method=\"GET\" action=\"view-report.php\" >";
+		# Search for columbs
+		print "<select style=\"width: 300px;display: inline;\" name=\"search\" >";
+		foreach($DEFAULT_OPTION_SORT as $key)
+		{
+			echo "<option value=\"$key\"> $key </option>";
+			if($type != null):
+				if($type == $key):
+					echo "<option value=\"$key\" selected =\"selected\" > $key </option>";
+				endif;
+			endif;
+		}
+		print "</select>";
+		# Keywords
+		if($keywords != null) {
+			$placeholder = $keywords;
+		} else {
+			$placeholder = "Keywords";
+		}
+		print "<input style=\"display: inline;width: 838px;margin-left: 10px;\" type=\"text\" name=\"keywords\" placeholder=\"{$placeholder}\"/>";
+		# Server
+		print "<input type=\"hidden\" name=\"server\" value=\"{$server}\" />";
+		# Submit button
+		print "<input type=\"submit\" value=\"Search\" />";
+		print "</form>";
+		print "</div>";
+	}
+}
 $RGWeb = new ReporterGUI();
 
 /* Carico altre classi passando dal class root (ReporterGUI) */
@@ -938,7 +1165,14 @@ Class loadClass
 		include("update.inc.php");
 		return $RGUpdate;
 	}
-
+	/**
+	* Load the class for notify
+	* @since 1.5
+	*/
+	function getNotify() {
+		include("notify.inc.php");
+		return $Notify;
+	}
 }
 
 $ClassLoader = new loadClass();

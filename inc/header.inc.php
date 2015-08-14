@@ -28,10 +28,13 @@ if($this->isLogged() == false) {
 		<meta charset="utf-8">
 		<title><?= $Pos ?> - <?=$this->getConfig("pageName") ?></title>
 		<link href="assets/css/style.css" rel="stylesheet">
-		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+		<script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+		<script src="assets/js/notify/jquery.noty.packaged.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
 		<script src="assets/js/default.js"></script>
+		<script>
+		</script>
 	</head>
 	<body>
 		<div class="header">
@@ -49,6 +52,7 @@ if($this->isLogged() == false) {
 					<a> <img class="avatar-menu" src="<?= $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?= $this->getUsername(); ?></a>
 					<a id="menu-Dashboard" href="index.php">Dashboard</a>
 					<a id="menu-Servers" href="server-list.php">Server list</a>
+					<a  onclick="openNotify(1, 'hub', 'itpao25', 'hack')" >test</a>
 					<!-- Admin menu -->
 					<?= $this->getGroup->getMenuGroup(); ?>
 					<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>
@@ -63,3 +67,6 @@ if($this->isLogged() == false) {
 			getMenuItem("<?= $Pos; ?>");
 		</script>
 		<?php endif; ?>
+		<!-- Container  -->
+		<div class="container-principale container">
+			<br />

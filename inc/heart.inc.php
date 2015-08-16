@@ -246,6 +246,7 @@ Class ReporterGUI
 	* @return int
 	*/
 	public function getTotalReport($name) {
+		$name = $this->real_escape_string($name);
 		$int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."'");
 		return $int->num_rows;
 	}
@@ -257,6 +258,7 @@ Class ReporterGUI
 	* @return int
 	*/
 	public function getCompleteReport($name) {
+		$name = $this->real_escape_string($name);
 		$int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='2'");
 		return $int->num_rows;
 	}
@@ -267,6 +269,7 @@ Class ReporterGUI
 	* @return int
 	*/
 	public function getWaitingReport($name) {
+		$name = $this->real_escape_string($name);
 		$int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='1'");
 		return $int->num_rows;
 	}

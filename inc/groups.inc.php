@@ -183,6 +183,7 @@ Class RGroups
   * @return [2] = lastlogin
   * @return [3] = lastIP
   * @return [4] = Group
+  * @return [5] = ifNotify
   */
   public function getDetailsUser($id, $check = null)
   {
@@ -202,8 +203,9 @@ Class RGroups
     $lastlogin = $queryArray['lastlogin'];
     $lastIP = $queryArray['lastIP'];
     $group = $queryArray['permission'];
+    $lastIp = $RGWeb->getNotify->isNotifyEnable();
 
-    return array ($id, $username, $lastlogin, $lastIP, $group);
+    return array ($id, $username, $lastlogin, $lastIP, $group, $lastIp);
   }
 
   /**

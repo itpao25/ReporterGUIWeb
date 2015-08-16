@@ -49,10 +49,10 @@ if($this->isLogged() == false) {
 		<div class="navbar">
 			<div class="container">
 				<nav>
-					<a> <img class="avatar-menu" src="<?= $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?= $this->getUsername(); ?></a>
+					<a> <img class="avatar-menu" src="<?= $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?= $this->getUsername(); ?> </a>
 					<a id="menu-Dashboard" href="index.php">Dashboard</a>
 					<a id="menu-Servers" href="server-list.php">Server list</a>
-					<a  onclick="openNotify(1, 'hub', 'itpao25', 'hack')" >test</a>
+					<a id="menu-Settings" href="manager-user.php?settings">Settings</a>
 					<!-- Admin menu -->
 					<?= $this->getGroup->getMenuGroup(); ?>
 					<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>

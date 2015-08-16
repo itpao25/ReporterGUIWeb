@@ -34,10 +34,10 @@ $config['urlServiceAvatar'] = "https://crafatar.com/renders/head/{username}";
 # Service for avatar in menu
 $config['urlServiceAvatarMenu'] = "https://crafatar.com/avatars/{username}";
 
-#     Notify system
-#     Ajax time for check (millisecond)
-#     10000 = 10 seconds
-#     20000 = 20 seconds ecc..
+# Notify system
+# Ajax time for check (millisecond)
+# 10000 = 10 seconds
+# 20000 = 20 seconds ecc..
 $config['notify-request'] = 10000;
 
 ?>

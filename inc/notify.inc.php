@@ -39,6 +39,13 @@ Class RGNotify
     $row = mysqli_fetch_assoc($query);
 		return $row['ifNotify'];
   }
+  /* Upload status for sound-notify  */
+  public function setNotifySoundStatus($boolean) {
+    global $RGWeb;
+    $id = $RGWeb->getIDLogged();
+    $booelan = $boolean =="1" || $boolean =="0" ? $boolean : "1";
+    $query = $RGWeb->runQueryMysql("UPDATE `webinterface_login` SET `ifNotify` = '{$boolean}' WHERE `webinterface_login`.`ID` ={$id}");
+  }
 }
 
 $Notify = new RGNotify();

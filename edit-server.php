@@ -40,22 +40,19 @@ if(isset($_GET['name']) && !isset($_GET['m']))
   {
     $server = $RGWeb->escape_html($_GET['name']);
     ?>
-    <div class="container">
-      <div class="row">
-        <div class="colonna_50">
-          <h2 style="border-bottom: 1px dashed #808080" >Edit server <?= $server; ?></h2>
-          <div class="box-informazioni">
-            <h2><i class="fa fa-pie-chart"></i> Information</h2>
-            Total report: <?= $RGWeb->getTotalReport($server); ?><br />
-            Report complete: <?= $RGWeb->getCompleteReport($server); ?><br />
-            Report waiting: <?= $RGWeb->getWaitingReport($server); ?><br />
-          </div>
-          <br />
-          <a href="edit-server.php?name=<?= $server ?>&m=delete&key=<?= $RGWeb->getKeyID(); ?>"><button class="button-primario">Delete server</button></a>
+    <div class="row">
+      <div class="colonna_50">
+        <h2 style="border-bottom: 1px dashed #808080" >Edit server <?= $server; ?></h2>
+        <div class="box-informazioni">
+          <h2><i class="fa fa-pie-chart"></i> Information</h2>
+          Total report: <?= $RGWeb->getTotalReport($server); ?><br />
+          Report complete: <?= $RGWeb->getCompleteReport($server); ?><br />
+          Report waiting: <?= $RGWeb->getWaitingReport($server); ?><br />
         </div>
+        <br />
+        <a href="edit-server.php?name=<?= $server ?>&m=delete&key=<?= $RGWeb->getKeyID(); ?>"><button class="button-primario">Delete server</button></a>
       </div>
     </div>
-
     <?php
   } else {
 
@@ -84,7 +81,7 @@ if(isset($_GET['name']) && !isset($_GET['m']))
         if($RGWeb->getGroup->isAdmin() == false) {
           die($RGWeb->getUtily->messageNoPermission());
         }
-        
+
         if(isset($_GET['key'])):
 
           if($RGWeb->checkKeyID($_SESSION['rg_username'], $_GET['key']))

@@ -20,7 +20,7 @@
 *
 *	Classe principale per la gestione delle pagine
 *	Main class for the management of pages
-*test
+*
 *	Questo progetto è creato in italia, molti commenti sono stati scritti in italiano per
 *	permettere di gestire meglio il codice
 *

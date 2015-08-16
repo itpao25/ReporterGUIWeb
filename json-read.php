@@ -37,8 +37,8 @@ header('Content-Type: application/json');
 
 if(isset($_GET['uid']) && isset($_GET['action'])):
 
-	switch ($_GET['action']) {
-		case 'notify':
+  switch ($_GET['action']) {
+    case 'notify':
 
 			if(!intval($_GET['uid'])) die();
 			/* Check get id is equal for user id logged */
@@ -71,7 +71,7 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 			}
 			$currentDataServer = currentDataServer();
 
-			$arrayNew = array("report" => array());
+      $arrayNew = array("report" => array());
 			$arrayResult = array("result" => array());
 
 			// New report int
@@ -93,17 +93,19 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 				foreach (currentDataUser() as $rowa)
 				{
 					if(!isset($rowa[$id])) {
-					// Found new report
+						// Found new report
 						$arrayResult[ "result" ] [ $int ] = array("ID" => $id, "view" => true,"time" => $time,"server" => $server, "player" => $player, "reason" => $reason);
 						$newint++;
 					}
 					$int++;
-					}
-					// No reports new found
-					if($newint == 0) {
-						$arrayResult[ "result" ] [ "not-found" ] = true;
-					}
-					$arrayNew[ "report" ] [ $id ] = "true";
+				}
+
+				// No reports new found
+				if($newint == 0) {
+					$arrayResult[ "result" ] [ "not-found" ] = true;
+				}
+
+				$arrayNew[ "report" ] [ $id ] = "true";
 			}
 
 			/* Update json status for user */
@@ -120,10 +122,10 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 			print $json_string;
 
 			break;
-		default:
-		# code...
-			break;
-	}
+    default:
+      # code...
+      break;
+  }
 
 endif;
 

@@ -85,6 +85,9 @@ if(isset($_GET['id'])):
     <!-- Salvataggio delle modifiche -->
     <input name="editUser-submit" type="submit" class="button-primario" value="Save" />
   </form>
+  </div>
+  </div>
+  </div>
   <script type="text/javascript">
     $("form").submit(function() {
       var url = "manager-user.php?id=<?= $user[0] ?>";
@@ -152,14 +155,59 @@ if(isset($_GET['id'])):
     }
 
   endif;
+elseif(isset($_GET['settings'])):
 
+  $info = $RGWeb->getGroup->getDetailsUser($RGWeb->getIDLogged(), true);
+  $current = $info[5];
+
+  // Update status of notify
+  if(isset($_POST['enable-sound'])) {
+     $RGWeb->getNotify->setNotifySoundStatus($_POST['enable-sound']);
+  }
+
+?>
+<h2>Change your settings</h2>
+
+<p class="impostazioni-utente-titolo" >
+  You are logged in as <b><?= $info[1] ?></b> - ID <b><?= $info[0] ?></b><br />
+  Last login recorded on <b><?= $info[2] ?></b> with ip <b><?= $info[3] ?></b><br />
+  You are in the group <b><?= $info[4] ?></b>
+</p>
+<br />
+
+<form method="post" action="manager-user.php?settings">
+  <h3 class="impostazioni-utente-titolo" >
+    Enable sound for notify?
+    <a  style="float:right; cursor: pointer" onclick="openNotify(1, 'hub', 'itpao25', 'hack')" >
+      <i class="fa fa-bell-o"></i> Test notify
+    </a>
+  </h3>
+  <select name="enable-sound" style="width: 100px" >
+    <?php
+    if($current == true):
+      echo "<option value=\"1\" selected =\"selected\" > Yes </option>";
+      echo "<option value=\"0\" > No </option>";
+    elseif($current == false):
+      echo "<option value=\"0\" selected =\"selected\" > No </option>";
+      echo "<option value=\"1\" > Yes </option>";
+    endif;
+    ?>
+  </select>
+  <br />
+
+  <input class="impostazioni-utente-salva" type="submit" value="Save" />
+</form>
+<br />
+<script type="text/javascript">
+  if($("#menu-Users").hasClass("active")) {
+    $("#menu-Users").removeClass("active")
+  }
+  $("#menu-Settings").addClass("active");
+</script>
+<?php
 else:
   print $RGWeb->getUtily->userNotExists();
 endif;
-
-print "</div>";
-print "</div>";
-print "</div>";
 
 $RGWeb->getFooter();
  ?>

@@ -1066,22 +1066,24 @@ Class ReporterGUI
     print $head;
 
     $num = 0;
-    while($row = $report->fetch_array())
-    {
-      $reason = strip_tags($row['Reason']);
-      $html = "<tr class=\"list-server-table\" data-href=\"view-report.php?id={$row['ID']}\">";
-      $html .= "<td>{$row['ID']}</td>";
-      $html .= "<td>{$row['PlayerReport']}</td>";
-      $html .= "<td>{$row['PlayerFrom']}</td>";
-      $html .= "<td>{$reason}</td>";
-      $html .= "<td>{$row['Time']}</td>";
-      $html .= "<td>{$row['WorldReport']}</td>";
-      $html .= "<td>{$row['WorldFrom']}</td>";
-      $html .= "<td>{$row['status']}</td>";
-      $html .= "</tr>";
-
-      print $html;
-      $num++;
+    if($report != null) {
+	    while($row = $report->fetch_array())
+	    {
+	      $reason = strip_tags($row['Reason']);
+	      $html = "<tr class=\"list-server-table\" data-href=\"view-report.php?id={$row['ID']}\">";
+	      $html .= "<td>{$row['ID']}</td>";
+	      $html .= "<td>{$row['PlayerReport']}</td>";
+	      $html .= "<td>{$row['PlayerFrom']}</td>";
+	      $html .= "<td>{$reason}</td>";
+	      $html .= "<td>{$row['Time']}</td>";
+	      $html .= "<td>{$row['WorldReport']}</td>";
+	      $html .= "<td>{$row['WorldFrom']}</td>";
+	      $html .= "<td>{$row['status']}</td>";
+	      $html .= "</tr>";
+	
+	      print $html;
+	      $num++;
+	    }
     }
     if($num == 0) {
       // No report found

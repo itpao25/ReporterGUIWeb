@@ -79,7 +79,7 @@ elseif(isset( $_GET['server'] )):
     $search = (!isset($_GET[ 'search' ]) || !isset($_GET[ 'keywords' ])) ? null : array($_GET[ 'search' ], $_GET[ 'keywords' ]);
 
     # Send options
-    $option = $arrayName = array('page' => $page, 'sort' => $sort, 'order' => $order, 'maxint' => $maxint);
+    $option = array('page' => $page, 'sort' => $sort, 'order' => $order, 'maxint' => $maxint);
 
     if($search != null):
       $option['search'] = $search[0];

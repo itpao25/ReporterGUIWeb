@@ -191,15 +191,10 @@ Class _RGUtilities
 	public function userNotExists() {
 		echo "<br /><div class=\"container messaggio-errore\">This user does not exist!!</div>";
 	}
-<<<<<<< HEAD
 
 	/**
 	* Get current url
 	*/
-=======
-	
-	/* Get current url */
->>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 	public function selfURL()
 	{
 		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
@@ -207,7 +202,6 @@ Class _RGUtilities
 		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
 		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 	}
-<<<<<<< HEAD
   public function strleft($s1, $s2) {
 		return substr($s1, 0, strpos($s1, $s2));
 	}
@@ -253,15 +247,5 @@ Class _RGUtilities
 				break;
 		}
 	}
-=======
-  public function strleft($s1, $s2) { return substr($s1, 0, strpos($s1, $s2)); }
-  
-  /* Clean special characters in string */
-	function clean($string) {
-   $string = str_replace(' ', '-', $string);
-   return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
-	}
-	
->>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 }
 ?>

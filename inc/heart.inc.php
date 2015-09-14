@@ -64,8 +64,11 @@ Class ReporterGUI
   public $getGroup;
   public $getUpdate;
   public $getNotify;
+<<<<<<< HEAD
   public $getLang;
   public $getStats;
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 
   private $mysqli = false;
 
@@ -76,7 +79,10 @@ Class ReporterGUI
     $this->getGroup = $load->getGroup();
     $this->getUpdate = $load->getUpdate();
     $this->getNotify = $load->getNotify();
+<<<<<<< HEAD
     $this->getStats = $load->getStats();
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 
     /* Controllo se è stato installato nel mysql */
     $this->makeDB();
@@ -210,7 +216,12 @@ Class ReporterGUI
 
     $list = $this->runQueryMysql("SELECT * FROM `webinterface_servers`");
 
+<<<<<<< HEAD
     print "<table style=\"width:100%\">
+=======
+    print "
+    <table style=\"width:100%\">
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     <thead>
     <tr>
     <td><b>Name</b></td>
@@ -234,7 +245,12 @@ Class ReporterGUI
 
       // Process each row
       // Valori presi dalla tabella `reporter` utilizzando le funzioni pubbliche
+<<<<<<< HEAD
       print "<tr class=\"list-server-table\" data-href=\"view-report.php?server={$row['name']}\">
+=======
+      print "
+      <tr class=\"list-server-table\" data-href=\"view-report.php?server={$row['name']}\">
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
       <td>{$row['name']}</td>
       <td>{$this->getTotalReport($row['name'])}</td>
       <td>{$this->getCompleteReport($row['name'])}</td>
@@ -244,6 +260,11 @@ Class ReporterGUI
     }
 
     print "</table>";
+<<<<<<< HEAD
+=======
+
+    //include(dirname(dirname(__FILE__)).'/server-list.php');
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   }
 
   /**
@@ -252,6 +273,7 @@ Class ReporterGUI
   * @param name
   * @return int
   */
+<<<<<<< HEAD
   public function getTotalReport($name = null)
   {
     if($name != null) {
@@ -260,6 +282,11 @@ Class ReporterGUI
     } else {
       $int = $this->runQueryMysql("SELECT * FROM `reporter`");
     }
+=======
+  public function getTotalReport($name) {
+    $name = $this->real_escape_string($name);
+    $int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."'");
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     return $int->num_rows;
   }
 
@@ -290,18 +317,29 @@ Class ReporterGUI
   * Lista dei server da visualizzare in homepage
   */
   public function getListIndex() {
+<<<<<<< HEAD
     /* Order by id (added since 1.6) */
     $order = "ORDER BY `webinterface_servers`.`ID` ASC";
     $list = $this->runQueryMysql("SELECT * FROM `webinterface_servers` $order");
 
     $head = "<div class=\"list-server-dash\">";
     $foo = "</div>";
+=======
+
+    $list = $this->runQueryMysql("SELECT * FROM `webinterface_servers`");
+
+    $head = "
+    <div class=\"list-server-dash\">";
+    $foo = "
+    </div>";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 
     $totali = $list->num_rows;
 
     if($totali == 0) {
       print "<a class=\"link_clear\" href=\"add-server.php\">No server present, add one?</a>";
     }
+<<<<<<< HEAD
     $conto = 0;
     for($i = 1; $row = $list->fetch_array(); $i++) {
       $conto++;
@@ -310,6 +348,18 @@ Class ReporterGUI
       }
 
       print "<div class=\"container-list-server\">";
+=======
+
+    for($i = 1; $row = $list->fetch_array(); $i++) {
+
+      /* Controllo se il valore del ciclo for è 1 oppure multiplo di 4, perchè deve essere usato come head */
+      if($i == 1 || $i % 4 == 0):
+        print $head;
+      endif;
+
+      print "
+      <div class=\"container-list-server\">";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 
       print "
         <div class=\"list-server-dash_name\">
@@ -334,6 +384,7 @@ Class ReporterGUI
       </div>
       </div>";
 
+<<<<<<< HEAD
       /* Fix il problema del numero dei server, in caso il numero totale non è multiplo di 3 */
       if($conto == $totali && $i != 3)
       {
@@ -350,6 +401,35 @@ Class ReporterGUI
         $i = 0;
       }
     }
+=======
+
+      /* Fix il problema del numero dei server, in caso il numero totale non è multiplo di 3 */
+
+      // Se è all'ultimo row ma non multiplo di 3
+      // Quindi 3 / 2 disponibili
+
+      if($i == $totali && $i % 3 != 0) {
+        print "
+        <div class=\"container-list-server\"></div>";
+        $i++;
+        // Controllo se aggiungendo comunque un campo resta non multiplo di 3
+        // Quindi 3 / 1 disponibili
+        if($i % 3 != 0)
+        {
+          print "
+          <div class=\"container-list-server\"></div>";
+          $i++;
+        }
+      }
+
+      /* Controllo se il valore $i non è 1 ed è multiplo di 4, perchè deve essere usato solo per il footer del div */
+      if($i != 1 && $i % 3 == 0):
+        print $foo;
+      endif;
+
+    }
+
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   }
 
   /**
@@ -769,6 +849,10 @@ Class ReporterGUI
     return $list->num_rows;
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   /* Check report id is exist */
   public function isReportExist($id) {
 
@@ -786,6 +870,7 @@ Class ReporterGUI
   }
 
   /**
+<<<<<<< HEAD
   * Check username is reported At least once
   * @since 1.6
   * @param Username
@@ -799,6 +884,8 @@ Class ReporterGUI
   }
 
   /**
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   * Get report info
   * @param id
   * @return
@@ -845,7 +932,11 @@ Class ReporterGUI
 
     $name = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
     $name = $this->getUtily->clean($name);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     $password = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($password)));
     $permission = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($permission)));
     if( strlen($name) >= 1 || strlen($password) >= 1 )
@@ -922,6 +1013,7 @@ Class ReporterGUI
   * @param name - name of server for get all reports
   * @param option - option for filter / order reports
   */
+<<<<<<< HEAD
   public function outputReportServer($name = null, $option = null)
   {
 
@@ -940,6 +1032,21 @@ Class ReporterGUI
     if($name != null) {
       if($this->isServerExists( $name ) == false) return;
     }
+=======
+  public function outputReportServer($name, $option = null) {
+
+    // Default option
+    static $DEFAULT_OPTION_SORT = array("ID", "PlayerReport","PlayerFrom", "Reason", "WorldReport", "WorldFrom", "Time", "status");
+    static $DEFAULT_OPTION_ORDER = array("ASC","DESC");
+    static $DEFAULT_OPTION_MAXINT = array(20, 50, 100, 200);
+
+    // Controllo se il nome corrisponde ad un server
+    if($this->isServerExists( $name ) == false) return;
+
+    // Escape name
+    $name = $this->real_escape_string($name);
+
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     // Controllo se le opzioni della funzioni non sono nulle
     // Per prevenire errori
     $isOptions = is_array( $option ) || is_object( $option ) && $option != null;
@@ -964,6 +1071,7 @@ Class ReporterGUI
       $primisReportPerPage = $reportPerPage * ($escape_page - 1);
 
       if($isSearch != true) {
+<<<<<<< HEAD
         if($name != null):
           $query = "SELECT * FROM `reporter` WHERE server='{$name}' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
         else:
@@ -971,10 +1079,14 @@ Class ReporterGUI
           // Since 1.6
           $query = "SELECT * FROM `reporter` ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
         endif;
+=======
+        $query = "SELECT * FROM `reporter` WHERE server='{$name}' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
       } else {
         # Query for search reports
         /* Check if search type is ID and Keyword is not a number */
         if($search == "ID" && !is_numeric($escape_search)) print "<div class=\"messaggio-errore\">You can only enter a number for the id field!</div><br/>";
+<<<<<<< HEAD
         if($name != null):
           $query = "SELECT * FROM `reporter` WHERE server='{$name}' AND {$search} LIKE '%".$escape_search."%' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
           $querycount = $this->runQueryMysql("SELECT * FROM `reporter` WHERE server='{$name}' AND {$search} LIKE '%".$escape_search."%' ");
@@ -986,10 +1098,15 @@ Class ReporterGUI
           $querycount = $this->runQueryMysql("SELECT * FROM `reporter` WHERE {$search} LIKE '%".$escape_search."%'");
           // echo "Chiamo il cerca quando non è specificato il server";
         endif;
+=======
+
+        $query = "SELECT * FROM `reporter` WHERE server='{$name}' AND {$search} LIKE '%".$escape_search."%' ORDER BY $sort $order LIMIT $primisReportPerPage, $reportPerPage ";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
       }
       $report = $this->runQueryMysql($query);
 
       // Int total report for server
+<<<<<<< HEAD
       if($name != null && $isSearch != true)
       {
         $total = $this->getTotalReport($name);
@@ -1007,6 +1124,17 @@ Class ReporterGUI
         print "<div class=\"filter-reports-list\">";
         print "<h4>Filter reports</h4><br />";
         print "<form method=\"GET\" action=\"view-report.php\" >";
+=======
+      $total = $this->getTotalReport($name);
+
+      # Funzione per ordinare i report
+      # Riordino la colonna per sort
+      if($total != 0):
+
+        print "<div class=\"filter-reports-list\">";
+        print "<h4>Filter reports</h4><br />";
+        print "<form method=\"GET\" action=\"view-report.php\">";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
         print "<div style=\"margin-left: 0px\" class=\"select-filter\">";
         print "Sort: <select name=\"sort\">";
         foreach($DEFAULT_OPTION_SORT as $key)
@@ -1043,9 +1171,13 @@ Class ReporterGUI
           endif;
         }
         print "</select></div>";
+<<<<<<< HEAD
         if($name != null) {
           print "<input type=\"hidden\" name=\"server\" value=\"{$name}\">";
         }
+=======
+        print "<input type=\"hidden\" name=\"server\" value=\"{$name}\">";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
         print "<input type=\"hidden\" name=\"page\" value=\"{$escape_page}\">";
         if($isSearch == true) {
           print "<input type=\"hidden\" name=\"search\" value=\"{$search}\">";
@@ -1053,9 +1185,13 @@ Class ReporterGUI
         }
         print "<input type=\"submit\" value=\"Apply\" />";
         print "</form>";
+<<<<<<< HEAD
         print "<span>". str_replace("%int%", $total, $this->getLang("search-resultint", "ret")). "</span>";
         print "</div><br />";
 
+=======
+        print "</div>";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
         endif;
 
       // Navigation bar
@@ -1063,7 +1199,11 @@ Class ReporterGUI
       // contenuto del menu che dovrà essere mostrato per la barra di navigazione
       $int = $report->num_rows;
 
+<<<<<<< HEAD
       if($name == null && $report->num_rows != 0 || $total != 0):
+=======
+      if($total != 0):
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
         $nav = "<div class=\"container-nav\"><div class=\"navigationbar\">";
         /* Il valore int $total / $reportPerPage equivale al numero totale di report per il numero massimo di visualizzazioni nella pagina*/
         $num = ceil($total / $reportPerPage);
@@ -1072,10 +1212,14 @@ Class ReporterGUI
         $url = $this->getUtily->selfURL();
         $newurl = preg_replace("/&page=[0-9]+/", "", $url);
 
+<<<<<<< HEAD
         // Fix problem with ? for get param
         $newurl = strpos($newurl, '?') ? $newurl : $newurl."?";
 
         if($escape_page - 1 > 0) {
+=======
+        if($escape_page - 1) {
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
           $pag = $escape_page -1;
           $nav .= "<a href='{$newurl}&page={$pag}'>Prev</a>";
         }
@@ -1095,7 +1239,10 @@ Class ReporterGUI
     {
       throw new Exception("Le operazioni che sta facendo la funzione outputReportServer() non sono corrette");
     }
+<<<<<<< HEAD
     $headerServer = $name != null ? "" : "<td><b>Server</b></td>";
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     $head = "<table style=\"width:100%\">
     <thead>
     <tr>
@@ -1107,13 +1254,17 @@ Class ReporterGUI
     <td><b>In world (reported)</b></td>
     <td><b>In world (by)</b></td>
     <td><b>Status</b></td>
+<<<<<<< HEAD
     {$headerServer}
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     </tr>
     </thead>";
     print $head;
 
     $num = 0;
     if($report != null) {
+<<<<<<< HEAD
       while($row = $report->fetch_array())
       {
         $reason = strip_tags($row['Reason']);
@@ -1132,6 +1283,25 @@ Class ReporterGUI
         print $html;
         $num++;
       }
+=======
+	    while($row = $report->fetch_array())
+	    {
+	      $reason = strip_tags($row['Reason']);
+	      $html = "<tr class=\"list-server-table\" data-href=\"view-report.php?id={$row['ID']}\">";
+	      $html .= "<td>{$row['ID']}</td>";
+	      $html .= "<td>{$row['PlayerReport']}</td>";
+	      $html .= "<td>{$row['PlayerFrom']}</td>";
+	      $html .= "<td>{$reason}</td>";
+	      $html .= "<td>{$row['Time']}</td>";
+	      $html .= "<td>{$row['WorldReport']}</td>";
+	      $html .= "<td>{$row['WorldFrom']}</td>";
+	      $html .= "<td>{$row['status']}</td>";
+	      $html .= "</tr>";
+	
+	      print $html;
+	      $num++;
+	    }
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     }
     if($num == 0) {
       // No report found
@@ -1144,12 +1314,20 @@ Class ReporterGUI
     }
     print "</table>";
 
+<<<<<<< HEAD
     if($name == null && $report->num_rows != 0 || $total != 0):
+=======
+    if($total != 0):
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
       /* Navigation bar */
       print $nav;
     endif;
     /* Form for search report */
+<<<<<<< HEAD
     if($name == null && $report->num_rows != 0 || $total != 0 || $isSearch == true):
+=======
+    if($total != 0):
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
       print $this->searchReportListServer($name, $search, $keywords);
     endif;
   }
@@ -1158,11 +1336,16 @@ Class ReporterGUI
   * Form for search reports (using in function outputReportServer)
   * @since 1.5
   */
+<<<<<<< HEAD
   private function searchReportListServer($server = null, $type = null, $keywords = null) {
     static $DEFAULT_OPTION_SORT = array("ID", "PlayerReport","PlayerFrom", "Reason", "WorldReport", "WorldFrom", "Time", "status");
     if($server == null) {
       $DEFAULT_OPTION_SORT[] = "server";
     }
+=======
+  private function searchReportListServer($server, $type = null, $keywords = null) {
+    static $DEFAULT_OPTION_SORT = array("ID", "PlayerReport","PlayerFrom", "Reason", "WorldReport", "WorldFrom", "Time", "status");
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     print "<br /><div class=\"filter-reports-list\">";
     print "<h4>Search report</h4><br />";
     print "<form method=\"GET\" action=\"view-report.php\" >";
@@ -1180,20 +1363,29 @@ Class ReporterGUI
     print "</select>";
     # Keywords
     if($keywords != null) {
+<<<<<<< HEAD
       $placeholder = $this->getUtily->clean($keywords);
+=======
+      $placeholder = $keywords;
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     } else {
       $placeholder = "Keywords";
     }
     print "<input style=\"display: inline;width: 838px;margin-left: 10px;\" type=\"text\" name=\"keywords\" placeholder=\"{$placeholder}\"/>";
     # Server
+<<<<<<< HEAD
     if($server != null) {
       print "<input type=\"hidden\" name=\"server\" value=\"{$server}\" />";
     }
+=======
+    print "<input type=\"hidden\" name=\"server\" value=\"{$server}\" />";
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
     # Submit button
     print "<input type=\"submit\" value=\"Search\" />";
     print "</form>";
     print "</div>";
   }
+<<<<<<< HEAD
 
   /**
   * Function for delete report
@@ -1269,6 +1461,8 @@ Class ReporterGUI
     // Errore nel trovare l'array nel file lang
     return;
   }
+=======
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 }
 $RGWeb = new ReporterGUI();
 
@@ -1276,6 +1470,7 @@ $RGWeb = new ReporterGUI();
 Class loadClass
 {
   /**
+<<<<<<< HEAD
   * Load class Utilities
   * @return Class _RGUtilities
   */
@@ -1302,10 +1497,39 @@ Class loadClass
   }
   /**
   * Load class for notify
+=======
+  * Load the class Utilities
+  * @return variable in class Utilities
+  */
+  function getUtily() {
+    include("utilities.inc.php");
+    return $Utilities;
+  }
+  /**
+  * Load the class for group user
+  * @return variable in class RGroups
+  */
+  function getGroup() {
+    include("groups.inc.php");
+    return $RGroups;
+  }
+
+  /**
+  * Load the class for update
+  * @return variable in class RGUpdate
+  */
+  function getUpdate() {
+    include("update.inc.php");
+    return $RGUpdate;
+  }
+  /**
+  * Load the class for notify
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   * @since 1.5
   */
   function getNotify() {
     include("notify.inc.php");
+<<<<<<< HEAD
     return new _RGNotify();
   }
   /**
@@ -1316,8 +1540,12 @@ Class loadClass
   function getStats() {
     include("stats.inc.php");
     return new _RGStats();
+=======
+    return $Notify;
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
   }
 }
 
 $ClassLoader = new loadClass();
 ?>
+

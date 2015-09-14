@@ -56,7 +56,11 @@ When you purchased the plugin you have automatically accepted the terms of licen
   <li>You are not permitted to decompile or modify the plugin in any form</li>
 </ul>
 I also remember that the source code for the web interface is also available on GitHub, where you can report bugs and advise updates!<br />
+<<<<<<< HEAD
 <i>This software was created by <a target="_blank" href="https://twitter.com/itpao25">itpao25</a></i><br /><br />
+=======
+This software was created by itpao25<br /><br />
+>>>>>>> ff987fb9aa5e3de8fc97f9e7ffb4888eb89808fb
 <?php
 $RGWeb->getFooter();
 ?>

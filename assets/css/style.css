@@ -110,7 +110,21 @@ footer {
 }
 
 /* Gestione pagina dashboard */
-
+.home-titlepage {
+  border-bottom: 1px dashed #808080;
+}
+.home-titlepage span {
+  float: right;
+  font-size: 14px;
+  line-height: 45px;
+}
+.home-titlepage span a {
+  text-decoration: none !important;
+  color: #333;
+}
+.home-titlepage span a:hover {
+  color: #000;
+}
 div.list-server-dash {
   display: block;
   overflow: hidden;
@@ -361,11 +375,18 @@ h2.h2-head {
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
   color: #878585;
   padding: 10px;
-  height: 180px;
+  height: 200px;
 }
 .filter-reports-list h4 {
   margin: 0px;
   color: #006400;
+}
+
+.filter-reports-list span {
+  margin-top: 10px;
+}
+.filter-reports-list form {
+  height: 130px;
 }
 .filter-reports-list .select-filter {
   width: 250px;
@@ -388,6 +409,7 @@ h2.h2-head {
   font-weight: bold;
   font-family: "Open Sans",sans-serif !important;
   font-size: 15px;
+  height: 45px;
 }
 .filter-reports-list input[type="submit"]:hover {
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.21);
@@ -432,4 +454,108 @@ input.impostazioni-utente-salva {
   font-weight: bold;
   font-family: "Open Sans",sans-serif !important;
   font-size: 15px;
+}
+/* Edit report */
+.edit-report-contain {
+  text-align: right;
+  display: block;
+  height: 33px;
+  background-color: #F5F5F5;
+  padding: 10px;
+  display: block;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.bottone-delete {
+  font-family: "Open Sans",sans-serif !important;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  margin-right: 4px;
+  border: 1px solid #C0C0C0;
+  background: #E9E9E9 none repeat scroll 0% 0%;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: #717171;
+  text-shadow: 0px 1px 0px #FFF;
+  cursor: pointer;
+}
+.bottone-delete-conferma {
+  padding: 0px 5px;
+  border: 0px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #FF8181;
+  cursor: pointer;
+  color: #fff;
+  transition: box-shadow 0.15s ease-in-out 0s;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: "Open Sans",sans-serif !important;
+  font-size: 15px;
+  border-radius: 0px;
+}
+.bottone-delete-conferma-nope {
+  font-family: "Open Sans",sans-serif !important;
+  border: 0px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 0px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #90EE90;
+  cursor: pointer;
+  color: #006400;
+  text-transform: uppercase;
+}
+.avatar-reported-focus {
+
+}
+.bottone-editstatus {
+  font-family: "Open Sans",sans-serif !important;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  margin-right: 4px;
+  border: 1px solid #C0C0C0;
+  background: #E9E9E9 none repeat scroll 0% 0%;
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: #717171;
+  text-shadow: 0px 1px 0px #FFF;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.report-focus-userstats {
+  background-color: #F5F5F5;
+  height: 195px;
+  width: 420px;
+  float: right;
+  padding-right: 10px;
+  min-height: 170px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.report-focus-userstats ul {
+  float: right;
+  width: 348px;
+  list-style: none;
+}
+.report-focus-userstats a {
+  color: #000;
+  text-decoration: none !important;
+}
+.report-focus-stats {
+  border-bottom: 1px dashed #808080;
+  font-size: 20px;
+  float: right;
+  width: 400px;
+}
+.report-focus-stats img {
+  float: left;
+  width: 40px;
+  margin-top: -5px;
+  position: absolute;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.report-focus-stats span {
+  padding-left: 50px;
 }

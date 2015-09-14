@@ -21,7 +21,7 @@
 
 if (!defined('RG_ROOT')) die();
 
-Class RGUpdate
+Class _RGUpdate
 {
   public $linkGithub = "https://github.com/itpao25/ReporterGUIWeb";
   public $spigot = "https://www.spigotmc.org/resources/reporterguiweb.9821/";
@@ -44,4 +44,4 @@ Class RGUpdate
   }
 
 }
-$RGUpdate = new RGUpdate();
+?>

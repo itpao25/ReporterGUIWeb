@@ -47,19 +47,19 @@ if(isset($_GET['id'])):
 <table style="width:100%">
   <tr>
     <td class="bordato" ><b>ID</b></td>
-    <td class="bordato" ><?= $user[0] ?></td>
+    <td class="bordato" ><?php echo $user[0] ?></td>
 	</tr>
   <tr>
     <td class="bordato" ><b>Last login</b></td>
-    <td class="bordato" ><?= $user[2] ?></td>
+    <td class="bordato" ><?php echo $user[2] ?></td>
 	</tr>
   <tr>
     <td class="bordato" ><b>Last IP</b></td>
-    <td class="bordato" ><?= $user[3] ?></td>
+    <td class="bordato" ><?php echo $user[3] ?></td>
 	</tr>
   <tr>
     <td class="bordato" ><b>Group</b></td>
-    <td class="bordato" ><?= $user[4] ?></td>
+    <td class="bordato" ><?php echo $user[4] ?></td>
 	</tr>
 </table>
 <br />
@@ -72,7 +72,7 @@ if(isset($_GET['id'])):
     Edit profile
   </div>
   <br />
-  <form id="edit-user" action="manager-user.php?id=<?= $user[0] ?>" method="post" >
+  <form id="edit-user" action="manager-user.php?id=<?php echo $user[0] ?>" method="post" >
     <!-- Edit password -->
     <h4 style="margin: 0px; border-bottom: 1px solid #E6E6E6;margin-bottom: 10px;" >Password:</h4>
     <input name="editUser-changepassword" style="margin-bottom: 3px;" type="password" placeholder="New password" />
@@ -80,7 +80,7 @@ if(isset($_GET['id'])):
     <br />
     <!-- Edit group -->
     <h4 style="margin: 0px; border-bottom: 1px solid #E6E6E6;margin-bottom: 10px;" >User group:</h4>
-    <?= $RGWeb->getGroup->getSelectOptionEdit($user[0]); ?>
+    <?php echo $RGWeb->getGroup->getSelectOptionEdit($user[0]); ?>
     <br />
     <!-- Salvataggio delle modifiche -->
     <input name="editUser-submit" type="submit" class="button-primario" value="Save" />
@@ -90,7 +90,7 @@ if(isset($_GET['id'])):
   </div>
   <script type="text/javascript">
     $("form").submit(function() {
-      var url = "manager-user.php?id=<?= $user[0] ?>";
+      var url = "manager-user.php?id=<?php echo $user[0] ?>";
         $.ajax({
            type: "POST",
            url: url,
@@ -169,9 +169,9 @@ elseif(isset($_GET['settings'])):
 <h2>Change your settings</h2>
 
 <p class="impostazioni-utente-titolo" >
-  You are logged in as <b><?= $info[1] ?></b> - ID <b><?= $info[0] ?></b><br />
-  Last login recorded on <b><?= $info[2] ?></b> with ip <b><?= $info[3] ?></b><br />
-  You are in the group <b><?= $info[4] ?></b>
+  You are logged in as <b><?php echo $info[1] ?></b> - ID <b><?php echo $info[0] ?></b><br />
+  Last login recorded on <b><?php echo $info[2] ?></b> with ip <b><?php echo $info[3] ?></b><br />
+  You are in the group <b><?php echo $info[4] ?></b>
 </p>
 <br />
 

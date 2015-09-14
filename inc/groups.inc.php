@@ -20,19 +20,21 @@
 */
 
 if (!defined('RG_ROOT')) die();
-Class RGroups
+Class _RGroups
 {
   public function getMenuGroup() {
 
     $group = $this->getGroupLogged();
+    global $RGWeb;
+
     switch ($group) {
       case 'admin':
-        print "<a id=\"menu-Users\" href=\"users.php\">Manager users</a>";
-        print "<a id=\"menu-Update\" href=\"update.php\">Update</a>";
+        print "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
+        print "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
         break;
       case 'moderator':
-        print "<a id=\"menu-Users\" href=\"users.php\">Manager users</a>";
-        print "<a id=\"menu-Update\" href=\"update.php\">Update</a>";
+        print "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
+        print "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
       default:
         # code...
         break;
@@ -284,9 +286,9 @@ Class RGroups
 
     if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
       $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET password='{$passwordCRYPT}' WHERE ID='{$id}'");
-      print "<br /><div class='container messaggio-success'>User successfully saved!</div>";
+      print "<br /><div class='container messaggio-success'>{$RGWeb->getLang("action-edituser-success", "ret")}</div>";
     else:
-      print "<br /><div class='container messaggio-errore'>You can not change the password for this user!</div>";
+      print "<br /><div class='container messaggio-errore'>{$RGWeb->getLang("action-edituser-noperm", "ret")}</div>";
     endif;
 
   }
@@ -305,14 +307,19 @@ Class RGroups
 
     if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
       $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET permission='{$group}' WHERE ID={$id}");
-      print "<br /><div class='container messaggio-success'>User successfully saved!</div>";
+      print "<br /><div class='container messaggio-success'>{$RGWeb->getLang("action-edituser-success", "ret")}</div>";
     else:
-      print "<br /><div class='container messaggio-errore'>You can not change the group for this user!</div>";
+      print "<br /><div class='container messaggio-errore'>{$RGWeb->getLang("action-edituser-noperm", "ret")}</div>";
     endif;
+  }
 
+  /**
+  * Introducing for user-server
+  */
+  public function isUserServerID($id) {
+    
   }
 
 
 }
-
-$RGroups = new RGroups();
+?>

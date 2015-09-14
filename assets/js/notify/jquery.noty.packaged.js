@@ -1251,9 +1251,9 @@ $.noty.themes.defaultTheme = {
                 this.$buttons.css({borderTop: '1px solid #FFC237'});
                 break;
             case 'error':
-                this.$bar.css({backgroundColor: 'red', borderColor: 'darkred', color: '#FFF'});
+                this.$bar.css({backgroundColor: '#FF8181', borderColor: 'darkred', color: '#FFF'});
                 this.$message.css({fontWeight: 'bold'});
-                this.$buttons.css({borderTop: '1px solid darkred'});
+                this.$buttons.css({borderTop: '1px solid #D01919'});
                 break;
             case 'information':
                 this.$bar.css({backgroundColor: '#57B7E2', borderColor: '#0B90C4', color: '#FFF'});
@@ -1405,7 +1405,7 @@ $.noty.themes.relax = {
             case 'error':
                 this.$bar.css({backgroundColor: '#FF8181', borderColor: '#e25353', color: '#FFF'});
                 this.$message.css({fontWeight: 'bold'});
-                this.$buttons.css({borderTop: '1px solid darkred'});
+                this.$buttons.css({borderTop: '1px solid #e25353'});
                 break;
             case 'information':
                 this.$bar.css({backgroundColor: '#78C5E7', borderColor: '#3badd6', color: '#FFF'});

@@ -18,15 +18,26 @@
 *  @package ReporterGUI
 */
 
-/*
-  Gestione delle utilità per il sistema
-  Management of utilities for system
+/**
+*  Gestione delle utilità per il sistema
+*  Management of utilities for system
 */
 if (!defined('RG_ROOT')) die();
 
-Class RGUtilities
+Class _RGUtilities
 {
-
+	/**
+	* Dupicate function get config data
+	*/
+	private function getConfig($conf, $pos = null)
+	{
+		/* Check the position of the file */
+		if($pos == "root" || $pos == null)
+			include("config.php");
+		elseif($pos == "Dir")
+			include(dirname(dirname(__FILE__)).'/config.php');
+		return $config[$conf];
+	}
 	/**
 	* Message for login success
 	* @return html
@@ -84,22 +95,6 @@ Class RGUtilities
 		print "<h4 style=\"margin: 0px\">You have completed the installation, now delete the folder <i>install</i></h4><br /></ul>Good fun!</html>";
 		die();
 	}
-  /* Function private to get config data
-	*/
-	private function getConfig($conf, $pos = null) {
-
-		/* Check the position of the file */
-		if($pos == "root" || $pos == null)
-
-			include("config.php");
-		elseif($pos == "Dir")
-
-			include(dirname(dirname(__FILE__)).'/config.php');
-
-		return $config[$conf];
-
-	}
-
   /**
   * Get the ip adress client
   * @return IP Adress
@@ -196,6 +191,10 @@ Class RGUtilities
 	public function userNotExists() {
 		echo "<br /><div class=\"container messaggio-errore\">This user does not exist!!</div>";
 	}
+
+	/**
+	* Get current url
+	*/
 	public function selfURL()
 	{
 		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
@@ -203,8 +202,50 @@ Class RGUtilities
 		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
 		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 	}
-  public function strleft($s1, $s2) { return substr($s1, 0, strpos($s1, $s2)); }
+  public function strleft($s1, $s2) {
+		return substr($s1, 0, strpos($s1, $s2));
+	}
 
+	/**
+	* Clean special characters in string
+	* @param string
+	* @return string without special characters
+	* @since 1.5
+	*/
+	function clean($string) {
+		$string = str_replace(' ', '-', $string);
+		return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+	}
+
+	/**
+	* Convert string status of report
+	* replace 2 with Complete
+	* replace 1 with waiting
+	* @param st = int for status of report
+	*/
+	public function convertStatusString($st, $ret = null) {
+		global $RGWeb;
+		switch ($st) {
+			case 1:
+				if($ret == null) :
+					print '<span id="statusreport" style="font-weight: bold;color: #d9534f">'.$RGWeb->getLang("status-wating", "ret") .'</span>';
+				elseif ($ret == "ret"):
+					return '<span id="statusreport" style="font-weight: bold;color: #d9534f">'.$RGWeb->getLang("status-wating", "ret") .'</span>';
+				endif;
+				return;
+				break;
+			case 2:
+				if($ret == null) :
+					print '<span id="statusreport" style="font-weight: bold;color: #5CB85C;">'.$RGWeb->getLang("status-complete", "ret") .'</span>';
+				elseif ($ret == "ret"):
+					return '<span id="statusreport" style="font-weight: bold;color: #5CB85C;">'.$RGWeb->getLang("status-complete", "ret") .'</span>';
+				endif;
+				return;
+				break;
+			default:
+				return $st;
+				break;
+		}
+	}
 }
-$Utilities = new RGUtilities();
 ?>

@@ -42,15 +42,15 @@ if(isset($_GET['name']) && !isset($_GET['m']))
     ?>
     <div class="row">
       <div class="colonna_50">
-        <h2 style="border-bottom: 1px dashed #808080" >Edit server <?= $server; ?></h2>
+        <h2 style="border-bottom: 1px dashed #808080" >Edit server <?php echo $server; ?></h2>
         <div class="box-informazioni">
           <h2><i class="fa fa-pie-chart"></i> Information</h2>
-          Total report: <?= $RGWeb->getTotalReport($server); ?><br />
-          Report complete: <?= $RGWeb->getCompleteReport($server); ?><br />
-          Report waiting: <?= $RGWeb->getWaitingReport($server); ?><br />
+          Total report: <?php echo $RGWeb->getTotalReport($server); ?><br />
+          Report complete: <?php echo $RGWeb->getCompleteReport($server); ?><br />
+          Report waiting: <?php echo $RGWeb->getWaitingReport($server); ?><br />
         </div>
         <br />
-        <a href="edit-server.php?name=<?= $server ?>&m=delete&key=<?= $RGWeb->getKeyID(); ?>"><button class="button-primario">Delete server</button></a>
+        <a href="edit-server.php?name=<?php echo $server ?>&m=delete&key=<?php echo $RGWeb->getKeyID(); ?>"><button class="button-primario">Delete server</button></a>
       </div>
     </div>
     <?php

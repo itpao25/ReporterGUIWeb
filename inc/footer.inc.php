@@ -53,7 +53,7 @@ if (!defined('RG_ROOT')) die();
     $.ajax({
       type: "GET",
       dataType: 'json',
-      data: "uid=<?= $this->getIDLogged() ?>&action=notify",
+      data: "uid=<?php echo $this->getIDLogged() ?>&action=notify",
       url: "json-read.php",
       success: function(result){
 
@@ -84,10 +84,10 @@ window.setInterval(function(){
 	<div class="container container-footer">
 		<div class="left clear">
 		 <!-- Get name server and get current year -->
-		 © <?= $this->getUtily->getNameServer(); ?> <?=  $this->getUtily->getCurrentYear();  ?>
+		 © <?php echo $this->getUtily->getNameServer(); ?> <?php echo  $this->getUtily->getCurrentYear();  ?>
 		</div>
 		<div class="right">
-		 ReporterGUI Web <?= $this->getConfig("versions","Dir") ?>
+		 ReporterGUI Web <?php echo $this->getConfig("versions","Dir") ?>
 		</div>
 	</div>
 </footer>

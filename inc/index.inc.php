@@ -23,29 +23,32 @@ if (!defined('RG_ROOT_INDEX')) die();
 
 
 ?>
-<h2 style="border-bottom: 1px dashed #808080;">
-	Latest reports
+<h2 class="home-titlepage">
+	<?php $this->getLang("home-titlepage"); ?>
+	<span>
+		<a href="view-report.php"><?php $this->getLang("home-titleallreport") ?></a>
+	</span>
 </h2>
 <?php $this->getListIndex(); ?>
 <br />
 <!-- stats -->
 <h2 style="border-bottom: 1px dashed #808080;">
-	<i class="fa fa-line-chart"></i> Stats
+	<i class="fa fa-line-chart"></i> <?php $this->getLang("home-titlestats"); ?>
 </h2>
 <div class="row">
 	<div class="colonna_50">
-		<b style="font-size: 22px;" >Total server registered:</b> <?= $this->getIntTotalServer(); ?><br />
-		<b>Total report: </b><?= $this->getIntTotalReport(); ?> <br />
-		<b>Total report in waiting: </b><?= $this->getIntTotalReportWaiting(); ?> <br />
-		<b>Total report completed: </b><?= $this->getIntTotalReportComplete(); ?> <br />
+		<b style="font-size: 22px;" ><?php $this->getLang("home-stats-totserver"); ?></b> <?php echo $this->getIntTotalServer(); ?><br />
+		<b><?php $this->getLang("home-stats-totreport"); ?> </b><?php echo $this->getIntTotalReport(); ?> <br />
+		<b><?php $this->getLang("home-stats-totreportwa"); ?> </b><?php echo $this->getIntTotalReportWaiting(); ?> <br />
+		<b><?php $this->getLang("home-stats-totreportco"); ?> </b><?php echo $this->getIntTotalReportComplete(); ?> <br />
 	</div>
 	<div class="colonna_50">
 		<?php
 		if($this->getGroup->isAdmin() || $this->getGroup->isModerator()) {
-			print "<b style=\"font-size: 22px\"><i style=\"font-size: 60px;float: right;color: #7F7F7F;\" class=\"fa fa-users\"></i> Users registred: </b>". $this->getGroup->getNumUser();
-			print "<br /> <b>Admin:</b> {$this->getGroup->getNumUserAdmin()} <br />";
-			print "<b>Moderator:</b> {$this->getGroup->getNumUserMod()} <br />";
-			print "<b>Helper:</b> {$this->getGroup->getNumUserHelper()} <br />";
+			print "<b style=\"font-size: 22px\"><i style=\"font-size: 60px;float: right;color: #7F7F7F;\" class=\"fa fa-users\"></i> Users registred: </b>". $this->getGroup->getNumUser(). "<br />";
+			print "<b>". $this->getLang("tag-admin", "ret") . ":</b> {$this->getGroup->getNumUserAdmin()} <br />";
+			print "<b>". $this->getLang("tag-moderator", "ret") . ":</b> {$this->getGroup->getNumUserMod()} <br />";
+			print "<b>". $this->getLang("tag-helper", "ret") . ":</b> {$this->getGroup->getNumUserHelper()} <br />";
 		}
 		?>
 	</div>

@@ -68,17 +68,6 @@ if($RGWeb->getGroup->isAdmin() == true) {
     </form>
   </div>
   <div class="colonna_50">
-    <div class="box_cont">
-      <div class="box-informazioni-green">
-        <h2>Information</h2>
-        Use the server name set by config.yml: <br />
-        <ul>
-          <li>multi-sever-enable: <b>true</b></li>
-          <li>server-name: "<b>hub</b>"</li>
-        </ul>
-        Then add the server as the "<b>hub</b>"
-      </div>
-    </div>
   </div>
 </div>
 

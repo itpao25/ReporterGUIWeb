@@ -26,7 +26,7 @@ if($this->isLogged() == false) {
 
 		-->
 		<meta charset="utf-8">
-		<title><?= $Pos ?> - <?=$this->getConfig("pageName") ?></title>
+		<title><?php echo $Pos ?> - <?php echo $this->getConfig("pageName") ?></title>
 		<link href="assets/css/style.css" rel="stylesheet">
 		<script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
 		<script src="assets/js/notify/jquery.noty.packaged.js"></script>
@@ -41,7 +41,7 @@ if($this->isLogged() == false) {
 			<div class="container">
 				<div class="logo">
 					<a href="index.php">
-						<img src="<?= $this->getUtily->getLogo(); ?>" />
+						<img src="<?php echo $this->getUtily->getLogo(); ?>" />
 					</a>
 				</div>
 			</div>
@@ -49,13 +49,13 @@ if($this->isLogged() == false) {
 		<div class="navbar">
 			<div class="container">
 				<nav>
-					<a> <img class="avatar-menu" src="<?= $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?= $this->getUsername(); ?> </a>
-					<a id="menu-Dashboard" href="index.php">Dashboard</a>
-					<a id="menu-Servers" href="server-list.php">Server list</a>
-					<a id="menu-Settings" href="manager-user.php?settings">Settings</a>
+					<a> <img class="avatar-menu" src="<?php echo $this->getUtily->getUrlServiceAvatarMenu($this->getUsername()); ?>"> <?php echo $this->getUsername(); ?> </a>
+					<a id="menu-Dashboard" href="index.php"><?php $this->getLang("menu-dashboard") ?></a>
+					<a id="menu-Servers" href="server-list.php"><?php $this->getLang("menu-serverlist") ?></a>
+					<a id="menu-Settings" href="manager-user.php?settings"><?php $this->getLang("menu-settings") ?></a>
 					<!-- Admin menu -->
-					<?= $this->getGroup->getMenuGroup(); ?>
-					<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> Logout</a>
+					<?php echo $this->getGroup->getMenuGroup(); ?>
+					<a class="menu-right" href="logout.php" ><i class="fa fa-sign-out"></i> <?php $this->getLang("menu-loguting") ?></a>
 				</nav>
 			</div>
 		</div>
@@ -64,7 +64,7 @@ if($this->isLogged() == false) {
 		<?php //if($menu == false): print "test"; ?>
 		<?php if($menu == null && $menu != true): ?>
 		<script type="text/javascript">
-			getMenuItem("<?= $Pos; ?>");
+			getMenuItem("<?php echo $Pos; ?>");
 		</script>
 		<?php endif; ?>
 		<!-- Container  -->

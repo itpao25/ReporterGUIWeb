@@ -91,6 +91,7 @@ Class ReporterGUIInstall {
         `lastlogin` varchar(255) NOT NULL default '',
         `lastIP` varchar(255) NOT NULL default '',
         `data` varchar(8000) NOT NULL default '',
+        `ifNotify` varchar(3) NOT NULL default '',
         PRIMARY KEY  (`ID`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8";
 

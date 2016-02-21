@@ -3,7 +3,7 @@
 *  This file is a class of ReporterGUI
 *
 *  @author itpao25
-*  ReporterGUI Web Interface  Copyright (C) 2015
+*  ReporterGUI Web Interface Copyright (C) 2015
 *
 *  This program is free software; you can redistribute it and/or
 *  modify it under the terms of the GNU General Public License as
@@ -24,48 +24,50 @@
 */
 if (!defined('RG_ROOT')) die();
 
-Class _RGUtilities
-{
+Class _RGUtilities {
+
 	/**
 	* Dupicate function get config data
 	*/
-	private function getConfig($conf, $pos = null)
-	{
+	private function getConfig($conf, $pos = null) {
 		/* Check the position of the file */
-		if($pos == "root" || $pos == null)
+		if($pos == "root" || $pos == null):
 			include("config.php");
-		elseif($pos == "Dir")
+		elseif($pos == "Dir"):
 			include(dirname(dirname(__FILE__)).'/config.php');
+		endif;
 		return $config[$conf];
 	}
+
 	/**
 	* Message for login success
 	* @return html
 	*/
 	public function loginSuccess() {
-
 		echo "<script type='text/javascript'>
-			if ( $( '.messaggio-errore' ).length ) {
-				$( '.messaggio-errore' ).remove();
-			}
+		if ( $( '.messaggio-errore' ).length ) {
+			$( '.messaggio-errore' ).remove();
+		}
 		</script>";
 
 		echo "<div class='container messaggio-success'>You logged in successfully!</div>";
 		echo "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
 	}
+
 	/**
 	* Message for login error
 	* @return html
 	*/
 	public function loginError() {
 		echo "<script type='text/javascript'>
-			if($('.login-contenitore > img').hasClass('pulse')) {
-				$('.login-contenitore > img').removeClass('pulse');
-				$('.login-contenitore > img').addClass('shake');
-			}
+		if($('.login-contenitore > img').hasClass('pulse')) {
+			$('.login-contenitore > img').removeClass('pulse');
+			$('.login-contenitore > img').addClass('shake');
+		}
 		</script>";
 		echo "<div class='container messaggio-errore'>Invalid password or username!</div>";
 	}
+
 	/**
 	* Message for logout success
 	*/
@@ -95,46 +97,49 @@ Class _RGUtilities
 		print "<h4 style=\"margin: 0px\">You have completed the installation, now delete the folder <i>install</i></h4><br /></ul>Good fun!</html>";
 		die();
 	}
-  /**
-  * Get the ip adress client
-  * @return IP Adress
-  */
-  public function getIndirizzoIP() {
-    return $_SERVER['REMOTE_ADDR'];
-  }
 
 	/**
-  * Get the useragent client
-  * @return string http agent
-  */
+	* Get the ip adress client
+	* @return IP Adress
+	*/
+	public function getIndirizzoIP() {
+		return $_SERVER['REMOTE_ADDR'];
+	}
+
+	/**
+	* Get the useragent client
+	* @return string http agent
+	*/
 	public function getAgent() {
 		return $_SERVER['HTTP_USER_AGENT'];
 	}
-  /**
-  * Get current year
-  * @return year
-  */
-  public function getCurrentYear() {
-    return date("Y");
-  }
-  /**
-  * Get name of server
-  * @return name
-  */
-  public function getNameServer() {
-    return $this->getConfig("nameServer","Dir");
-  }
 
-  /**
-  * Get avatar user using default CRAFATAR.com
-  * You can customize the service for avatars
-  *
-  * @param nickname Nickname of the player
-  * @return url service
-  */
-  public function getAvatarUser($nickname) {
-    return $this->getUrlServiceAvatar($nickname);
-  }
+	/**
+	* Get current year
+	* @return year
+	*/
+	public function getCurrentYear() {
+		return date("Y");
+	}
+
+	/**
+	* Get name of server
+	* @return name
+	*/
+	public function getNameServer() {
+		return $this->getConfig("nameServer","Dir");
+	}
+
+	/**
+	* Get avatar user using default CRAFATAR.com
+	* You can customize the service for avatars
+	*
+	* @param nickname Nickname of the player
+	* @return url service
+	*/
+	public function getAvatarUser($nickname) {
+		return $this->getUrlServiceAvatar($nickname);
+	}
 
 	/**
 	* Get service url from config
@@ -143,15 +148,13 @@ Class _RGUtilities
 	* @param nickname Nickname of the player
 	* @return url service
 	*/
-	public function getUrlServiceAvatar($username)
-	{
+	public function getUrlServiceAvatar($username) {
 		// Check string in config is isset
 		if(!$this->getConfig("urlServiceAvatar")):
 			return "https://crafatar.com/avatars/". $username;
 		else:
 			return str_replace("{username}", $username ,$this->getConfig("urlServiceAvatar"));
 		endif;
-
 	}
 
 	/**
@@ -159,8 +162,7 @@ Class _RGUtilities
 	* menu
 	* @param username
 	*/
-	public function getUrlServiceAvatarMenu($username)
-	{
+	public function getUrlServiceAvatarMenu($username) {
 		if(!$this->getConfig("urlServiceAvatarMenu")):
 			return "https://crafatar.com/avatars/". $username;
 		else:
@@ -168,14 +170,16 @@ Class _RGUtilities
 		endif;
 	}
 
-	/* Get custom logo */
+	/**
+	* Get custom logo
+	* @return url image for logo
+	*/
 	public function getLogo() {
-
 		if(!trim($this->getConfig("customLogo")) == ""):
 			$url = $this->getConfig("customLogo");
 			return $url;
 		else:
-			return "assets/img/logo-rgui.png";
+			return "assets/img/new-logo-reportergui.png";
 		endif;
 	}
 	/**
@@ -195,14 +199,13 @@ Class _RGUtilities
 	/**
 	* Get current url
 	*/
-	public function selfURL()
-	{
+	public function selfURL() {
 		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
 		$protocol = $this->strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/").$s;
 		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
 		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 	}
-  public function strleft($s1, $s2) {
+	public function strleft($s1, $s2) {
 		return substr($s1, 0, strpos($s1, $s2));
 	}
 
@@ -232,7 +235,7 @@ Class _RGUtilities
 				elseif ($ret == "ret"):
 					return '<span id="statusreport" style="font-weight: bold;color: #d9534f">'.$RGWeb->getLang("status-wating", "ret") .'</span>';
 				endif;
-				return;
+					return;
 				break;
 			case 2:
 				if($ret == null) :
@@ -240,12 +243,13 @@ Class _RGUtilities
 				elseif ($ret == "ret"):
 					return '<span id="statusreport" style="font-weight: bold;color: #5CB85C;">'.$RGWeb->getLang("status-complete", "ret") .'</span>';
 				endif;
-				return;
+					return;
 				break;
 			default:
 				return $st;
 				break;
 		}
 	}
+	
 }
 ?>

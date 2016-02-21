@@ -12,7 +12,7 @@ if($this->isLogged() == false) {
 
 		<!--
 
-		ReporterGUI Web Interface  Copyright (C) 2015  itpao25
+		ReporterGUI Web Interface  Copyright (C) 2015 / <?php echo $this->getUtily->getCurrentYear();  ?> itpao25
 
 		This program is free software; you can redistribute it and/or
 		modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@ if($this->isLogged() == false) {
 		<meta charset="utf-8">
 		<title><?php echo $Pos ?> - <?php echo $this->getConfig("pageName") ?></title>
 		<link href="assets/css/style.css" rel="stylesheet">
-		<script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+		<script type='text/javascript' src='//code.jquery.com/jquery-2.2.0.min.js'></script>
 		<script src="assets/js/notify/jquery.noty.packaged.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>

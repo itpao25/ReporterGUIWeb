@@ -27,6 +27,7 @@ $lang[ 'lang' ][ 'menu-settings' ] = "Settings";
 $lang[ 'lang' ][ 'menu-manuser' ] = "Manager users";
 $lang[ 'lang' ][ 'menu-update' ] = "Update";
 $lang[ 'lang' ][ 'menu-loguting' ] = "Logout";
+$lang[ 'lang' ][ 'menu-addreport' ] = "Add report";
 
 // Staus of report
 $lang[ 'lang' ][ 'status-wating' ] = "Waiting";
@@ -62,4 +63,20 @@ $lang[ 'lang' ][ 'action-edituser-noperm' ] = "You can not change the password f
 
 // Search
 $lang[ 'lang' ][ 'search-resultint' ] = "%int% report(s) found";
+
+// notes
+$lang[ 'lang' ][ 'notes-viewreprot-title' ] = "Notes";
+$lang[ 'lang' ][ 'notes-not-found' ] = "No notes found for this report";
+$lang[ 'lang' ][ 'notes-edit' ] = "Edit";
+$lang[ 'lang' ][ 'notes-delete' ] = "Delete";
+
+// Add report
+$lang[ 'lang' ][ 'addreport-title' ] = "Add report";
+$lang[ 'lang' ][ 'addreport-input-reported' ] = "Player to be reported - required";
+$lang[ 'lang' ][ 'addreport-input-reportby' ] = "Report by - required";
+$lang[ 'lang' ][ 'addreport-input-reason' ] = "Reason - required";
+$lang[ 'lang' ][ 'addreport-input-worldplayer' ] = "Name of the world where he was the player";
+$lang[ 'lang' ][ 'addreport-input-worldfrom' ] = "Name of the world where he was the player when he sent the report";
+$lang[ 'lang' ][ 'addreport-input-server' ] = "Server";
+
  ?>

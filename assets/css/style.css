@@ -18,6 +18,10 @@ body, html {
   font-family: 'Open Sans', sans-serif!important;
   background-color: #F5F5F5;
 }
+h2 {
+   font-weight: 300;
+
+}
 div.header {
   height: 115px;
   position: relative;
@@ -28,8 +32,7 @@ div.navbar {
   display: block;
   width: 100%;
   height: 53px;
-  box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
-  background: #2E2E2E none repeat scroll 0% 0%;
+  background: #4A4A4A;
 }
 div.navbar nav > a {
   padding: 15px;
@@ -69,7 +72,8 @@ div.navbar nav > a.active {
 }
 .container-principale {
   background-color: #fff;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  font-weight: 300;
 }
 @media (min-width: 768px) {
   .container {
@@ -97,16 +101,16 @@ div.clear {
 }
 footer {
   width: 100%;
-  color: #fff;
-  box-shadow: 0px -15px 30px 0px rgba(0, 0, 0, 0.15) inset, 0px 0px 2px rgba(0, 0, 0, 0.8);
-  background: #2E2E2E none repeat scroll 0% 0%;
+  color: #000;
   height: 50px;
+  font-weight: 300;
 }
 .container-footer {
   padding: 15px;
 }
 .container-footer div.left {
   font-weight: bold;
+  color: #333;
 }
 
 /* Gestione pagina dashboard */
@@ -220,7 +224,14 @@ button.right {
   width: 50%;
   float: left;
 }
-
+.row > div.colonna_40 {
+  width: 40%;
+  float: left;
+}
+.row > div.colonna_60 {
+  width: 60%;
+  float: left;
+}
 /* Box */
 
 .box-informazioni {
@@ -267,7 +278,7 @@ div.messaggio-errore a {
 }
 /* Add server css */
 
-form input[type="text"], form input[type="password"] {
+form input[type="text"], form input[type="password"], textarea {
   display: block;
   width: 100%;
   padding: 8px 12px;
@@ -283,6 +294,7 @@ form input[type="text"], form input[type="password"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif !important;
 }
 form select {
   display: block;
@@ -301,7 +313,7 @@ form select {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-form input[type="text"]:focus, form input[type="password"]:focus {
+form input[type="text"]:focus, form input[type="password"]:focus, textarea:focus {
   box-shadow: 0 0 5px #999999!important;
   border-color: #999999!important;
 }
@@ -528,14 +540,11 @@ input.impostazioni-utente-salva {
 .report-focus-userstats {
   background-color: #F5F5F5;
   height: 195px;
-  width: 420px;
-  float: right;
-  padding-right: 10px;
+  padding-left: 10px;
   min-height: 170px;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 }
 .report-focus-userstats ul {
-  float: right;
   width: 348px;
   list-style: none;
 }
@@ -546,7 +555,6 @@ input.impostazioni-utente-salva {
 .report-focus-stats {
   border-bottom: 1px dashed #808080;
   font-size: 20px;
-  float: right;
   width: 400px;
 }
 .report-focus-stats img {
@@ -558,4 +566,78 @@ input.impostazioni-utente-salva {
 }
 .report-focus-stats span {
   padding-left: 50px;
+}
+/* Notes manager */
+div.notes-viewreprot h3 {
+   font-size: 25px;
+   font-weight: 300;
+   border-bottom: 1px solid rgb(230, 230, 230);
+}
+div.notes-viewreprot h3 span {
+   color: #333;
+}
+div.notes-viewreprot h3 span i {
+   cursor: pointer;
+}
+div.notes-viewreprot .item {
+   background: #F9F9F9;
+   padding: 10px;
+   font-weight: 300;
+   position: relative;
+   word-wrap: break-word;
+}
+div.notes-viewreprot .item .avatar {
+   width: 25px;
+   height: 25px;
+   float: left;
+}
+div.notes-viewreprot .item .avatar > img {
+   width: 40px;
+   height: 40px;
+   position: absolute;
+   margin: 0px 0px 0px 5px;
+}
+div.notes-viewreprot .item .text {
+   margin-left: 55px;
+}
+div.notes-viewreprot .item .text .input-edit-note {
+   display: none;
+}
+div.notes-viewreprot .item .text .input-edit-note input {
+   width: 100%;
+   padding: 6px;
+   box-sizing: border-box;
+   font-weight: 300;
+   font-family: 'Open Sans', sans-serif !important;
+   margin-bottom: 10px;
+}
+div.notes-viewreprot .item .sub {
+   font-size: 15px;
+   color: #333;
+}
+div.notes-viewreprot .item .sub span {
+   cursor: pointer;
+}
+.addreport-form input, .addreport-form select {
+   margin-bottom: 15px;
+}
+.addreport-form textarea {
+   margin-bottom: 15px;
+   width: 100%;
+}
+.addreport-form input[type="submit"] {
+	box-sizing:border-box;
+	border:1px solid #CCC;
+	padding:10px;
+	margin-top:13px;
+	color:#FFF!important;
+	box-shadow:0px 1px 1px 0px rgba(0,0,0,0.1);
+	font-family:"Open Sans",sans-serif;
+	cursor:pointer;
+   background-color: #0078E7 !important;
+   border: 0px !important;
+   border-radius: 2px;
+}
+.addreport-form input[type="submit"]:hover {
+	background-image:linear-gradient(transparent,rgba(0,0,0,0.1) 85%,rgba(0,0,0,0.1));
 }

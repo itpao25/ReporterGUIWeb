@@ -39,13 +39,9 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
     $time = strip_tags($info[6]);
     $server = strip_tags($info[7]);
     $status = strip_tags($info[8]);
-
     ?>
     <script type="text/javascript">cambiatitolo("<?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?> - ReporterGUI");</script>
-
-    <h2 style="border-bottom: 1px solid #E6E6E6;"><?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?>
-
-     </h2>
+    <h2 style="border-bottom: 1px solid #E6E6E6; color: #333; font-weight: 300; font-size: 29px"><?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?></h2>
      <div class="row">
 	      <div class="colonna_50">
           <ul style="margin: 0px;" >
@@ -55,7 +51,7 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
             <li><?php $RGWeb->getLang("report-focus-server"); ?> <?php echo $server; ?></li>
             <li><?php $RGWeb->getLang("report-focus-worldreported"); ?> <?php echo $WorldReport; ?></li>
             <li><?php $RGWeb->getLang("report-focus-worldreportedby"); ?> <?php echo $WorldFrom; ?></li>
-            <li><?php $RGWeb->getLang("report-focus-timestamp"); ?> <?php echo $time; ?></li>
+            <li><?php $RGWeb->getLang("report-focus-timestamp"); ?> <?php echo $time; ?> - (<?php print $RGWeb->getTimeManager->timeago($time) ?>) </li>
             <li><?php $RGWeb->getLang("report-focus-status"); ?> <?php echo strip_tags($RGWeb->getUtily->convertStatusString($status)); ?></li>
           </ul>
         </div>
@@ -74,6 +70,21 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
           </div>
         </div>
       </div>
+      <div class="clear"></div>
+      <div class="row">
+	      <div class="colonna_50">
+            <br /> <br />
+            <?php
+               // Gestione delle note
+               $notes = $RGWeb->getNotes;
+               $notes->contrl();
+               $notes->setID($aId);
+               $notes->render();
+             ?>
+         </div>
+         <div class="colonna_50">
+         </div>
+      </div>
     <br />
     <?php if($RGWeb->getGroup->isHelper() == false) { ?>
     <div class="edit-report-contain">
@@ -87,46 +98,133 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
       </form>
     </div>
     <script type="text/javascript">
-      $('#delete-report').on('submit', function(event)
-      {
-        event.preventDefault();
-        var notifyconferm = new noty({ text: '<?php print str_replace("%id%", $ID, $RGWeb->getLang("report-focus-deleteConfirm", "ret")); ?>', layout: 'topCenter', type: 'error',theme: 'relax',
-        	buttons: [
-        		{addClass: 'bottone-delete-conferma', text: '<?php $RGWeb->getLang("report-focus-delete"); ?>', onClick: function($noty) { $noty.close();
-            $.ajax({
-              type: "POST",
-              dataType: 'json',
-              url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
-              data: "delete-report-id=true",
-              success: function(){ },
-            });
-            redirect('index.php', 5);
-          }},
-          {addClass: 'bottone-delete-conferma-nope', text: '<?php $RGWeb->getLang("report-focus-deleteback"); ?>', onClick: function($noty) { $noty.close(); }}]
-        });
+      $(document).ready(function () {
+         $('#delete-report').on('submit', function(event) {
+           event.preventDefault();
+           var notifyconferm = new noty({ text: '<?php print str_replace("%id%", $ID, $RGWeb->getLang("report-focus-deleteConfirm", "ret")); ?>', layout: 'topCenter', type: 'error',theme: 'relax',
+           	buttons: [
+           		{addClass: 'bottone-delete-conferma', text: '<?php $RGWeb->getLang("report-focus-delete"); ?>', onClick: function($noty) { $noty.close();
+               $.ajax({
+                 type: "POST",
+                 dataType: 'json',
+                 url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
+                 data: "delete-report-id=true",
+                 success: function(){ },
+               });
+               redirect('index.php', 5);
+             }},
+             {addClass: 'bottone-delete-conferma-nope', text: '<?php $RGWeb->getLang("report-focus-deleteback"); ?>', onClick: function($noty) { $noty.close(); }}]
+           });
+         });
+         $('#editstatus-report').on('submit', function(event) {
+           event.preventDefault();
+           $.ajax({
+             type: "POST",
+             dataType: 'html',
+             url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
+             data: "edit-report-id=status2",
+             success: function(event){
+               cambioStatoReport(2, "<?php $RGWeb->getLang("status-complete"); ?>");
+             },
+           });
+         });
+         // Gestisco il form per la modifica finale della nota
+         $(document).on('submit', '#input-edit-note form', function (event) {
+            event.preventDefault();
+
+            var $this = $(this);
+            var text = $this.find("input").val();
+            if($(this).attr("id_nota") != null) {
+               var id = $(this).attr("id_nota");
+               $.ajax({
+                  type: "POST",
+                  dataType: 'html',
+                  url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
+                  data: "notes-edit="+ id +"&notes-text="+ text,
+                  success: function(event) {
+                     $(".item_note_"+ id + " .text-common").text(text);
+                     $(".item_note_"+ id + " .text-common").show();
+                     $(".item_note_"+ id + " .text .input-edit-note").hide();
+                  },
+               });
+           }
+           // Sto aggiungendo la nota
+           if($(this).attr("id_nota_moment") != null) {
+             $.ajax({
+                type: "POST",
+                dataType: 'html',
+                url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
+                data: "notes-add=true&notes-text="+ text +"",
+                success: function(event) {
+                   location.reload();
+                },
+             });
+           }
+         });
+      });
+      // Gestione dell'eliminazione della nota
+      function note_delete(id) {
+         $.ajax({
+           type: "POST",
+           dataType: 'html',
+           url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
+           data: "notes-delete="+ id,
+           success: function(event){
+             $(".item_note_"+ id).remove();
+           },
+         });
+      }
+      // Preparo il form per la modifica
+      function note_edit(id) {
+         $(".item_note_"+ id + " .text-common").hide();
+         $(".item_note_"+ id + " .text .input-edit-note").show();
+         $(".item_note_"+ id + " .text .input-edit-note input").val($(".item_note_"+ id + " .text-common").html());
+      }
+      // Quando viene digitato il tasto enter dalla tastiera,
+      // Viene eseguito il submit del form
+      $('.input-edit-note').keydown(function(event) {
+         if (event.keyCode == 13) {
+            var $this = $(this);
+            $this.find("form").submit();
+            return false;
+         }
       });
 
-      $('#editstatus-report').on('submit', function(event)
-      {
-        event.preventDefault();
-        $.ajax({
-          type: "POST",
-          dataType: 'html',
-          url: "<?php echo $RGWeb->getUtily->selfURL(); ?>",
-          data: "edit-report-id=status2",
-          success: function(event){
-            cambioStatoReport(2, "<?php $RGWeb->getLang("status-complete"); ?>");
-          },
-        });
-      });
+      // Aggiungo una nota
+      function addnote() {
+         // Prendo un id random unico
+         var unique = unique_id();
+
+         var html = "<div class=\"item item_note_"+ unique +"\" ><div class=\"row\"><div class=\"avatar\">";
+         html += "<img src=\"<?php print $RGWeb->getUtily->getUrlServiceAvatarMenu($RGWeb->getUsername()); ?>\"  />";
+         html += "</div><div class=\"text\">";
+         html += "<div id=\"input-edit-note\" class=\"input-edit-note\"><form id_nota_moment='"+ unique +"'><input type=\"text\" value=\"\" /></form></div>";
+         html += "<span class=\"text-common\" ></span>";
+         html += "<div class=\"sub\">";
+         html += "<span onclick=\"$('.item_note_" + unique + "').remove();\" ><i class=\"fa fa-trash-o\"></i> Delete</span>";
+         html += "</div></div></div>";
+
+         $("#notes-viewreprot").append( html );
+         $(".item_note_"+ unique + " .text .input-edit-note").show();
+      }
     </script>
       <?php
       // If post request is isset then call function deleterepo
       if(isset($_POST['delete-report-id'])) {
-        $RGWeb->deleteRepo($aId);
+         $RGWeb->deleteRepo($aId);
       }
       if(isset($_POST['edit-report-id'])) {
-        $RGWeb->editReport($aId, $_POST['edit-report-id']);
+         $RGWeb->editReport($aId, $_POST['edit-report-id']);
+      }
+      if(isset($_POST['notes-delete'])) {
+         $notes->delete($_POST['notes-delete']);
+      }
+      if(isset($_POST['notes-edit']) && isset($_POST['notes-text'])) {
+         $notes->edit($_POST['notes-edit'], $_POST['notes-text']);
+      }
+      if(isset($_POST['notes-add']) && isset($_POST['notes-text'])) {
+         print ("saionara");
+         $notes->add($aId, $_POST['notes-text']);
       }
     }
   } else {
@@ -134,46 +232,40 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
   }
 } else {
 
-  // View all report for server
-  // Check server is exists
-    //
-    if(isset($_GET['server'])) {
+   // View all report for server
+   // Check server is exists
+   //
+   if(isset($_GET['server'])) {
       if($RGWeb->isServerExists( $_GET['server'] )):
-        $server = $RGWeb->escape_html($_GET['server']);
-        print "<h2 style=\"border-bottom: 1px solid #E6E6E6;\">Server {$server} - list of reports <a class=\"title-list-reports\" href=\"edit-server.php?name={$server}\">Edit server <i class=\"fa fa-pencil\"></i></a></h2>";
+         $server = $RGWeb->escape_html($_GET['server']);
+         print "<h2 style=\"border-bottom: 1px solid #E6E6E6;\">Server {$server} - list of reports <a class=\"title-list-reports\" href=\"edit-server.php?name={$server}\">Edit server <i class=\"fa fa-pencil\"></i></a></h2>";
       else:
-        print "<br /><div class=\"messaggio-errore\">{$RGWeb->getLang("error-server-not-found", "ret")}</div>";
+         print "<br /><div class=\"messaggio-errore\">{$RGWeb->getLang("error-server-not-found", "ret")}</div>";
       endif;
-    } else {
+   } else {
       print "<h2 style=\"border-bottom: 1px solid #E6E6E6;\">List of recent reports</h2>";
-    }
-    # Server
-    $server = (!isset($_GET[ 'server' ])) ? null : $RGWeb->escape_html($_GET[ 'server' ]);
-    # Pagination
-    $page = (!isset($_GET[ 'page' ])) ? 1 : $_GET[ 'page' ];
-    # Sort
-    $sort = (!isset($_GET[ 'sort' ])) ? "ID" : $_GET[ 'sort' ];
-    # Order by
-    $order = (!isset($_GET[ 'order' ])) ? "DESC" : $_GET[ 'order' ];
-    # Number display reports for page
-    $maxint = (!isset($_GET[ 'maxint' ])) ? 20 : $_GET[ 'maxint' ];
-    # Search query
-    $search = (!isset($_GET[ 'search' ]) || !isset($_GET[ 'keywords' ])) ? null : array($_GET[ 'search' ], $_GET[ 'keywords' ]);
+   }
+   # Server
+   $server = (!isset($_GET[ 'server' ])) ? null : $RGWeb->escape_html($_GET[ 'server' ]);
+   # Pagination
+   $page = (!isset($_GET[ 'page' ])) ? 1 : $_GET[ 'page' ];
+   # Sort
+   $sort = (!isset($_GET[ 'sort' ])) ? "ID" : $_GET[ 'sort' ];
+   # Order by
+   $order = (!isset($_GET[ 'order' ])) ? "DESC" : $_GET[ 'order' ];
+   # Number display reports for page
+   $maxint = (!isset($_GET[ 'maxint' ])) ? 20 : $_GET[ 'maxint' ];
+   # Search query
+   $search = (!isset($_GET[ 'search' ]) || !isset($_GET[ 'keywords' ])) ? null : array($_GET[ 'search' ], $_GET[ 'keywords' ]);
 
-    # Send options
-    $option = array('page' => $page, 'sort' => $sort, 'order' => $order, 'maxint' => $maxint);
+   # Send options
+   $option = array('page' => $page, 'sort' => $sort, 'order' => $order, 'maxint' => $maxint);
 
-    if($search != null):
+   if($search != null):
       $option['search'] = $search[0];
       $option['keywords'] = $search[1];
-    endif;
-    $RGWeb->outputReportServer($server, $option);
-  // else:
-  //   print "<br /><div class=\"messaggio-errore\">{$RGWeb->getLang("error-server-not-found", "ret")}</div>";
-  // endif;
-// else:
-// print "<div class='container messaggio-errore'>{$RGWeb->getLang("error-report-not-found", "ret")}</div>";
-// endif;
+   endif;
+      $RGWeb->outputReportServer($server, $option);
 }
 $RGWeb->getFooter();
 ?>

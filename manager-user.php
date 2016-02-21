@@ -21,10 +21,6 @@
 require_once("inc/heart.inc.php");
 $RGWeb->getHeader("Users");
 
-if($RGWeb->getGroup->isAdmin() == false) {
-  die($RGWeb->getUtily->messageNoPermission());
-}
-
 /**
 *  Edit user:
 *  - Password
@@ -36,6 +32,9 @@ if($RGWeb->getGroup->isAdmin() == false) {
 
 if(isset($_GET['id'])):
 
+  if($RGWeb->getIDLogged() != $_GET['id'] && $RGWeb->getGroup->isAdmin() == false) {
+    die($RGWeb->getUtily->messageNoPermission());
+  }
   if($RGWeb->getGroup->isUserIDExits($_GET['id']) == false) die($RGWeb->getUtily->userNotExists());
   $user = $RGWeb->getGroup->getDetailsUser($_GET['id']);
 

@@ -29,12 +29,16 @@ Class _RGroups
 
     switch ($group) {
       case 'admin':
-        print "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
-        print "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
+        $html = "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
+        $html .= "<a id=\"menu-AddReport\" href=\"add-report.php\">{$RGWeb->getLang("menu-addreport", "ret")}</a>";
+        $html .= "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
+        print $html;
         break;
       case 'moderator':
-        print "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
-        print "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
+        $html = "<a id=\"menu-Users\" href=\"users.php\">{$RGWeb->getLang("menu-manuser", "ret")}</a>";
+        $html .= "<a id=\"menu-AddReport\" href=\"add-report.php\">{$RGWeb->getLang("menu-addreport", "ret")}</a>";
+        $html .= "<a id=\"menu-Update\" href=\"update.php\">{$RGWeb->getLang("menu-update", "ret")}</a>";
+        print $html;
       default:
         # code...
         break;
@@ -300,12 +304,12 @@ Class _RGroups
   {
     global $RGWeb;
     if($RGWeb->getGroup->isAdmin() == false) {
-      retun;
+      return false;
     }
     $group = $RGWeb->real_escape_string($group);
     $id = $RGWeb->real_escape_string($id);
 
-    if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
+    if($id != 1):
       $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET permission='{$group}' WHERE ID={$id}");
       print "<br /><div class='container messaggio-success'>{$RGWeb->getLang("action-edituser-success", "ret")}</div>";
     else:
@@ -317,7 +321,7 @@ Class _RGroups
   * Introducing for user-server
   */
   public function isUserServerID($id) {
-    
+
   }
 
 

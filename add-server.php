@@ -77,36 +77,31 @@ if($RGWeb->getGroup->isAdmin() == true) {
 
 <!-- use ajax for send a request -->
 <script type="text/javascript">
-  $("#add-server").submit(function() {
-    var url = "add-server.php";
+   $("#add-server").submit(function() {
+      var url = "add-server.php";
       $.ajax({
          type: "POST",
          url: url,
          data: $("#add-server").serialize(),
-         success: function(data)
-         {
-           $("#messaggio-add").show();
-           if(data.trim() == "Server successfully added!")
-           {
-            if($("#messaggio-add").hasClass("messaggio-errore")){
-               $("#messaggio-add").removeClass("messaggio-errore");
+         success: function(data) {
+            $("#messaggio-add").show();
+            if(data.trim() == "Server successfully added!") {
+               if($("#messaggio-add").hasClass("messaggio-errore")){
+                  $("#messaggio-add").removeClass("messaggio-errore");
+               }
+               $("#messaggio-add").addClass("messaggio-success");
+               redirect("server-list.php", 1000);
+            } else {
+               if($("#messaggio-add").hasClass("messaggio-success")){
+                  $("#messaggio-add").removeClass("messaggio-success");
+               }
+               $("#messaggio-add").addClass("messaggio-errore");
             }
-            $("#messaggio-add").addClass("messaggio-success");
-            redirect("server-list.php", 1000);
-
-           } else
-          {
-           if($("#messaggio-add").hasClass("messaggio-success")){
-             $("#messaggio-add").removeClass("messaggio-success");
-           }
-           $("#messaggio-add").addClass("messaggio-errore");
-          }
-
-          $("#messaggio-add").html(data);
+            $("#messaggio-add").html(data);
          }
-       });
-       return false;
-  });
+      });
+      return false;
+   });
 </script>
 <?php
 $RGWeb->getFooter();

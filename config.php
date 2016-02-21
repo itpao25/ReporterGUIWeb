@@ -2,7 +2,7 @@
 
 #  ReporterGUI WebInterface 1.0
 #  GNU License - itpao25
-#  https://www.spigotmc.org/resources/reportergui.8596/
+#  https://www.spigotmc.org/resources/8596/
 if (!defined('RG_ROOT')) die("This file can not be opened in this way");
 
 # Change only the first time!
@@ -16,7 +16,7 @@ $config['mysql-password'] = "";
 $config['mysql-databaseName'] = "reportergui";
 
 /* Do not touch the version please */
-$config['versions'] = "1.6";
+$config['versions'] = "1.6.2";
 
 # Server Name
 $config['nameServer'] = "NewMcStory";
@@ -39,5 +39,9 @@ $config['urlServiceAvatarMenu'] = "https://crafatar.com/avatars/{username}";
 # 10000 = 10 seconds
 # 20000 = 20 seconds ecc..
 $config['notify-request'] = 10000;
+
+# Timestamp format
+$config['data-format'] = "Y-m-d H:i:s";
+
 
 ?>

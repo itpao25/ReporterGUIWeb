@@ -65,7 +65,7 @@ Class _RGTimeManager {
    public function getCurrentTime() {
       global $RGWeb;
 
-      $format = $RGWeb->getConfig("data-format") != null || $RGWeb->getConfig("data-format") != "" ? $RGWeb->getConfig("data-format") : "yyyy/MM/dd HH:mm:ss";
+      $format = $RGWeb->getConfig("data-format") != null || $RGWeb->getConfig("data-format") != "" ? $RGWeb->getConfig("data-format") : "Y-m-d H:i:s";
       $data = date($format);
       return $data;
    }

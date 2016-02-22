@@ -130,7 +130,9 @@ Class _RGNotes {
       $text = $RGWeb->escape_html($text);
       $id_report = $RGWeb->real_escape_string($id_report);
       $username = $RGWeb->getUsername();
-      $query = "INSERT INTO `reporter_notes` (`ID` ,`id_report` ,`insert_by` ,`date` ,`text`) VALUES (NULL , '$id_report', '$username', NULL , '$text')";
+      // Data
+      $data = $RGWeb->getTimeManager->getCurrentTime();
+      $query = "INSERT INTO `reporter_notes` (`ID` ,`id_report` ,`insert_by` ,`date` ,`text`) VALUES (NULL , '$id_report', '$username', '$data' , '$text')";
       $excute = $RGWeb->runQueryMysql($query);
       // Log
       $RGWeb->addLogs("Note added for report #{$id_report}, text \"{$text}\"");

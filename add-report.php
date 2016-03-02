@@ -21,7 +21,13 @@
 
 require_once("inc/heart.inc.php");
 if($RGWeb->isLogged() == false) {
-   die();
+   print "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
+   die("You must be logged in to view this page!");
+}
+if($RGWeb->getGroup->isHelper()) {
+   // L'utente helper non può aggiungere un report manualmente
+   print "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
+   die("You must be logged in to view this page!");
 }
 if(isset($_POST['addreport-verify'])) {
    $reported = isset($_POST['addreport-input-reported']) ? $_POST['addreport-input-reported'] : NULL;
@@ -46,10 +52,6 @@ if(isset($_POST['addreport-verify'])) {
 }
 
 $RGWeb->getHeader("Add report", true);
-if($RGWeb->getGroup->isHelper()) {
-   // L'utente helper non può aggiungere un report manualmente
-   header("Location: index.php");
-}
 ?>
 <h2><?php echo $RGWeb->getLang("addreport-title"); ?></h2>
 <div class="row">

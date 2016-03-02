@@ -28,7 +28,8 @@ require_once("inc/heart.inc.php");
 // Fix in 1.2
 
 if($RGWeb->isLogged() == false) {
-  die();
+   print "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
+   die("You must be logged in to view this page!");
 }
 
 /**

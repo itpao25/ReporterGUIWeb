@@ -802,7 +802,7 @@ Class ReporterGUI
       }
 
       $name = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($name)));
-      $name = $this->getUtily->clean($name);
+      $name = $this->getUtily->clean($name, "_");
 
       $password = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($password)));
       $permission = trim(mysqli_real_escape_string($this->mysqli, $this->escape_html($permission)));

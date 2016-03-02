@@ -20,7 +20,8 @@
 
 require_once("inc/heart.inc.php");
 if($RGWeb->isLogged() == false) {
-   die();
+   print "<meta http-equiv=\"refresh\" content=\"1; URL=index.php\">";
+   die("You must be logged in to view this page!");
 }
 if($RGWeb->getGroup->isAdmin()) {
 

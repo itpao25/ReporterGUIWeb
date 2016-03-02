@@ -215,9 +215,12 @@ Class _RGUtilities {
 	* @return string without special characters
 	* @since 1.5
 	*/
-	function clean($string) {
-		$string = str_replace(' ', '-', $string);
-		return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+	function clean($string, $apparte = null) {
+		if($apparte != null) {
+			//print "/[^a-zA-Z0-9".$apparte.".]/";
+			return preg_replace('/[^a-zA-Z0-9'.$apparte.']/', '', $string);
+		}
+		return preg_replace('/[^A-Za-z0-9]/', '', $string);
 	}
 
 	/**
@@ -250,6 +253,6 @@ Class _RGUtilities {
 				break;
 		}
 	}
-	
+
 }
 ?>

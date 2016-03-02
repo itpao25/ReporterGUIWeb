@@ -32,13 +32,13 @@ if($RGWeb->isLogged() == false) {
 	die("You must be logged in to view this page!");
 }
 
-/* Header for json data output */
+// Header for json data output
 header('Content-Type: application/json');
 
 if(isset($_GET['uid']) && isset($_GET['action'])):
 
-  switch ($_GET['action']) {
-    case 'notify':
+	switch ($_GET['action']) {
+		case 'notify':
 
 			if(!intval($_GET['uid'])) die();
 			/* Check get id is equal for user id logged */
@@ -71,7 +71,7 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 			}
 			$currentDataServer = currentDataServer();
 
-      $arrayNew = array("report" => array());
+			$arrayNew = array("report" => array());
 			$arrayResult = array("result" => array());
 
 			// New report int
@@ -122,11 +122,9 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 			print $json_string;
 
 			break;
-    default:
-      # code...
-      break;
-  }
-
+		default:
+			# code...
+			break;
+	}
 endif;
-
 ?>

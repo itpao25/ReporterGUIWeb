@@ -1,5 +1,5 @@
 # ReporterGUIWeb
-Web interface for the plugin bukkit ReporterGUI
+:octocat: Web interface for the plugin bukkit ReporterGUI
 <p align="center">
   <img src="http://i.imgur.com/hG8KrHd.png" />
 </p>

@@ -84,5 +84,80 @@ Class _RGReportStatus {
             return $st;
       }
    }
+
+   /**
+   * Function for edit report
+   * @param id -> Id del report che deve essere modifcato
+   * @param action -> Azione che deve essere eseguita per modificare il report
+   * @since 1.6
+   */
+   public function editReport($id, $action)
+   {
+      global $RGWeb;
+      
+      // Check report is exist
+      if( $RGWeb->isReportExist( $id ) == false ) {
+         return;
+      }
+      // Check user is not in group "helper"
+      if( $RGWeb->getGroup->isHelper() == true ) {
+         return;
+      }
+      // Sql injection security
+      $id = $RGWeb->real_escape_string($id);
+      switch ($action) {
+         case 'approve':
+         case $RGWeb->getStatusManager->STATUS_APPROVED:
+            $sql_query = $RGWeb->runQueryMysql("UPDATE `reporter` SET status='{$RGWeb->getStatusManager->STATUS_APPROVED}' WHERE ID={$id}");
+            break;
+         case 'decline':
+         case $RGWeb->getStatusManager->STATUS_DECLINED:
+            $sql_query = $RGWeb->runQueryMysql("UPDATE `reporter` SET status='{$RGWeb->getStatusManager->STATUS_DECLINED}' WHERE ID={$id}");
+            break;
+         case 'open':
+         case $RGWeb->getStatusManager->STATUS_OPEN:
+            $sql_query = $RGWeb->runQueryMysql("UPDATE `reporter` SET status='{$RGWeb->getStatusManager->STATUS_OPEN}' WHERE ID={$id}");
+            break;
+         case 'duplicate':
+         case $RGWeb->getStatusManager->STATUS_DUPLICATE:
+            $sql_query = $RGWeb->runQueryMysql("UPDATE `reporter` SET status='{$RGWeb->getStatusManager->STATUS_DUPLICATE}' WHERE ID={$id}");
+            break;
+         case 'expire':
+         case $RGWeb->getStatusManager->STATUS_EXPIRED:
+            $sql_query = $RGWeb->runQueryMysql("UPDATE `reporter` SET status='{$RGWeb->getStatusManager->STATUS_EXPIRED}' WHERE ID={$id}");
+            break;
+         default:
+            return;
+            break;
+      }
+   }
+
+   /**
+   * This function allows to print the html of select
+   * @since 1.6.4
+   */
+   public function getSelectStatus($id_report, $stato) {
+      global $RGWeb;
+      // List of all status
+      $array = array(
+         $RGWeb->getStatusManager->STATUS_APPROVED,
+         $RGWeb->getStatusManager->STATUS_DECLINED,
+         $RGWeb->getStatusManager->STATUS_OPEN,
+         $RGWeb->getStatusManager->STATUS_EXPIRED,
+         $RGWeb->getStatusManager->STATUS_DUPLICATE
+      );
+      // Start to print the form in html
+      print "<form id=\"report-focus-editstatus\" class=\"report-focus-editstatus\"><select name=\"changestatus-report\" >";
+      foreach($array as $key) {
+         // same field in html select, then add selected attr
+         if($key == $stato) {
+            echo "<option value=\"$key\" selected =\"selected\" > $key </option>";
+         } else {
+            echo "<option value=\"$key\"> $key </option>";
+         }
+      }
+      print "</select>";
+      print "<input value=\"{$RGWeb->getLang('report-focus-editstatus-save','ret')}\" type=\"submit\" /></form>";
+   }
 }
 ?>

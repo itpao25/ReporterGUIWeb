@@ -80,7 +80,7 @@ Class _RGNotes {
          $int++;
       }
       if($int == 0) {
-         print $RGWeb->getLang("notes-not-found", "ret");
+         print "<span id=\"note_notfound\">".$RGWeb->getLang("notes-not-found", "ret")."</span>";
       }
       print "</div>";
    }

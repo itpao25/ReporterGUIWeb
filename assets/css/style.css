@@ -485,7 +485,7 @@ input.impostazioni-utente-salva {
   font-weight: bold;
   margin-right: 4px;
   border: 1px solid #C0C0C0;
-  background: #E9E9E9 none repeat scroll 0% 0%;
+  background: #F9F9F9;
   box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px 2px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: #717171;
@@ -529,10 +529,10 @@ input.impostazioni-utente-salva {
   font-weight: bold;
   margin-right: 4px;
   border: 1px solid #C0C0C0;
-  background: #E9E9E9 none repeat scroll 0% 0%;
+  background: #F9F9F9;
   box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px 2px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: #717171;
+  color: #5CB85C;
   text-shadow: 0px 1px 0px #FFF;
   cursor: pointer;
   margin-left: 5px;
@@ -568,11 +568,7 @@ input.impostazioni-utente-salva {
   padding-left: 50px;
 }
 /* Notes manager */
-div.notes-viewreprot h3 {
-   font-size: 25px;
-   font-weight: 300;
-   border-bottom: 1px solid rgb(230, 230, 230);
-}
+
 div.notes-viewreprot h3 span {
    color: #333;
 }
@@ -640,4 +636,28 @@ div.notes-viewreprot .item .sub span {
 }
 .addreport-form input[type="submit"]:hover {
 	background-image:linear-gradient(transparent,rgba(0,0,0,0.1) 85%,rgba(0,0,0,0.1));
+}
+div.report-focus-common h3 {
+   font-size: 25px;
+   font-weight: 300;
+   border-bottom: 1px solid rgb(230, 230, 230);
+}
+.report-focus-editstatus select {
+
+}
+.report-focus-editstatus input[type="submit"] {
+   width: 100%;
+   margin-top: 10px;
+   font-family: "Open Sans",sans-serif !important;
+   font-size: 15px;
+   display: inline-block;
+   padding: 5px 10px;
+   font-weight: bold;
+   border: 1px solid #C0C0C0;
+   background: rgba(233, 233, 233, 0.29) none repeat scroll 0% 0%;
+   box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px 2px 4px rgba(0, 0, 0, 0.1);
+   text-decoration: none;
+   color: #717171;
+   text-shadow: 0px 1px 0px #FFF;
+   cursor: pointer;
 }

@@ -302,7 +302,7 @@ Class ReporterGUI
 
          $string_total = str_replace("%int%", "<b>{$this->getTotalReport($row['name'])}</b>" , $this->getLang("home-reportotal", "ret"));
          $string_totalapproved = str_replace("%int%", "<b>{$this->getApprovatedReport($row['name'])}</b>" , $this->getLang("home-reportapproved", "ret"));
-         $string_totalopen = str_replace("%int%", "<b>{$this->getApprovatedReport($row['name'])}</b>" , $this->getLang("home-reportopen", "ret"));
+         $string_totalopen = str_replace("%int%", "<b>{$this->getOpenReport($row['name'])}</b>" , $this->getLang("home-reportopen", "ret"));
 
          /* Uso la funzione per convertire gli spazi in <br /> tag html */
          print nl2br("{$string_total}
@@ -1169,40 +1169,6 @@ Class ReporterGUI
    }
 
    /**
-   * Function for edit report
-   * @param id -> Id del report che deve essere modifcato
-   * @param action -> Azione che deve essere eseguita per modificare il report
-   * @since 1.6
-   */
-   public function editReport($id, $action)
-   {
-      // Check report is exist
-      if($this->isReportExist($id) == false) {
-         return;
-      }
-      // Check user is not in group "helper"
-      if($this->getGroup->isHelper() == true) {
-         return;
-      }
-      // Sql injection security
-      $id = $this->real_escape_string($id);
-
-      switch ($action) {
-         // switch for action - set status 1 (waiting)
-         case 'status1':
-            $sql_query = $this->runQueryMysql("UPDATE `reporter` SET status=1 WHERE ID={$id}");
-            break;
-         // switch for action - set status 2 (complete)
-         case 'status2':
-            $sql_query = $this->runQueryMysql("UPDATE `reporter` SET status=2 WHERE ID={$id}");
-            break;
-         default:
-            return;
-            break;
-      }
-   }
-
-   /**
    * Load the class for language
    * @since 1.6
    */
@@ -1249,7 +1215,7 @@ Class ReporterGUI
       // Other param
       $data = $this->getTimeManager->getCurrentTime();
 
-      $query = "INSERT INTO `reporter` (`ID` ,`PlayerReport` ,`PlayerFrom` ,`Reason` , `WorldReport` , `WorldFrom` , `Time` , `server` , `status` , `ifNotify`) VALUES ( NULL , '$reported', '$reportby', '$reason', '$world_reported', '$world_reportby', '$data', '$server', '1', '1')";
+      $query = "INSERT INTO `reporter` (`ID` ,`PlayerReport` ,`PlayerFrom` ,`Reason` , `WorldReport` , `WorldFrom` , `Time` , `server` , `status` , `ifNotify`) VALUES ( NULL , '$reported', '$reportby', '$reason', '$world_reported', '$world_reportby', '$data', '$server', '{$this->getStatusManager->STATUS_OPEN}', '1')";
       if($sql_query = $this->runQueryMysql($query)) {
 
          $int = $this->mysqli->insert_id;

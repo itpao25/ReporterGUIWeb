@@ -53,13 +53,15 @@ $lang[ 'lang' ][ 'report-focus-status' ] = "Status:";
 $lang[ 'lang' ][ 'report-focus-delete' ] = "Delete";
 $lang[ 'lang' ][ 'report-focus-deleteConfirm' ] = "Do you want to delete the report #%id%?";
 $lang[ 'lang' ][ 'report-focus-deleteback' ] = "Cancel";
-$lang[ 'lang' ][ 'report-focus-bottomComplete' ] = "Complete report";
+$lang[ 'lang' ][ 'report-focus-bottomComplete' ] = "Approve report";
 
 $lang[ 'lang' ][ 'report-focus-statstitle' ] = "Statistics for %name%";
 $lang[ 'lang' ][ 'report-focus-totalreport' ] = "Total report: <b>%tot%</b> (<b>%totco%</b> completed)";
 $lang[ 'lang' ][ 'report-focus-totalreportserver' ] = "Report in this server (<b>%server%</b>): <b>%tot%</b> (<b>%totco%</b> completed)";
 $lang[ 'lang' ][ 'report-focus-searchallreport' ] = "Search all report";
 
+$lang[ 'lang' ][ 'report-focus-editstatus' ] = "Edit the report";
+$lang[ 'lang' ][ 'report-focus-editstatus-save' ] = "Save";
 // Error Message
 $lang[ 'lang' ][ 'error-report-not-found' ] = "Report not found!";
 $lang[ 'lang' ][ 'error-server-not-found' ] = "This server does not exist!";

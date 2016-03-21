@@ -222,37 +222,5 @@ Class _RGUtilities {
 		}
 		return preg_replace('/[^A-Za-z0-9]/', '', $string);
 	}
-
-	/**
-	* Convert string status of report
-	* replace 2 with Complete
-	* replace 1 with waiting
-	* @param st = int for status of report
-	*/
-	public function convertStatusString($st, $ret = null) {
-		global $RGWeb;
-		switch ($st) {
-			case 1:
-				if($ret == null) :
-					print '<span id="statusreport" style="font-weight: bold;color: #d9534f">'.$RGWeb->getLang("status-wating", "ret") .'</span>';
-				elseif ($ret == "ret"):
-					return '<span id="statusreport" style="font-weight: bold;color: #d9534f">'.$RGWeb->getLang("status-wating", "ret") .'</span>';
-				endif;
-					return;
-				break;
-			case 2:
-				if($ret == null) :
-					print '<span id="statusreport" style="font-weight: bold;color: #5CB85C;">'.$RGWeb->getLang("status-complete", "ret") .'</span>';
-				elseif ($ret == "ret"):
-					return '<span id="statusreport" style="font-weight: bold;color: #5CB85C;">'.$RGWeb->getLang("status-complete", "ret") .'</span>';
-				endif;
-					return;
-				break;
-			default:
-				return $st;
-				break;
-		}
-	}
-
 }
 ?>

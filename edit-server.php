@@ -39,15 +39,19 @@ if(isset($_GET['name']) && !isset($_GET['m']))
   if($RGWeb->isServerExists($_GET['name']))
   {
     $server = $RGWeb->escape_html($_GET['name']);
+    $string_total = str_replace("%int%", "<b>{$RGWeb->getTotalReport($server)}</b>" , $RGWeb->getLang("home-reportotal", "ret"));
+    $string_totalapproved = str_replace("%int%", "<b>{$RGWeb->getApprovatedReport($server)}</b>" , $RGWeb->getLang("home-reportapproved", "ret"));
+    $string_totalopen = str_replace("%int%", "<b>{$RGWeb->getApprovatedReport($server)}</b>" , $RGWeb->getLang("home-reportopen", "ret"));
+
     ?>
     <div class="row">
       <div class="colonna_50">
         <h2 style="border-bottom: 1px dashed #808080" >Edit server <?php echo $server; ?></h2>
         <div class="box-informazioni">
           <h2><i class="fa fa-pie-chart"></i> Information</h2>
-          Total report: <?php echo $RGWeb->getTotalReport($server); ?><br />
-          Report complete: <?php echo $RGWeb->getCompleteReport($server); ?><br />
-          Report waiting: <?php echo $RGWeb->getWaitingReport($server); ?><br />
+          <?php echo $string_total; ?><br />
+          <?php echo $string_totalapproved; ?><br />
+          <?php echo $string_totalopen; ?><br />
         </div>
         <br />
         <a href="edit-server.php?name=<?php echo $server ?>&m=delete&key=<?php echo $RGWeb->getKeyID(); ?>"><button class="button-primario">Delete server</button></a>

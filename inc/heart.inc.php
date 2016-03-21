@@ -46,6 +46,7 @@ Class ReporterGUI
    public $getStats;
    public $getNotes;
    public $getTimeManager;
+   public $getStatusManager;
 
    private $mysqli = false;
 
@@ -58,6 +59,7 @@ Class ReporterGUI
       $this->getStats = $load->getStats();
       $this->getNotes = $load->getNotes();
       $this->getTimeManager = $load->getTimeManager();
+      $this->getStatusManager = $load->getStatusManager();
 
       /* Controllo se è stato installato nel mysql */
       $this->makeDB();
@@ -190,8 +192,8 @@ Class ReporterGUI
       <tr>
       <td><b>Name</b></td>
       <td><b>Total report</b></td>
-      <td><b>Complete</b></td>
-      <td><b>Waiting</b></td>
+      <td><b>{$this->getLang("status-approved", "ret")}</b></td>
+      <td><b>{$this->getLang("status-opened", "ret")}</b></td>
       </tr>
       </thead>";
 
@@ -213,8 +215,8 @@ Class ReporterGUI
          print "<tr class=\"list-server-table\" data-href=\"view-report.php?server={$row['name']}\">
          <td>{$row['name']}</td>
          <td>{$this->getTotalReport($row['name'])}</td>
-         <td>{$this->getCompleteReport($row['name'])}</td>
-         <td>{$this->getWaitingReport($row['name'])}</td>
+         <td>{$this->getApprovatedReport($row['name'])}</td>
+         <td>{$this->getOpenReport($row['name'])}</td>
          </tr>";
 
       }
@@ -239,25 +241,25 @@ Class ReporterGUI
    }
 
    /**
-   * Get number of report complete for server
+   * Get number of report approved
    *
    * @param name
    * @return int
    */
-   public function getCompleteReport($name) {
+   public function getApprovatedReport($name) {
       $name = $this->real_escape_string($name);
-      $int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='2'");
+      $int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='{$this->getStatusManager->STATUS_APPROVED}'");
       return $int->num_rows;
    }
 
    /**
-   * Get number of report Waiting
+   * Get number of report opened
    * @param name
    * @return int
    */
-   public function getWaitingReport($name) {
+   public function getOpenReport($name) {
       $name = $this->real_escape_string($name);
-      $int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='1'");
+      $int = $this->runQueryMysql("SELECT * FROM `reporter` WHERE `server`='". $name ."' AND status='{$this->getStatusManager->STATUS_OPEN}'");
       return $int->num_rows;
    }
 
@@ -298,10 +300,14 @@ Class ReporterGUI
          </span>
          </h3>";
 
+         $string_total = str_replace("%int%", "<b>{$this->getTotalReport($row['name'])}</b>" , $this->getLang("home-reportotal", "ret"));
+         $string_totalapproved = str_replace("%int%", "<b>{$this->getApprovatedReport($row['name'])}</b>" , $this->getLang("home-reportapproved", "ret"));
+         $string_totalopen = str_replace("%int%", "<b>{$this->getApprovatedReport($row['name'])}</b>" , $this->getLang("home-reportopen", "ret"));
+
          /* Uso la funzione per convertire gli spazi in <br /> tag html */
-         print nl2br("Total report: <b>{$this->getTotalReport($row['name'])}</b>
-         Report resolved: <b>{$this->getCompleteReport($row['name'])}</b>
-         Waiting report: <b>{$this->getWaitingReport($row['name'])}</b>");
+         print nl2br("{$string_total}
+         {$string_totalapproved}
+         {$string_totalopen}");
 
          $this->getLastReportHtmlIndex($row['name'], 5);
          print "
@@ -334,11 +340,11 @@ Class ReporterGUI
    public function getLastReportHtmlIndex($name, $num) {
 
       $name = mysqli_real_escape_string($this->mysqli, $name);
-      $sql_query = "SELECT * FROM `reporter` WHERE server='$name' AND status='1' ORDER BY `reporter`.`Time` DESC LIMIT 0,{$num}";
+      $sql_query = "SELECT * FROM `reporter` WHERE server='$name' AND status='{$this->getStatusManager->STATUS_OPEN}' ORDER BY `reporter`.`Time` DESC LIMIT 0,{$num}";
       $sql = $this->runQueryMysql($sql_query);
       $totalreport = $sql->num_rows;
 
-      print "<h4>Last report waiting:</h4><ul class=\"lastreport-serverlist-dash\">";
+      print "<h4>{$this->getLang("home-reportslist", "ret")}</h4><ul class=\"lastreport-serverlist-dash\">";
       if($totalreport == 0) {
          print "<i>No report for this server!</i>";
       }
@@ -352,7 +358,6 @@ Class ReporterGUI
          $html .= "<div class=\"nickname-reported-dash\">{$row['PlayerReport']}</div>";
          $html .= "</a>";
          $html .= "</li>";
-
          print $html;
       }
       print "</ul>";
@@ -714,16 +719,16 @@ Class ReporterGUI
    /**
    * get int total report waiting
    */
-   public function getIntTotalReportWaiting() {
-      $list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='1'");
+   public function getIntTotalReportOpen() {
+      $list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='{$this->getStatusManager->STATUS_OPEN}'");
       return $list->num_rows;
    }
 
    /**
    * get int total report complete
    */
-   public function getIntTotalReportComplete() {
-      $list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='2'");
+   public function getIntTotalReportApproved() {
+      $list = $this->runQueryMysql("SELECT * FROM `reporter` WHERE status='{$this->getStatusManager->STATUS_APPROVED}'");
       return $list->num_rows;
    }
 
@@ -1076,7 +1081,7 @@ Class ReporterGUI
             $html .= "<td>{$row['Time']}</td>";
             $html .= "<td>{$row['WorldReport']}</td>";
             $html .= "<td>{$row['WorldFrom']}</td>";
-            $html .= "<td>{$row['status']} - ". $this->getUtily->convertStatusString($row['status'], "ret")."</td>";
+            $html .= "<td>". $this->getStatusManager->convertStatusString($row['status'], "ret")."</td>";
             if($name == null) $html .= "<td>{$row['server']}</td>";
             $html .= "</tr>";
 
@@ -1336,6 +1341,16 @@ Class loadClass
    function getTimeManager() {
       include("time.inc.php");
       return new _RGTimeManager();
+   }
+
+   /**
+   * Load class for status manager
+   * @since 1.6.4
+   * @return class _RGReportStatus
+   */
+   function getStatusManager() {
+      include("status-manager.inc.php");
+      return new _RGReportStatus();
    }
 }
 

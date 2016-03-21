@@ -52,7 +52,7 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
             <li><?php $RGWeb->getLang("report-focus-worldreported"); ?> <?php echo $WorldReport; ?></li>
             <li><?php $RGWeb->getLang("report-focus-worldreportedby"); ?> <?php echo $WorldFrom; ?></li>
             <li><?php $RGWeb->getLang("report-focus-timestamp"); ?> <?php echo $time; ?> - (<?php print $RGWeb->getTimeManager->timeago($time) ?>) </li>
-            <li><?php $RGWeb->getLang("report-focus-status"); ?> <?php echo strip_tags($RGWeb->getUtily->convertStatusString($status)); ?></li>
+            <li><?php $RGWeb->getLang("report-focus-status"); ?> <?php echo strip_tags($RGWeb->getStatusManager->convertStatusString($status)); ?></li>
           </ul>
         </div>
         <div class="colonna_50">
@@ -223,7 +223,6 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
          $notes->edit($_POST['notes-edit'], $_POST['notes-text']);
       }
       if(isset($_POST['notes-add']) && isset($_POST['notes-text'])) {
-         print ("saionara");
          $notes->add($aId, $_POST['notes-text']);
       }
     }

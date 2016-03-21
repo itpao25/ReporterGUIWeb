@@ -16,7 +16,7 @@ $config['mysql-password'] = "";
 $config['mysql-databaseName'] = "reportergui";
 
 /* Do not touch the version please */
-$config['versions'] = "1.6.3";
+$config['versions'] = "1.6.4";
 
 # Server Name
 $config['nameServer'] = "NewMcStory";

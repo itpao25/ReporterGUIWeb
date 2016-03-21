@@ -65,7 +65,7 @@ if(isset($_GET['uid']) && isset($_GET['action'])):
 			function currentDataServer() {
 				global $RGWeb;
 				// Check last report con lo stato = 1
-				$query = $RGWeb->runQueryMysql("SELECT * FROM `reporter` WHERE status='1' ORDER BY ID DESC LIMIT 0,5");
+				$query = $RGWeb->runQueryMysql("SELECT * FROM `reporter` WHERE status='{$RGWeb->getStatusManager->STATUS_OPEN}' ORDER BY ID DESC LIMIT 0,5");
 				$intNum = $query->num_rows;
 				return $query;
 			}

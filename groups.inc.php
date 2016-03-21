@@ -288,7 +288,7 @@ Class _RGroups
 
     $id = $RGWeb->real_escape_string($id);
 
-    if( $id != 1 ):
+    if($id != 1 || $id == 1 && $RGWeb->getIDLogged() == 1):
       $query = $RGWeb->runQueryMysql("UPDATE webinterface_login SET password='{$passwordCRYPT}' WHERE ID='{$id}'");
       print "<br /><div class='container messaggio-success'>{$RGWeb->getLang("action-edituser-success", "ret")}</div>";
     else:

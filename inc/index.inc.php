@@ -39,8 +39,8 @@ if (!defined('RG_ROOT_INDEX')) die();
 	<div class="colonna_50">
 		<b style="font-size: 22px;" ><?php $this->getLang("home-stats-totserver"); ?></b> <?php echo $this->getIntTotalServer(); ?><br />
 		<b><?php $this->getLang("home-stats-totreport"); ?> </b><?php echo $this->getIntTotalReport(); ?> <br />
-		<b><?php $this->getLang("home-stats-totreportwa"); ?> </b><?php echo $this->getIntTotalReportWaiting(); ?> <br />
-		<b><?php $this->getLang("home-stats-totreportco"); ?> </b><?php echo $this->getIntTotalReportComplete(); ?> <br />
+		<b><?php $this->getLang("home-stats-totreportwa"); ?> </b><?php echo $this->getIntTotalReportOpen(); ?> <br />
+		<b><?php $this->getLang("home-stats-totreportco"); ?> </b><?php echo $this->getIntTotalReportApproved(); ?> <br />
 	</div>
 	<div class="colonna_50">
 		<?php

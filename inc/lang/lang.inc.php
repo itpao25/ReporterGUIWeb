@@ -13,8 +13,12 @@ $lang[ 'lang' ][ 'home-titleallreport' ] = "View all report";
 $lang[ 'lang' ][ 'home-titlestats' ] = "Stats";
 $lang[ 'lang' ][ 'home-stats-totserver' ] = "Total server registered:";
 $lang[ 'lang' ][ 'home-stats-totreport' ] = "Total report:";
-$lang[ 'lang' ][ 'home-stats-totreportwa' ] = "Total report in waiting:";
-$lang[ 'lang' ][ 'home-stats-totreportco' ] = "Total report completed:";
+$lang[ 'lang' ][ 'home-stats-totreportwa' ] = "Total report open:";
+$lang[ 'lang' ][ 'home-stats-totreportco' ] = "Total report approved:";
+$lang[ 'lang' ][ 'home-reportotal' ] = "Total reports: %int%";
+$lang[ 'lang' ][ 'home-reportapproved' ] = "Reports approved: %int%";
+$lang[ 'lang' ][ 'home-reportopen' ] = "Reports open: %int%";
+$lang[ 'lang' ][ 'home-reportslist' ] = "Last reports open";
 
 $lang[ 'lang' ][ 'tag-admin' ] = "Admin";
 $lang[ 'lang' ][ 'tag-moderator' ] = "Moderator";
@@ -30,8 +34,11 @@ $lang[ 'lang' ][ 'menu-loguting' ] = "Logout";
 $lang[ 'lang' ][ 'menu-addreport' ] = "Add report";
 
 // Staus of report
-$lang[ 'lang' ][ 'status-wating' ] = "Waiting";
-$lang[ 'lang' ][ 'status-complete' ] = "Complete";
+$lang[ 'lang' ][ 'status-opened' ] = "Open";
+$lang[ 'lang' ][ 'status-approved' ] = "Approved";
+$lang[ 'lang' ][ 'status-declined' ] = "Declined";
+$lang[ 'lang' ][ 'status-expired' ] = "Expired";
+$lang[ 'lang' ][ 'status-duplicated' ] = "Duplicated";
 
 // View report
 $lang[ 'lang' ][ 'report-focus-title' ] = "Report #%id%";

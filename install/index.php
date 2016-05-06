@@ -34,8 +34,10 @@ Class ReporterGUIInstall {
     $mysql_namedb = $this->getConfig("mysql-databaseName");
     $mysql_getPort = $this->getConfig("mysql-port");
 
-    $this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort) or die("Errore durante la connessione " . mysqli_error($con));
-
+    $this->mysqli = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_namedb, $mysql_getPort);
+    if (mysqli_connect_errno()) {
+      die("Failed to connect to MySQL: " . mysqli_connect_error());
+    }
     if($this->mysqli) {
       // Create tables
       $this->createTableLogin();

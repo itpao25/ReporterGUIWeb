@@ -277,9 +277,12 @@ Class _RGroups
   public function changePassword($id, $password)
   {
     global $RGWeb;
-    if($RGWeb->getGroup->isAdmin() == false) {
-      retun;
+
+    $id_logged = $RGWeb->getIDLogged();
+    if($RGWeb->getGroup->isAdmin() == false && $id == 1 && $id_logged != $id) {
+      return;
     }
+
     $password = $RGWeb->real_escape_string($password);
 
     // Password crypt
@@ -294,7 +297,6 @@ Class _RGroups
     else:
       print "<br /><div class='container messaggio-errore'>{$RGWeb->getLang("action-edituser-noperm", "ret")}</div>";
     endif;
-
   }
 
   /**

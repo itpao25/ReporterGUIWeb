@@ -39,12 +39,22 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
     $time = strip_tags($info[6]);
     $server = strip_tags($info[7]);
     $status = strip_tags($info[8]);
+
+    $type = "complete";
+    if($PlayerReport == null) {
+      $type = "general";
+    }
     ?>
       <script type="text/javascript">cambiatitolo("<?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?> - ReporterGUI");</script>
-      <h2 style="border-bottom: 1px solid #E6E6E6; color: #333; font-weight: 300; font-size: 29px"><?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?></h2>
+      <?php if($type == "complete") { ?>
+         <h2 style="border-bottom: 1px solid #E6E6E6; color: #333; font-weight: 300; font-size: 29px"><?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-title", "ret")); ?></h2>
+      <?php } else { ?>
+         <h2 style="border-bottom: 1px solid #E6E6E6; color: #333; font-weight: 300; font-size: 29px"><?php print str_replace("%id%", $aId, $RGWeb->getLang("report-focus-general-title", "ret")); ?></h2>
+      <?php } ?>
       <div class="row">
          <div class="colonna_50">
             <ul style="margin: 0px;" >
+            <?php if($type == "complete") { ?>
                <li style="font-size: 21px;"><b><?php $RGWeb->getLang("report-focus-reported"); ?> <?php echo $PlayerReport ?></b></li>
                <li style="font-size: 21px;"><?php $RGWeb->getLang("report-focus-reason"); ?> <?php echo $reason; ?></li>
                <li><?php $RGWeb->getLang("report-focus-reportedby"); ?> <?php echo $PlayerFrom; ?></li>
@@ -53,10 +63,19 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
                <li><?php $RGWeb->getLang("report-focus-worldreportedby"); ?> <?php echo $WorldFrom; ?></li>
                <li><?php $RGWeb->getLang("report-focus-timestamp"); ?> <?php echo $time; ?> - (<?php print $RGWeb->getTimeManager->timeago($time) ?>) </li>
                <li><?php $RGWeb->getLang("report-focus-status"); ?> <?php echo strip_tags($RGWeb->getStatusManager->convertStatusString($status)); ?></li>
+            <?php } else { ?>
+               <li style="font-size: 21px;"><b><?php $RGWeb->getLang("report-focus-reportedby"); ?> <?php echo $PlayerFrom ?></b></li>
+               <li style="font-size: 21px;"><?php $RGWeb->getLang("report-focus-reason"); ?> <?php echo $reason; ?></li>
+               <li><?php $RGWeb->getLang("report-focus-server"); ?> <?php echo $server; ?></li>
+               <li><?php $RGWeb->getLang("report-focus-worldreportedby"); ?> <?php echo $WorldFrom; ?></li>
+               <li><?php $RGWeb->getLang("report-focus-timestamp"); ?> <?php echo $time; ?> - (<?php print $RGWeb->getTimeManager->timeago($time) ?>) </li>
+               <li><?php $RGWeb->getLang("report-focus-status"); ?> <?php echo strip_tags($RGWeb->getStatusManager->convertStatusString($status)); ?></li>
+            <?php } ?>
             </ul>
          </div>
          <div class="colonna_50">
             <div class="report-focus-userstats">
+               <?php if($type == "complete") { ?>
                <div class="report-focus-stats">
                   <img src="<?php echo $RGWeb->getUtily->getUrlServiceAvatarMenu($PlayerReport); ?>" />
                   <span><?php print str_replace("%name%", $PlayerReport, $RGWeb->getLang("report-focus-statstitle", "ret")); ?></span>
@@ -67,6 +86,18 @@ if(isset( $_GET['id'] ) && !isset( $_GET['server'])) {
                   <li><br /></li>
                   <li><a href="view-report.php?search=PlayerReport&amp;keywords=<?php echo $PlayerReport; ?>&amp;server=<?php echo $server; ?>" ><?php $RGWeb->getLang("report-focus-searchallreport") ?></a></li>
                </ul>
+               <?php } else { ?>
+               <div class="report-focus-stats">
+                  <img src="<?php echo $RGWeb->getUtily->getUrlServiceAvatarMenu($PlayerFrom); ?>" />
+                  <span><?php print str_replace("%name%", $PlayerFrom, $RGWeb->getLang("report-focus-statstitle", "ret")); ?></span>
+               </div>
+               <ul>
+                  <li><?php $RGWeb->getStats->setAllReportString($PlayerFrom); ?></li>
+                  <li><?php $RGWeb->getStats->setAllReportSVString($server, $PlayerFrom); ?></li>
+                  <li><br /></li>
+                  <li><a href="view-report.php?search=PlayerReport&amp;keywords=<?php echo $PlayerFrom; ?>&amp;server=<?php echo $server; ?>" ><?php $RGWeb->getLang("report-focus-searchallreport") ?></a></li>
+               </ul>
+               <?php } ?>
             </div>
          </div>
       </div>

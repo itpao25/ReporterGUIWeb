@@ -42,6 +42,7 @@ $lang[ 'lang' ][ 'status-duplicated' ] = "Duplicated";
 
 // View report
 $lang[ 'lang' ][ 'report-focus-title' ] = "Report #%id%";
+$lang[ 'lang' ][ 'report-focus-general-title' ] = "General report #%id%";
 $lang[ 'lang' ][ 'report-focus-reported' ] = "Player reported:";
 $lang[ 'lang' ][ 'report-focus-reason' ] = "Reason:";
 $lang[ 'lang' ][ 'report-focus-server' ] = "In server:";

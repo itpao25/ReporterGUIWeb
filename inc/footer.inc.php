@@ -45,6 +45,26 @@ if (!defined('RG_ROOT')) die();
          closeWith: ['button'],
       });
    }
+   function openNotifyGeneral(id, server, reason) {
+      <?php if($this->getNotify->isNotifyEnable()): ?>
+         var audioNotifica = new Audio('assets/sound/notify.wav');
+         audioNotifica.play();
+      <?php endif; ?>
+      var invioNotifica = noty({
+         text: '<b>New general Report! #'+ id +'</b><br /><br/><ul><li>Server: '+ server +'</li><li>Reason: '+ reason +'</li></ul>',
+         layout: 'topRight',
+         type: 'success',
+         maxVisible: 7,
+         timeout: 10000,
+         animation: {
+            open: {height: 'toggle'},
+            close: {height: 'toggle'},
+            easing: 'swing',
+            speed: 500
+         },
+         closeWith: ['button'],
+      });
+   }
    // Funzione principale per controllare se ci sono nuove segnalazioni
    // Il tempo di check potrà essere impostato dal file di configurazione (config.php)
    function getNotify() {
@@ -63,7 +83,11 @@ if (!defined('RG_ROOT')) die();
                      var server = result["result"][i]["server"];
                      var player = result["result"][i]["player"];
                      var reason = result["result"][i]["reason"];
-                     openNotify(id, server, player, reason)
+                     if(player != null) {
+                        openNotify(id, server, player, reason);
+                     } else {
+                        openNotifyGeneral(id, server, reason);
+                     }
                   }
                }
             }

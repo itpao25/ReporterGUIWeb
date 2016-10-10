@@ -350,12 +350,21 @@ Class ReporterGUI
       }
       while($row = $sql->fetch_array())
       {
+         $img_avatar = "";
+         $nome_reported = "";
+         if($row['PlayerReport'] != null) {
+            $img_avatar = $this->getUtily->getAvatarUser($row['PlayerReport']);
+            $nome_reported = $row['PlayerReport'];
+         } else {
+            $img_avatar = $this->getUtily->getAvatarUser($row['PlayerFrom']);
+            $nome_reported = $row['PlayerFrom'];
+         }
          $html = "<li>";
          $html .= "<a href=\"view-report.php?id={$row['ID']}\">";
          $html .= "<div class=\"avatar-reported-dash\">";
-         $html .= "<img src=\"{$this->getUtily->getAvatarUser($row['PlayerReport'])}\" />";
+         $html .= "<img src=\"$img_avatar\" />";
          $html .= "</div>";
-         $html .= "<div class=\"nickname-reported-dash\">{$row['PlayerReport']}</div>";
+         $html .= "<div class=\"nickname-reported-dash\">$nome_reported</div>";
          $html .= "</a>";
          $html .= "</li>";
          print $html;

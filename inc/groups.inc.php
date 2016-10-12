@@ -105,18 +105,18 @@ Class _RGroups
         </tr>
       </thead>";
 
-    while($row = $query->fetch_array())
-    {
-      print "
-      <tr class=\"list-server-table\" data-href=\"manager-user.php?id={$row['ID']}\">
-        <td>{$row['ID']}</td>
-        <td>{$row['username']}</td>
-        <td>{$row['permission']}</td>
-        <td>{$row['lastlogin']}</td>
-        <td>{$row['lastIP']}</td>
-      </tr>";
-    }
+    while($row = $query->fetch_array()) {
+      print "<tr class=\"list-server-table\" data-href=\"manager-user.php?id={$row['ID']}\">
+      <td>{$row['ID']}</td>
+      <td>{$row['username']}</td>
+      <td>{$row['permission']}</td>
+      <td>{$row['lastlogin']}</td>";
 
+      if($this->isAdmin() || $RGWeb->getIDLogged() == $row['ID']) {
+        print "<td>{$row['lastIP']}</td>";
+      }
+      print "</tr>";
+    }
     print "</table>";
   }
 

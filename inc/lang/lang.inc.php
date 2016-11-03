@@ -14,9 +14,9 @@ $lang[ 'lang' ][ 'home-titlestats' ] = "Stats";
 $lang[ 'lang' ][ 'home-stats-totserver' ] = "Total server registered:";
 $lang[ 'lang' ][ 'home-stats-totreport' ] = "Total report:";
 $lang[ 'lang' ][ 'home-stats-totreportwa' ] = "Total report open:";
-$lang[ 'lang' ][ 'home-stats-totreportco' ] = "Total report approved:";
+$lang[ 'lang' ][ 'home-stats-totreportco' ] = "Total report solved:";
 $lang[ 'lang' ][ 'home-reportotal' ] = "Total reports: %int%";
-$lang[ 'lang' ][ 'home-reportapproved' ] = "Reports approved: %int%";
+$lang[ 'lang' ][ 'home-reportapproved' ] = "Reports solved: %int%";
 $lang[ 'lang' ][ 'home-reportopen' ] = "Reports open: %int%";
 $lang[ 'lang' ][ 'home-reportslist' ] = "Last reports open";
 
@@ -35,7 +35,7 @@ $lang[ 'lang' ][ 'menu-addreport' ] = "Add report";
 
 // Staus of report
 $lang[ 'lang' ][ 'status-opened' ] = "Open";
-$lang[ 'lang' ][ 'status-approved' ] = "Approved";
+$lang[ 'lang' ][ 'status-approved' ] = "Solved";
 $lang[ 'lang' ][ 'status-declined' ] = "Declined";
 $lang[ 'lang' ][ 'status-expired' ] = "Expired";
 $lang[ 'lang' ][ 'status-duplicated' ] = "Duplicated";
@@ -54,7 +54,7 @@ $lang[ 'lang' ][ 'report-focus-status' ] = "Status:";
 $lang[ 'lang' ][ 'report-focus-delete' ] = "Delete";
 $lang[ 'lang' ][ 'report-focus-deleteConfirm' ] = "Do you want to delete the report #%id%?";
 $lang[ 'lang' ][ 'report-focus-deleteback' ] = "Cancel";
-$lang[ 'lang' ][ 'report-focus-bottomComplete' ] = "Approve report";
+$lang[ 'lang' ][ 'report-focus-bottomComplete' ] = "Solve report";
 
 $lang[ 'lang' ][ 'report-focus-statstitle' ] = "Statistics for %name%";
 $lang[ 'lang' ][ 'report-focus-totalreport' ] = "Total report: <b>%tot%</b> (<b>%totco%</b> completed)";

@@ -26,7 +26,7 @@
 if (!defined('RG_ROOT')) die();
 Class _RGReportStatus {
 
-   public $STATUS_APPROVED = "APPROVED";
+   public $STATUS_APPROVED = "SOLVED";
 	public $STATUS_DECLINED = "DECLINED";
 	public $STATUS_OPEN = "OPEN";
 	public $STATUS_DUPLICATE = "DUPLICATE";
@@ -94,7 +94,7 @@ Class _RGReportStatus {
    public function editReport($id, $action)
    {
       global $RGWeb;
-      
+
       // Check report is exist
       if( $RGWeb->isReportExist( $id ) == false ) {
          return;
